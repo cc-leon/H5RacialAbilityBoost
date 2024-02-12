@@ -266,13 +266,13 @@
             <Haven>
                 <PreciseShotRange>3</PreciseShotRange>
                 <Jousting_DamageBonusPerPathCell>0.05</Jousting_DamageBonusPerPathCell>
-                <renegates>
-                    <BattleFrenzyBoostFactor>1.5</BattleFrenzyBoostFactor>
-                    <ChampionChargeMinimalDistance>2</ChampionChargeMinimalDistance>
-                    <ChampionChargePattern href="/GameMechanics/Creature/Creatures/Haven/ChampionCharge.xdb#xpointer(/PatternAttack)"/>
-                    <PackDive_DelayBeforAttack>1</PackDive_DelayBeforAttack>
-                    <PackDive_DamageMultiplier>0.75</PackDive_DamageMultiplier>
-                </renegates>
+                <Bash_ProcFactor>1.5</Bash_ProcFactor>
+                <BattleFrenzyBoostFactor>1.5</BattleFrenzyBoostFactor>
+                <ChampionChargeMinimalDistance>2</ChampionChargeMinimalDistance>
+                <ChampionChargePattern href="/GameMechanics/Creature/Creatures/Haven/ChampionCharge.xdb#xpointer(/PatternAttack)"/>
+                <PackDive_DelayBeforAttack>1</PackDive_DelayBeforAttack>
+                <PackDive_DamageMultiplier>0.75</PackDive_DamageMultiplier>
+                <Purger_ProcFactor>2</Purger_ProcFactor>
             </Haven>
             <Inferno>
                 <ManaStealPerWeekPopulation>4</ManaStealPerWeekPopulation>
@@ -283,24 +283,26 @@
                 <Leap_JumpDistanceMax>8</Leap_JumpDistanceMax>
                 <Leap_AttackDamageBonusBase>0</Leap_AttackDamageBonusBase>
                 <Leap_AttackDamageBonusPerPathCell>0.1</Leap_AttackDamageBonusPerPathCell>
-                <Leap_RetaliateDamageBonusBase>1</Leap_RetaliateDamageBonusBase>
+                <Leap_RetaliateDamageBonusBase>2</Leap_RetaliateDamageBonusBase>
                 <Leap_RetaliateDamageBonusPerPathCell>0</Leap_RetaliateDamageBonusPerPathCell>
                 <SummonOther_CalcDistanceIgnoreObstacles>true</SummonOther_CalcDistanceIgnoreObstacles>
                 <SummonOther_DistanceDecrease>0</SummonOther_DistanceDecrease>
+                <Fear_ProcFactor>0.8</Fear_ProcFactor>
             </Inferno>
             <Necropolis>
                 <ZombieWeakeningStrike>2</ZombieWeakeningStrike>
                 <ChanceToMissToIncorporeal>0.5</ChanceToMissToIncorporeal>
                 <LifeDrainIntensity>0.5</LifeDrainIntensity>
                 <DeathWailRange>3</DeathWailRange>
-                <DeathWailDamageCoef>1</DeathWailDamageCoef>
+                <DeathWailDamageCoef>2</DeathWailDamageCoef>
                 <DeathWailDamageArgument>2</DeathWailDamageArgument>
                 <DeathWailDamageConst>10</DeathWailDamageConst>
                 <WeakeningAuraMoraleDec>1</WeakeningAuraMoraleDec>
-                <WeakeningAuraOffenceDec>2</WeakeningAuraOffenceDec>
+                <WeakeningAuraOffenceDec>3</WeakeningAuraOffenceDec>
                 <WeakeningAuraDeffenceDec>2</WeakeningAuraDeffenceDec>
-                <SleepingStrike_Duration>3</SleepingStrike_Duration>
-                <SorrowStrike_SpellTrained>1</SorrowStrike_SpellTrained>
+                <SleepingStrike_Duration>2</SleepingStrike_Duration>
+                <SleepingStrike_ProcFactor>3</SleepingStrike_ProcFactor>
+                <SorrowStrike_SpellTrained>3</SorrowStrike_SpellTrained>
                 <HorrorOfDeath_MoraleDecrease>1</HorrorOfDeath_MoraleDecrease>
                 <AmmoSteal_CalcDistanceIgnoreObstacles>true</AmmoSteal_CalcDistanceIgnoreObstacles>
                 <AmmoSteal_DistanceDecrease>0</AmmoSteal_DistanceDecrease>
@@ -308,9 +310,12 @@
             <Sylvan>
                 <AuraOfMagicResistance>0.3</AuraOfMagicResistance>
                 <BlindingAttackSpellPower>8</BlindingAttackSpellPower>
+                <BlindingAttack_ProcFactor>1</BlindingAttack_ProcFactor>
                 <WardingArrowsATBAffect>0.2</WardingArrowsATBAffect>
+                <WardingArrows_ProcFactor>1</WardingArrows_ProcFactor>
                 <DefenceBonusOnTakeRoots>0.5</DefenceBonusOnTakeRoots>
                 <PiercingArrowCoef>0.5</PiercingArrowCoef>
+                <PiercingArrow_ProcFactor>2</PiercingArrow_ProcFactor>
                 <TreeanUnionCasterHits>4</TreeanUnionCasterHits>
                 <TreeanUnionTargetHits>20</TreeanUnionTargetHits>
                 <TreeanUnionTargetBaseCreature>CREATURE_TREANT</TreeanUnionTargetBaseCreature>
@@ -326,7 +331,7 @@
                 <VulnerabilityDamageCoef>1.5</VulnerabilityDamageCoef>
                 <EnchantedObsidian_DamageToHealCoef>0.5</EnchantedObsidian_DamageToHealCoef>
                 <MagicMagnetism_DamageRedirectPercentPerWeeklyGrowth>5</MagicMagnetism_DamageRedirectPercentPerWeeklyGrowth>
-                <SabotageCoef>5</SabotageCoef>
+                <SabotageCoef>10</SabotageCoef>
                 <CallStorm_DamagePerCreature>10</CallStorm_DamagePerCreature>
                 <CallStorm_ShootPenaltyPerCreature>0.01</CallStorm_ShootPenaltyPerCreature>
                 <CallStorm_MaxShootPenalty>0.9</CallStorm_MaxShootPenalty>
@@ -336,6 +341,7 @@
                 <AssasinPoisonDamagePerPower>1</AssasinPoisonDamagePerPower>
                 <AssasinPoisonCounter>3</AssasinPoisonCounter>
                 <WhipStrikeSpellPower>3</WhipStrikeSpellPower>
+                <WhipStrike_ProcFactor>1.5</WhipStrike_ProcFactor>
                 <HydraRegenerationMin>30</HydraRegenerationMin>
                 <HydraRegenerationMax>50</HydraRegenerationMax>
                 <RiderCharge_DefenceReducePerPathCell>0.2</RiderCharge_DefenceReducePerPathCell>
@@ -350,10 +356,12 @@
                 <ShieldWall_DamageReducePerPathCell>0.1</ShieldWall_DamageReducePerPathCell>
                 <ShieldWall_MaxDamageReduce>0.9</ShieldWall_MaxDamageReduce>
                 <Wound_EffectDurationInRounds>2</Wound_EffectDurationInRounds>
-                <Wound_SpeedDecrease>0.5</Wound_SpeedDecrease>
-                <Wound_InitiativeDecrease>0.3</Wound_InitiativeDecrease>
+                <Wound_SpeedDecrease>0.4</Wound_SpeedDecrease>
+                <Wound_InitiativeDecrease>0.2</Wound_InitiativeDecrease>
+                <Wound_ProcFactor>0.7</Wound_ProcFactor>
                 <MarkOfFire_EffectDurationInRounds>2</MarkOfFire_EffectDurationInRounds>
                 <MarkOfFire_FireDamageMultiplier>2</MarkOfFire_FireDamageMultiplier>
+                <MarkOfFire_ProcFactor>1</MarkOfFire_ProcFactor>
                 <AntiGiantDefenceInc>4</AntiGiantDefenceInc>
                 <AntiGiantAttackInc>4</AntiGiantAttackInc>
                 <AvengingFlameEffect href="/GameMechanics/Spell/Creature_Abilities/Dwarf/AvangingFlame.(SpellVisual).xdb#xpointer(/SpellVisual)"/>
@@ -362,6 +370,7 @@
                 <BearRoar_EffectDuration>2</BearRoar_EffectDuration>
                 <BearRoar_MoraleBonus>1</BearRoar_MoraleBonus>
                 <BearRoar_HealthBonus>0.1</BearRoar_HealthBonus>
+                <BearRoar_ProcFactor>0.9</BearRoar_ProcFactor>
                 <HarpoonStrike_DamageBonus>0</HarpoonStrike_DamageBonus>
                 <HarpoonStrike_WorksOnLargeCreatures>true</HarpoonStrike_WorksOnLargeCreatures>
                 <LiquidFlameBreath_DamagePerCreature>10</LiquidFlameBreath_DamagePerCreature>
@@ -372,14 +381,15 @@
                 <BattleRage_AttackBonus>5</BattleRage_AttackBonus>
                 <BattleRage_EffectDuration>2</BattleRage_EffectDuration>
                 <FlameWave_WaveLength>5</FlameWave_WaveLength>
-                <FlameWave_ChanceCoef>1</FlameWave_ChanceCoef>
+                <FlameWave_ProcFactor>2</FlameWave_ProcFactor>
                 <FlameWave_WaveSpeed>15</FlameWave_WaveSpeed>
                 <Flamestrike_DamageMultipiler>1.2</Flamestrike_DamageMultipiler>
+                <PawStrike_ProcFactor>1</PawStrike_ProcFactor>
             </Fortress>
             <Neutral>
                 <HowlMaxATBValueAtStart>0.5</HowlMaxATBValueAtStart>
                 <ManticorePoisonDamagePerPower>4</ManticorePoisonDamagePerPower>
-                <ManticorePoisonCounter>3</ManticorePoisonCounter>
+                <ManticorePoisonCounter>10</ManticorePoisonCounter>
                 <HexingAttackSpells>
                     <Item>
                         <Spell>SPELL_CURSE</Spell>
@@ -398,6 +408,7 @@
                         <Mastery>MASTERY_EXPERT</Mastery>
                     </Item>
                 </HexingAttackSpells>
+                <SpellDamageMultiplier>0.3</SpellDamageMultiplier>
             </Neutral>
             <Stronghold>
                 <DemonRage>
@@ -555,14 +566,6 @@
                                     <Spells/>
                                     <Abilities>
                                         <Item>ABILITY_PURGER</Item>
-                                    </Abilities>
-                                </Item>
-                                <Item>
-                                    <Type>DEMON_RAGE_BONUS_ABILITY</Type>
-                                    <IntParam>0</IntParam>
-                                    <FloatParam>0</FloatParam>
-                                    <Spells/>
-                                    <Abilities>
                                         <Item>ABILITY_CURSING_ATTACK</Item>
                                     </Abilities>
                                 </Item>
@@ -576,6 +579,8 @@
                                     <Abilities>
                                         <Item>ABILITY_HEXING_ATTACK</Item>
                                         <Item>ABILITY_NO_ENEMY_RETALIATION</Item>
+                                        <Item>ABILITY_PURGER</Item>
+                                        <Item>ABILITY_CURSING_ATTACK</Item>
                                     </Abilities>
                                 </Item>
                             </Bonus3>
@@ -1024,6 +1029,7 @@
                                     <Spells/>
                                     <Abilities>
                                         <Item>ABILITY_FEAR</Item>
+                                        <Item>ABILITY_FRIGHT_AURA</Item>
                                     </Abilities>
                                 </Item>
                             </Bonus3>
@@ -1058,6 +1064,7 @@
                                     <Spells/>
                                     <Abilities>
                                         <Item>ABILITY_FEAR</Item>
+                                        <Item>ABILITY_FRIGHT_AURA</Item>
                                     </Abilities>
                                 </Item>
                             </Bonus3>
@@ -1092,6 +1099,7 @@
                                     <Spells/>
                                     <Abilities>
                                         <Item>ABILITY_FEAR</Item>
+                                        <Item>ABILITY_FRIGHT_AURA</Item>
                                     </Abilities>
                                 </Item>
                             </Bonus3>
@@ -1100,11 +1108,11 @@
                     <DamageAbsorbtionPerHeroSkill>
                         <Item>0</Item>
                         <Item>50</Item>
+                        <Item>55</Item>
                         <Item>60</Item>
-                        <Item>70</Item>
-                        <Item>80</Item>
+                        <Item>65</Item>
                     </DamageAbsorbtionPerHeroSkill>
-                    <HealthToRageTransferCoef>1100</HealthToRageTransferCoef>
+                    <HealthToRageTransferCoef>1200</HealthToRageTransferCoef>
                 </DemonRage>
                 <VenomDuration>3</VenomDuration>
                 <VenomDamagePerPower>5</VenomDamagePerPower>
@@ -1121,12 +1129,15 @@
                 <FierceRetaliationCoef>2</FierceRetaliationCoef>
                 <ScavengerCoef>0.2</ScavengerCoef>
                 <CrushigBlowCoef>10</CrushigBlowCoef>
+                <CrushingBlow_ProcFactor>0.8</CrushingBlow_ProcFactor>
                 <OrderOfTheChiefDamageCoef>1</OrderOfTheChiefDamageCoef>
                 <OrderOfTheChiefInitiativeCoef>1</OrderOfTheChiefInitiativeCoef>
                 <OrderOfTheChiefInitiativeMax>60</OrderOfTheChiefInitiativeMax>
                 <DefileMagicSpellPowerCoef>0.5</DefileMagicSpellPowerCoef>
                 <DefileMagicManaCoef>2</DefileMagicManaCoef>
                 <EvilEye_LuckDecrease>3</EvilEye_LuckDecrease>
+                <Brutality_ProcFactor>1</Brutality_ProcFactor>
+                <Taunt_ProcFactor>1.2</Taunt_ProcFactor>
             </Stronghold>
             <ConjuredPhoenix href="ConjuredPhoenix.xdb#xpointer(/RPGCombatUniqueCreatureStats)"/>
             <DefenceBonusOnDefend>0.3</DefenceBonusOnDefend>
@@ -1148,7 +1159,7 @@
                     <AdvancedDamageBonus>0.1</AdvancedDamageBonus>
                     <ExpertDamageBonus>0.2</ExpertDamageBonus>
                     <ExtraExpertDamageBonus>0.25</ExtraExpertDamageBonus>
-                    <TrainingPointsPerWeek>13</TrainingPointsPerWeek>
+                    <TrainingPointsPerWeek>7</TrainingPointsPerWeek>
                     <TrainingPointsPerWeek_Upgraded>20</TrainingPointsPerWeek_Upgraded>
                     <BaseCostMultiplier>3</BaseCostMultiplier>
                     <SkillTraining_CostDiscountPerLevel>15</SkillTraining_CostDiscountPerLevel>
@@ -1169,24 +1180,24 @@
                 <Gating>
                     <PortionOfSummonedByGatingLevel>
                         <Item>0.35</Item>
-                        <Item>0.5</Item>
+                        <Item>0.50</Item>
                         <Item>0.65</Item>
-                        <Item>0.9</Item>
+                        <Item>0.90</Item>
                     </PortionOfSummonedByGatingLevel>
                     <CallerStartATB>0.5</CallerStartATB>
                     <GatedStartATB>0</GatedStartATB>
                     <InitiativeFactor>1</InitiativeFactor>
                     <GatingMasteryPortionBonus>1</GatingMasteryPortionBonus>
-                    <QuickGatingStartATB>0.9</QuickGatingStartATB>
+                    <QuickGatingStartATB>0.90</QuickGatingStartATB>
                     <CriticalGatingConstantProb>0.5</CriticalGatingConstantProb>
                     <CriticalGatingPerLuckPointProb>0.1</CriticalGatingPerLuckPointProb>
                     <CriticalGatingPortionBonus>1</CriticalGatingPortionBonus>
-                    <InfernalLoomPortionBonus>0.1</InfernalLoomPortionBonus>
+                    <InfernalLoomPortionBonus>0.2</InfernalLoomPortionBonus>
                     <GatekeeperHeroSpecPerLevelPortionBonus>0.01</GatekeeperHeroSpecPerLevelPortionBonus>
                 </Gating>
                 <DemonicFire>
                     <BaseDamage>50</BaseDamage>
-                    <DamagePerSpellPower>10</DamagePerSpellPower>
+                    <DamagePerSpellPower>20</DamagePerSpellPower>
                     <ManaCost>0</ManaCost>
                 </DemonicFire>
                 <ConsumeCorpseHPForOneMana>30</ConsumeCorpseHPForOneMana>
@@ -1763,16 +1774,16 @@
             <Wizard>
                 <Unsummon_DamagePerHeroLevel>10</Unsummon_DamagePerHeroLevel>
                 <Unsummon_DamagePerSkillMastery>10</Unsummon_DamagePerSkillMastery>
-                <MeltArtifact_HealPerArtifactEffectPerHeroLevel>20</MeltArtifact_HealPerArtifactEffectPerHeroLevel>
+                <MeltArtifact_HealPerArtifactEffectPerHeroLevel>10</MeltArtifact_HealPerArtifactEffectPerHeroLevel>
                 <MeltArtifact_ATBUsage>0.25</MeltArtifact_ATBUsage>
             </Wizard>
             <Ranger>
                 <SunFireDamagePerHeroLevel>10</SunFireDamagePerHeroLevel>
                 <SoilBurnDamagePerHeroLevel>3</SoilBurnDamagePerHeroLevel>
-                <StormWind_InitiativePenalty>0.1</StormWind_InitiativePenalty>
-                <StormWind_SpeedPenalty>1</StormWind_SpeedPenalty>
+                <StormWind_InitiativePenalty>0.2</StormWind_InitiativePenalty>
+                <StormWind_SpeedPenalty>2</StormWind_SpeedPenalty>
                 <FogVeil_InitiativePenalty>0.1</FogVeil_InitiativePenalty>
-                <FogVeil_DamageDecrease>0.1</FogVeil_DamageDecrease>
+                <FogVeil_DamageDecrease>0.25</FogVeil_DamageDecrease>
                 <ElvenLuck_DamageMultiplier>2.25</ElvenLuck_DamageMultiplier>
                 <ImbueArrow_ATBDropOnCast>0</ImbueArrow_ATBDropOnCast>
             </Ranger>
@@ -1797,7 +1808,7 @@
             </Runemage>
             <Barbarian>
                 <PowerfullBlow_ChanceToCritical>10</PowerfullBlow_ChanceToCritical>
-                <PathOfWar_MovePointsBonus>350</PathOfWar_MovePointsBonus>
+                <PathOfWar_MovePointsBonus>250</PathOfWar_MovePointsBonus>
                 <LuckOfTheBarbarian_MagicProofPerLuck>0.05</LuckOfTheBarbarian_MagicProofPerLuck>
                 <StunningBlow_ATBDrop>0.1</StunningBlow_ATBDrop>
                 <DefendUsAll_CreatureToCount>CREATURE_ORC_WARRIOR</DefendUsAll_CreatureToCount>
