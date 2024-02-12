@@ -4005,9 +4005,9 @@
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
                 <SkillType>SKILLTYPE_CLASS_PERK</SkillType>
-                <HeroClass>HERO_CLASS_DEMON_LORD</HeroClass>
+                <HeroClass>HERO_CLASS_WIZARD</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_GATING</BasicSkillID>
+                <BasicSkillID>HERO_SKILL_ARTIFICIER</BasicSkillID>
                 <SkillPrerequisites/>
                 <AIRacesValues>
                     <Haven>
@@ -4021,9 +4021,9 @@
                         <FreelancerValue>0</FreelancerValue>
                     </Sylvan>
                     <Academy>
-                        <CommanderValue>0</CommanderValue>
-                        <CollectorSupplierValue>0</CollectorSupplierValue>
-                        <FreelancerValue>0</FreelancerValue>
+                        <CommanderValue>1000</CommanderValue>
+                        <CollectorSupplierValue>100</CollectorSupplierValue>
+                        <FreelancerValue>1000</FreelancerValue>
                     </Academy>
                     <Dungeon>
                         <CommanderValue>0</CommanderValue>
@@ -4036,9 +4036,9 @@
                         <FreelancerValue>0</FreelancerValue>
                     </Necropolis>
                     <Inferno>
-                        <CommanderValue>1000</CommanderValue>
-                        <CollectorSupplierValue>100</CollectorSupplierValue>
-                        <FreelancerValue>1000</FreelancerValue>
+                        <CommanderValue>0</CommanderValue>
+                        <CollectorSupplierValue>0</CollectorSupplierValue>
+                        <FreelancerValue>0</FreelancerValue>
                     </Inferno>
                     <Fortress>
                         <CommanderValue>0</CommanderValue>
@@ -4600,10 +4600,10 @@
                     <Item href="/Text/Game/Skills/Unique/Artificer/MagicBond/Description.txt"/>
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
-                <SkillType>SKILLTYPE_CLASS_PERK</SkillType>
-                <HeroClass>HERO_CLASS_WIZARD</HeroClass>
+                <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
+                <HeroClass>HERO_CLASS_NONE</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_ARTIFICIER</BasicSkillID>
+                <BasicSkillID>HERO_SKILL_NONE</BasicSkillID>
                 <SkillPrerequisites/>
                 <AIRacesValues>
                     <Haven>
@@ -4666,10 +4666,10 @@
                     <Item href="/Text/Game/Skills/Unique/Artificer/MeltArtifact/Description.txt"/>
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
-                <SkillType>SKILLTYPE_CLASS_PERK</SkillType>
-                <HeroClass>HERO_CLASS_WIZARD</HeroClass>
+                <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
+                <HeroClass>HERO_CLASS_NONE</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_ARTIFICIER</BasicSkillID>
+                <BasicSkillID>HERO_SKILL_NONE</BasicSkillID>
                 <SkillPrerequisites/>
                 <AIRacesValues>
                     <Haven>
@@ -5221,7 +5221,7 @@
                     <Item>
                         <Class>HERO_CLASS_WIZARD</Class>
                         <dependenciesIDs>
-                            <Item>HERO_SKILL_ARTIFICIAL_GLORY</Item>
+                            <Item>HERO_SKILL_FAST_AND_FURIOUS</Item>
                             <Item>HERO_SKILL_MARCH_OF_THE_MACHINES</Item>
                         </dependenciesIDs>
                     </Item>
@@ -5333,8 +5333,8 @@
                         <Class>HERO_CLASS_WIZARD</Class>
                         <dependenciesIDs>
                             <Item>HERO_SKILL_FRENZY</Item>
-                            <Item>HERO_SKILL_ARTIFICIAL_GLORY</Item>
-                            <Item>HERO_SKILL_MELT_ARTIFACT</Item>
+                            <Item>HERO_SKILL_FAST_AND_FURIOUS</Item>
+                            <Item>HERO_SKILL_CONSUME_CORPSE</Item>
                         </dependenciesIDs>
                     </Item>
                     <Item>
@@ -5868,7 +5868,7 @@
                         <Class>HERO_CLASS_WIZARD</Class>
                         <dependenciesIDs>
                             <Item>HERO_SKILL_COUNTERSPELL</Item>
-                            <Item>HERO_SKILL_MELT_ARTIFACT</Item>
+                            <Item>HERO_SKILL_CONSUME_CORPSE</Item>
                         </dependenciesIDs>
                     </Item>
                     <Item>
@@ -9834,7 +9834,7 @@
                         <Class>HERO_CLASS_WIZARD</Class>
                         <dependenciesIDs>
                             <Item>HERO_SKILL_CATAPULT</Item>
-                            <Item>HERO_SKILL_MAGIC_BOND</Item>
+                            <Item>HERO_SKILL_ARTIFICIAL_GLORY</Item>
                         </dependenciesIDs>
                     </Item>
                 </SkillPrerequisites>
@@ -10014,18 +10014,11 @@
                     <Item href="/Text/Game/Skills/Common/Leadership/ArtificalGlory/Description.txt"/>
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
-                <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
+                <SkillType>SKILLTYPE_CLASS_PERK</SkillType>
                 <HeroClass>HERO_CLASS_WIZARD</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_LEADERSHIP</BasicSkillID>
-                <SkillPrerequisites>
-                    <Item>
-                        <Class>HERO_CLASS_WIZARD</Class>
-                        <dependenciesIDs>
-                            <Item>HERO_SKILL_DIPLOMACY</Item>
-                        </dependenciesIDs>
-                    </Item>
-                </SkillPrerequisites>
+                <BasicSkillID>HERO_SKILL_ARTIFICIER</BasicSkillID>
+                <SkillPrerequisites/>
                 <AIRacesValues>
                     <Haven>
                         <CommanderValue>0</CommanderValue>
@@ -10583,6 +10576,7 @@
                         <Class>HERO_CLASS_WIZARD</Class>
                         <dependenciesIDs>
                             <Item>HERO_SKILL_MAGIC_MIRROR</Item>
+                            <Item>HERO_SKILL_MASTER_OF_LIGHTNINGS</Item>
                         </dependenciesIDs>
                     </Item>
                     <Item>
@@ -10692,6 +10686,7 @@
                     <Item>
                         <Class>HERO_CLASS_WIZARD</Class>
                         <dependenciesIDs>
+                            <Item>HERO_SKILL_MASTER_OF_MIND</Item>
                             <Item>HERO_SKILL_MAGIC_MIRROR</Item>
                         </dependenciesIDs>
                     </Item>
@@ -10801,6 +10796,7 @@
                     <Item>
                         <Class>HERO_CLASS_WIZARD</Class>
                         <dependenciesIDs>
+                            <Item>HERO_SKILL_MASTER_OF_ABJURATION</Item>
                             <Item>HERO_SKILL_MAGIC_MIRROR</Item>
                         </dependenciesIDs>
                     </Item>
@@ -10907,12 +10903,6 @@
                             <Item>HERO_SKILL_MASTER_OF_CREATURES</Item>
                             <Item>HERO_SKILL_DEATH_SCREAM</Item>
                             <Item>HERO_SKILL_MASTER_OF_ANIMATION</Item>
-                        </dependenciesIDs>
-                    </Item>
-                    <Item>
-                        <Class>HERO_CLASS_WIZARD</Class>
-                        <dependenciesIDs>
-                            <Item>HERO_SKILL_MAGIC_MIRROR</Item>
                         </dependenciesIDs>
                     </Item>
                     <Item>
@@ -11358,8 +11348,7 @@
                     <Item>
                         <Class>HERO_CLASS_WIZARD</Class>
                         <dependenciesIDs>
-                            <Item>HERO_SKILL_ARTIFICIAL_GLORY</Item>
-                            <Item>HERO_SKILL_MARCH_OF_THE_MACHINES</Item>
+                            <Item>HERO_SKILL_DIPLOMACY</Item>
                         </dependenciesIDs>
                     </Item>
                     <Item>
@@ -12216,7 +12205,8 @@
                     <Item>
                         <Class>HERO_CLASS_WIZARD</Class>
                         <dependenciesIDs>
-                            <Item>HERO_SKILL_MAGIC_BOND</Item>
+                            <Item>HERO_SKILL_MASTER_OF_CREATURES</Item>
+                            <Item>HERO_SKILL_MAGIC_MIRROR</Item>
                         </dependenciesIDs>
                     </Item>
                     <Item>
