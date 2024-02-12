@@ -1765,8 +1765,8 @@
                 <DarkEissary_DeathScreamMultiplier>2</DarkEissary_DeathScreamMultiplier>
             </Necromancer>
             <Warlock>
-                <ElementalChainBonusPerInvocationTrained>0.1</ElementalChainBonusPerInvocationTrained>
-                <ElementalChainBonusPerAltarOfChaos>0.1</ElementalChainBonusPerAltarOfChaos>
+                <ElementalChainBonusPerInvocationTrained>0.25</ElementalChainBonusPerInvocationTrained>
+                <ElementalChainBonusPerAltarOfChaos>0.3</ElementalChainBonusPerAltarOfChaos>
                 <ShakeGroundDamage>10</ShakeGroundDamage>
                 <ShakeGroundDamagePerPower>5</ShakeGroundDamagePerPower>
                 <ShakeGroundATBReduce>0.1</ShakeGroundATBReduce>

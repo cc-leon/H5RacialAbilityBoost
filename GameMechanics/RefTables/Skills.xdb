@@ -5098,7 +5098,7 @@
                         <Class>HERO_CLASS_DEMON_LORD</Class>
                         <dependenciesIDs>
                             <Item>HERO_SKILL_BALLISTA</Item>
-                            <Item>HERO_SKILL_DEMONIC_FIRE</Item>
+                            <Item>HERO_SKILL_ABSOLUTE_GATING</Item>
                         </dependenciesIDs>
                     </Item>
                     <Item>
@@ -6509,7 +6509,7 @@
                         <Class>HERO_CLASS_DEMON_LORD</Class>
                         <dependenciesIDs>
                             <Item>HERO_SKILL_CATAPULT</Item>
-                            <Item>HERO_SKILL_DEMONIC_FIRE</Item>
+                            <Item>HERO_SKILL_ABSOLUTE_GATING</Item>
                         </dependenciesIDs>
                     </Item>
                     <Item>
@@ -6611,15 +6611,17 @@
                     <Item href="/Text/Game/Skills/Common/Leadership/GatingMastery/Description.txt"/>
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
-                <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
+                <SkillType>SKILLTYPE_UINQUE_PERK</SkillType>
                 <HeroClass>HERO_CLASS_DEMON_LORD</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_LEADERSHIP</BasicSkillID>
+                <BasicSkillID>HERO_SKILL_GATING</BasicSkillID>
                 <SkillPrerequisites>
                     <Item>
                         <Class>HERO_CLASS_DEMON_LORD</Class>
                         <dependenciesIDs>
-                            <Item>HERO_SKILL_RECRUITMENT</Item>
+                            <Item>HERO_SKILL_ABSOLUTE_GATING</Item>
+                            <Item>HERO_SKILL_CRITICAL_GATING</Item>
+                            <Item>HERO_SKILL_QUICK_GATING</Item>
                         </dependenciesIDs>
                     </Item>
                 </SkillPrerequisites>
@@ -7136,7 +7138,7 @@
                     <Item>
                         <Class>HERO_CLASS_DEMON_LORD</Class>
                         <dependenciesIDs>
-                            <Item>HERO_SKILL_DEMONIC_FIRE</Item>
+                            <Item>HERO_SKILL_ABSOLUTE_GATING</Item>
                         </dependenciesIDs>
                     </Item>
                     <Item>
@@ -7245,7 +7247,7 @@
                     <Item>
                         <Class>HERO_CLASS_DEMON_LORD</Class>
                         <dependenciesIDs>
-                            <Item>HERO_SKILL_DEMONIC_FIRE</Item>
+                            <Item>HERO_SKILL_ABSOLUTE_GATING</Item>
                         </dependenciesIDs>
                     </Item>
                     <Item>
@@ -10185,7 +10187,7 @@
                         <Class>HERO_CLASS_DEMON_LORD</Class>
                         <dependenciesIDs>
                             <Item>HERO_SKILL_FRENZY</Item>
-                            <Item>HERO_SKILL_DEMONIC_FIRE</Item>
+                            <Item>HERO_SKILL_ABSOLUTE_GATING</Item>
                             <Item>HERO_SKILL_CRITICAL_STRIKE</Item>
                         </dependenciesIDs>
                     </Item>
@@ -13784,7 +13786,7 @@
                         <Class>HERO_CLASS_DEMON_LORD</Class>
                         <dependenciesIDs>
                             <Item>HERO_SKILL_PATHFINDING</Item>
-                            <Item>HERO_SKILL_DEMONIC_FIRE</Item>
+                            <Item>HERO_SKILL_ABSOLUTE_GATING</Item>
                         </dependenciesIDs>
                     </Item>
                     <Item>
