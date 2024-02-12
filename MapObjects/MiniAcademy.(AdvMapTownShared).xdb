@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AdvMapTownShared ObjectRecordID="4">
+	<Model href="/_(Model)/Resourses/Gems.(Model).xdb#xpointer(/Model)"/>
+	<AnimSet/>
+	<blockedTiles/>
+	<holeTiles/>
+	<activeTiles/>
+	<passableTiles>
+		<Item>
+			<x>0</x>
+			<y>0</y>
+		</Item>
+	</passableTiles>
+	<PossessionMarkerTile>
+		<x>1</x>
+		<y>0</y>
+	</PossessionMarkerTile>
+	<Effect/>
+	<EffectWhenOwned/>
+	<messagesFileRef>
+		<Item href="/Text/Interface/RacialAbilityBoost/MiniAcademy.txt"/>
+	</messagesFileRef>
+	<WaterBased>false</WaterBased>
+	<ApplyHeroTrace>false</ApplyHeroTrace>
+	<SoundEffect/>
+	<flybyMessageFileRef href=""/>
+	<ObjectTypeFileRef href="/Text/Visibility_Types/Buildings.txt"/>
+	<TerrainAligned>false</TerrainAligned>
+	<FlyPassable>false</FlyPassable>
+	<AdventureSoundEffect/>
+	<RazedStatic/>
+	<Icon128/>
+	<Interior href="/Arenas/Town/Academy/New Object.xdb#xpointer(/ArenaDesc)"/>
+	<Exterior/>
+	<Type>TOWN_ACADEMY</Type>
+	<Razed/>
+	<Combat/>
+	<buildings>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/TownHall/VillageHall.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/TownHall/TownHall.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/TownHall/CityHall.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/TownHall/Capitol.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Fort/Fort.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Fort/Citadel.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Fort/Castle.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Blacksmith/Blacksmith.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Marketplace/Marketplace.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Marketplace/Resource_Silo.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Shipyard/Shipyard.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Tavern/Tavern.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Magic_Guild/Magic_Guild_1.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Magic_Guild/Magic_Guild_2.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Magic_Guild/Magic_Guild_3.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Magic_Guild/Magic_Guild_4.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Magic_Guild/Magic_Guild_5.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Dwelling_1/Manufactory.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Dwelling_1/Workshop.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Dwelling_2/StoneParapet.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Dwelling_2/ObsidianParapet.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Dwelling_3/GolemForge.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Dwelling_3/GolemFoundry.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Dwelling_4/MageTower.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Dwelling_4/ArchmageTower.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Dwelling_5/AltarOfWishes.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Dwelling_5/PinnacleOfWishes.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Dwelling_6/SilverPavilion.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Dwelling_6/GoldenPavilion.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Dwelling_7/CloudTemple.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Dwelling_7/ThundercloudTemple.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Grail/Skyship.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Special_1/Library.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Special_2/ArcaneForge.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Special_3/ArtifactMerchant.xdb#xpointer(/TownBuildingSharedStats)"/>
+		<Item href="/GameMechanics/TownBuildingSharedStats/Academy/Special_4/TreasureCave.xdb#xpointer(/TownBuildingSharedStats)"/>
+	</buildings>
+	<FitRandomTownMaskPositionShift>
+		<x>0</x>
+		<y>1</y>
+	</FitRandomTownMaskPositionShift>
+	<MagicSchool_0>MAGIC_SCHOOL_LIGHT</MagicSchool_0>
+	<MagicSchool_1>MAGIC_SCHOOL_SUMMONING</MagicSchool_1>
+	<icons>
+		<Icon55x55 href="Academy/Icon55x55.(Texture).xdb#xpointer(/Texture)"/>
+		<IconWithFort55x55 href="Academy/IconWithFort55x55.(Texture).xdb#xpointer(/Texture)"/>
+	</icons>
+</AdvMapTownShared>
