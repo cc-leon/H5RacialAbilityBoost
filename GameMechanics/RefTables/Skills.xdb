@@ -3806,8 +3806,8 @@
                     <Item href="/Text/Game/Skills/Unique/Training/HolyCharge/Description.txt"/>
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
-                <SkillType>SKILLTYPE_CLASS_PERK</SkillType>
-                <HeroClass>HERO_CLASS_KNIGHT</HeroClass>
+                <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
+                <HeroClass>HERO_CLASS_NONE</HeroClass>
                 <spellBuffs/>
                 <BasicSkillID>HERO_SKILL_NONE</BasicSkillID>
                 <SkillPrerequisites/>
@@ -3872,8 +3872,8 @@
                     <Item href="/Text/Game/Skills/Unique/Training/Prayer/Description.txt"/>
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
-                <SkillType>SKILLTYPE_CLASS_PERK</SkillType>
-                <HeroClass>HERO_CLASS_KNIGHT</HeroClass>
+                <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
+                <HeroClass>HERO_CLASS_NONE</HeroClass>
                 <spellBuffs/>
                 <BasicSkillID>HERO_SKILL_NONE</BasicSkillID>
                 <SkillPrerequisites/>
@@ -4402,8 +4402,8 @@
                     <Item href="/Text/Game/Skills/Unique/Avenger/Multishot/Description.txt"/>
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
-                <SkillType>SKILLTYPE_CLASS_PERK</SkillType>
-                <HeroClass>HERO_CLASS_RANGER</HeroClass>
+                <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
+                <HeroClass>HERO_CLASS_NONE</HeroClass>
                 <spellBuffs/>
                 <BasicSkillID>HERO_SKILL_NONE</BasicSkillID>
                 <SkillPrerequisites/>
@@ -5326,7 +5326,7 @@
                         <dependenciesIDs>
                             <Item>HERO_SKILL_FRENZY</Item>
                             <Item>HERO_SKILL_FOREST_GUARD_EMBLEM</Item>
-                            <Item>HERO_SKILL_MULTISHOT</Item>
+                            <Item>HERO_SKILL_CUNNING_OF_THE_WOODS</Item>
                         </dependenciesIDs>
                     </Item>
                     <Item>
@@ -8877,8 +8877,7 @@
                         <Class>HERO_CLASS_RANGER</Class>
                         <dependenciesIDs>
                             <Item>HERO_SKILL_LUCKY_STRIKE</Item>
-                            <Item>HERO_SKILL_FORTUNATE_ADVENTURER</Item>
-                            <Item>HERO_SKILL_MULTISHOT</Item>
+                            <Item>HERO_SKILL_CUNNING_OF_THE_WOODS</Item>
                         </dependenciesIDs>
                     </Item>
                 </SkillPrerequisites>
@@ -9688,7 +9687,7 @@
                         <dependenciesIDs>
                             <Item>HERO_SKILL_ELVEN_LUCK</Item>
                             <Item>HERO_SKILL_ROAD_HOME</Item>
-                            <Item>HERO_SKILL_ELITE_CASTERS</Item>
+                            <Item>HERO_SKILL_STORM_WIND</Item>
                         </dependenciesIDs>
                     </Item>
                 </SkillPrerequisites>
