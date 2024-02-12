@@ -4607,10 +4607,10 @@
                     <Item href="/Text/Game/Skills/Unique/Artificer/MagicBond/Description.txt"/>
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
-                <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
-                <HeroClass>HERO_CLASS_NONE</HeroClass>
+                <SkillType>SKILLTYPE_CLASS_PERK</SkillType>
+                <HeroClass>HERO_CLASS_WARLOCK</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_NONE</BasicSkillID>
+                <BasicSkillID>HERO_SKILL_INVOCATION</BasicSkillID>
                 <SkillPrerequisites/>
                 <AIRacesValues>
                     <Haven>
@@ -4624,14 +4624,14 @@
                         <FreelancerValue>0</FreelancerValue>
                     </Sylvan>
                     <Academy>
-                        <CommanderValue>3000</CommanderValue>
-                        <CollectorSupplierValue>1000</CollectorSupplierValue>
-                        <FreelancerValue>3000</FreelancerValue>
-                    </Academy>
-                    <Dungeon>
                         <CommanderValue>0</CommanderValue>
                         <CollectorSupplierValue>0</CollectorSupplierValue>
                         <FreelancerValue>0</FreelancerValue>
+                    </Academy>
+                    <Dungeon>
+                        <CommanderValue>100</CommanderValue>
+                        <CollectorSupplierValue>0</CollectorSupplierValue>
+                        <FreelancerValue>100</FreelancerValue>
                     </Dungeon>
                     <Necropolis>
                         <CommanderValue>0</CommanderValue>
@@ -4872,9 +4872,9 @@
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
                 <SkillType>SKILLTYPE_CLASS_PERK</SkillType>
-                <HeroClass>HERO_CLASS_WARLOCK</HeroClass>
+                <HeroClass>HERO_CLASS_NONE</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_INVOCATION</BasicSkillID>
+                <BasicSkillID>HERO_SKILL_NONE</BasicSkillID>
                 <SkillPrerequisites/>
                 <AIRacesValues>
                     <Haven>
@@ -11425,9 +11425,7 @@
                     <Item>
                         <Class>HERO_CLASS_WARLOCK</Class>
                         <dependenciesIDs>
-                            <Item>HERO_SKILL_LUCKY_STRIKE</Item>
-                            <Item>HERO_SKILL_RESISTANCE</Item>
-                            <Item>HERO_SKILL_DARK_RITUAL</Item>
+                            <Item>HERO_SKILL_MAGIC_BOND</Item>
                         </dependenciesIDs>
                     </Item>
                     <Item>
