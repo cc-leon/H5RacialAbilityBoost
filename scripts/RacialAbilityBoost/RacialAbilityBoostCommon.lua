@@ -147,3 +147,72 @@ function _forceHeroInteractWithObject(heroName, objectName, ownable)
     sleep(10)
     UnblockGame()
 end
+
+function _getSpecialSpellsCost(spellLevel, faction)
+    local result = {}
+    if faction == TOWN_FORTRESS then
+        result[GOLD] = 1500 + (spellLevel - 1) * 300
+        result[WOOD] = floor(spellLevel / 2)
+        result[ORE] = floor(spellLevel / 2)
+    elseif faction == TOWN_STRONGHOLD then
+        result[GOLD] = 1500 + (spellLevel - 1) * 500
+        result[WOOD] = 5 + (spellLevel - 1) 
+        result[ORE] = 5 + (spellLevel - 1)
+        result[MERCURY] = (spellLevel - 1)
+        result[CRYSTAL] = (spellLevel - 1)
+        result[SULFUR] = (spellLevel - 1)
+        result[GEM] = (spellLevel - 1)
+    end
+    return result
+end
+
+function _cNumToSpellId(cNum, spellTab)
+    local result = 0
+    for i, spells in spellTab do
+        for j, spell in spells do
+            result = result + 1
+            if cNum == result then
+                return spell
+            end
+        end
+    end
+    return nil
+end
+
+function _getSpellTierById(spellId, spellTab)
+    for i, spells in spellTab do
+        for j, spell in spells do
+            if spell == spellId then
+                return i
+            end
+        end
+    end
+    return nil
+end
+
+function _checkSpellAlreadyLearnt(heroName, spellId, spellText)
+    if KnowHeroSpell(heroName, spellId) == true then
+        MessageBox({RAB_TXT.."SpellAlreadyLearnt.txt"; spell = spellText})
+        return true
+    else
+        return nil
+    end
+end
+
+function _currentPlayerResourceCheck(heroName, resourceCosts)
+    for resourceType, resourceRequired in resourceCosts do
+        local currentResource = GetPlayerResource(GetCurrentPlayer(), resourceType)
+        if currentResource < resourceRequired then
+            MessageBox({RAB_TXT.."InsufficientResourceWarning.txt"; amount1 = resourceRequired, amount2 = currentResource, resource = RESOURCE2TEXT[resourceType]}, "")
+            return nil
+        end
+    end
+    BlockGame()
+    for resourceType, resourceRequired in resourceCosts do
+        ShowFlyMessage({RAB_TXT.."LostResourceFlyMessage.txt"; amount = resourceRequired, resource = RESOURCE2TEXT[resourceType]}, heroName, GetCurrentPlayer(), 5)
+        SetPlayerResource(GetCurrentPlayer(), resourceType, GetPlayerResource(GetCurrentPlayer(), resourceType) - resourceRequired)
+        sleep(2)
+    end
+    UnblockGame()
+    return true
+end

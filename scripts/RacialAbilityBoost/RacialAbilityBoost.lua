@@ -17,10 +17,11 @@ PORT_STRONGHOLD = "/GameMechanics/RefTables/GhostMode/face_Spook.(Texture).xdb#x
 g_tabCallbackParams = {}
 
 -- Flags
+g_tabAcademyUsedFactory = {}  -- trace if a hero has used arcane forge on a day
+g_tabDunegonUsedDarkRitual = {}  -- trace if a hero has used dark ritual per day
+g_tabDungeonIrresistableKnowledge = {}  -- trace if knowledge has been awarded based on irresitable magic
 g_tabHavenUsedTraining = {}  -- trace if a faction has used its haven training quota
-g_tabDunegonUsedDarkRitual = {} -- trace if a hero has used dark ritual per day
-g_tabDungeonIrresistableKnowledge = {} -- trace if knowledge has been awarded based on irresitable magic
-
+g_tabPreserveUsedSettingEnemy = {}  -- trace if a hero has used setting enemy on a day
 
 function RacialAbilityBoost(heroName, customAbilityID)
     if customAbilityID == CUSTOM_ABILITY_3 then
@@ -31,7 +32,7 @@ function RacialAbilityBoost(heroName, customAbilityID)
         g_tabCallbackParams[1] = heroName
 
         if heroRace == TOWN_ACADEMY then
-            local options = {[1] = RAB_TXT.."AcademyOption1.txt", }
+            local options = {[1] = {RAB_TXT.."AcademyOption1.txt"; movement = PARAM_WIZARD_ARTIFICER_COST}, }
             _PagedTalkBox(
                 PORT_ACADEMY,
                 RAB_TXT.."dummy2.txt",
@@ -69,7 +70,8 @@ function RacialAbilityBoost(heroName, customAbilityID)
         elseif heroRace == TOWN_NECROMANCY then
             MessageBox({RAB_TXT.."NecropolisTalkBoxDescription.txt"; class = CLASS2TEXT[TOWN_NECROMANCY]})
         elseif heroRace == TOWN_PRESERVE  then
-            local options = {[1] = RAB_TXT.."PreserveOption1.txt", [2] = RAB_TXT.."PreserveOption2.txt"}
+            local options = {[1] = {RAB_TXT.."PreserveOption1.txt"; movement = PARAM_RANGER_SET_FAVORED_ENEMY_COST},
+                             [2] = {RAB_TXT.."PreserveOption2.txt"; movement = PARAM_RANGER_GET_FAVORED_ENEMY_COST},}
             _PagedTalkBox(
                 PORT_SYLVAN,
                 RAB_TXT.."dummy2.txt",
@@ -93,8 +95,12 @@ function _AcademyAbilityCallback(cNum)
         if not _checkMovementCondition(g_tabCallbackParams[1], PARAM_WIZARD_ARTIFICER_COST) then
             return
         end
-        if _buildingConditionCheck(MINI_TOWN[TOWN_ACADEMY], "TOWN_ACADEMY", TOWN_BUILDING_SPECIAL_2, 1, ACADEMY_SPECIAL_2_TEXT, RACE2TEXT[TOWN_ACADEMY]) == true then
+        local drKey = g_tabCallbackParams[1]..GetDate(ABSOLUTE_DAY)
+        if g_tabAcademyUsedFactory[drKey] == nil then
             _forceHeroInteractWithObject(g_tabCallbackParams[1], MINI_TOWN[TOWN_ACADEMY], true)
+            g_tabAcademyUsedFactory[drKey] = true
+        else
+            MessageBox({RAB_TXT.."DailyLimitCheckFailure.txt"; times = 1, days = 1, limit = 1}, "")
         end
     end
 end
@@ -221,34 +227,55 @@ function _FortressAbilityCallback(cNum)
 end
 
 function _FortressTeachRuneSpells(heroName)
-    local result = {}
-
-    for i, runes in RUNE_SPELLS do
-        if KnowHeroSpell(heroName, runes[0]) and not KnowHeroSpell(heroName, runes[1]) then
-            result[i] = runes[1]
-        elseif not KnowHeroSpell(heroName, runes[0]) and KnowHeroSpell(heroName, runes[1]) then
-            result[i] = runes[0]
-        elseif KnowHeroSpell(heroName, runes[0]) and KnowHeroSpell(heroName, runes[1]) then
-            result[i] = true
-        else
-            result[i] = SPELL_NONE
+    local options = {}
+    for i, spells in RUNE_SPELLS do
+        local requirements = _getSpecialSpellsCost(i, TOWN_FORTRESS)
+        for j, spellId in spells do
+            options[length(options) + 1] = {RAB_TXT.."FortressRuneSpellTalkBoxOption.txt"; spell = RUNE2TEXT[spellId], tier = i,
+                                            woodAmount = requirements[WOOD], wood = RESOURCE2TEXT[WOOD],
+                                            oreAmount = requirements[ORE], ore = RESOURCE2TEXT[ORE],
+                                            goldAmount = requirements[GOLD], gold = RESOURCE2TEXT[GOLD], }
         end
     end
+    _PagedTalkBox(
+        PORT_FORTRESS,
+        RAB_TXT.."dummy2.txt",
+        RAB_TXT.."FortressRuneSpellTalkBoxDescription.txt",
+        RAB_TXT.."RABTalkBoxTitle.txt",
+        "_FortressTeachRuneSpellsCallback", options)
+end
 
-    BlockGame()
-    for i, rune in result do
-        if rune == SPELL_NONE then
-            ShowFlyMessage({RAB_TXT.."FortressRuneSpellMissing.txt"; tier = i}, heroName, GetCurrentPlayer(), 5)
-        elseif rune == true then
-            ShowFlyMessage({RAB_TXT.."FortressRuneSpellAlreadyExists.txt"; tier = i}, heroName, GetCurrentPlayer(), 5)
-        else
-            ShowFlyMessage({RAB_TXT.."FortressRuneSpellLearnt.txt"; tier = i, spell = RUNE2TEXT[rune]}, heroName, GetCurrentPlayer(), 5)
-            TeachHeroSpell(heroName, rune)
-        end
-        sleep(2)
+function _FortressCheckHeroCanLearnSpell(heroName, spellId)
+    local spellLevel= _getSpellTierById(spellId, RUNE_SPELLS)
+    local runicLevel = GetHeroSkillMastery(heroName, HERO_SKILL_RUNELORE)
+    if (ceil(spellLevel / 2) <= runicLevel) then
+        return true
+    else
+        MessageBox({RAB_TXT.."FortressRuneSpellInsufficientSkill.txt"; skill = RUNEMAGE_SKILL_RUNELORE_TEXT[runicLevel], tier = spellLevel, spell = RUNE2TEXT[spellId]}, "")
+        return nil
     end
-    sleep(10)
-    UnblockGame()
+end
+
+function _FortressTeachRuneSpellsCallback(cNum)
+    if cNum > 0 then
+        local spellId = _cNumToSpellId(cNum, RUNE_SPELLS)
+        local spellLevel = _getSpellTierById(spellId, RUNE_SPELLS)
+        local heroName = g_tabCallbackParams[1]
+        local resourceCost = _getSpecialSpellsCost(spellLevel, TOWN_FORTRESS)
+        if not _checkSpellAlreadyLearnt(heroName, spellId, RUNE2TEXT[spellId]) then
+            if _FortressCheckHeroCanLearnSpell(heroName, spellId) then
+                if _currentPlayerResourceCheck(heroName, resourceCost) then
+                    BlockGame()
+                    TeachHeroSpell(heroName, spellId)
+                    ShowFlyMessage({RAB_TXT.."FortressRuneSpellLearnt.txt"; tier = spellLevel, spell = RUNE2TEXT[spellId]}, heroName, GetCurrentPlayer(), 5)
+                    sleep(2)
+                    UnblockGame()
+                end
+            end
+        end
+    else
+        RacialAbilityBoost(g_tabCallbackParams[1], CUSTOM_ABILITY_4)
+    end
 end
 
 function _FortressBorderGuardSummonCity(heroName)
@@ -317,8 +344,12 @@ function _PreserveAbilityCallback(cNum)
         if not _checkMovementCondition(g_tabCallbackParams[1], PARAM_RANGER_SET_FAVORED_ENEMY_COST) then
             return
         end
-        if _buildingConditionCheck(MINI_TOWN[TOWN_PRESERVE], "TOWN_PRESERVE", TOWN_BUILDING_SPECIAL_0, 1, PRESERVE_SPECIAL_0_TEXT, RACE2TEXT[TOWN_PRESERVE]) == true then
+        local drKey = g_tabCallbackParams[1]..GetDate(ABSOLUTE_DAY)
+        if g_tabPreserveUsedSettingEnemy[drKey] == nil then
             _forceHeroInteractWithObject(g_tabCallbackParams[1], MINI_TOWN[TOWN_PRESERVE], true)
+            g_tabPreserveUsedSettingEnemy[drKey] = true
+        else
+            MessageBox({RAB_TXT.."DailyLimitCheckFailure.txt"; times = 1, days = 1, limit = 1}, "")
         end
     elseif cNum == 2 then -- Get favored enemies
         if not _checkMovementCondition(g_tabCallbackParams[1], PARAM_RANGER_GET_FAVORED_ENEMY_COST) then
@@ -336,9 +367,9 @@ function _PreserveRacialBoostGetEnemy(heroName)
     g_tabCallbackParams[1] = heroName
     _PagedTalkBox(
         PORT_SYLVAN,
-        nil,
+        RAB_TXT.."dummy2.txt",
         RAB_TXT.."PreserveGetEnemySelectRaceTalkBoxDescription.txt",
-        RAB_TXT.."PreserveTalkBoxName.txt",
+        RAB_TXT.."PreserveGetEnemySelectRaceTalkBoxName.txt",
         "_PreserveRacialBoostGetEnemySelectRaceCallback", options)
 end
 
@@ -360,9 +391,9 @@ function _PreserveRacialBoostGetEnemySelectRaceCallback(cNum)
         end
         _PagedTalkBox(
             PORT_SYLVAN,
-            nil,
+            RAB_TXT.."dummy.txt",
             {RAB_TXT.."PreserveGetEnemySelectTierTalkBoxDescription.txt"; race = RACE2TEXT[g_tabCallbackParams[2]]},
-            RAB_TXT.."PreserveTalkBoxName.txt",
+            RAB_TXT.."PreserveGetEnemySelectTierTalkBoxName.txt",
             "_PreserveRacialBoostGetEnemySelectTierCallback", options)
     else
         RacialAbilityBoost(g_tabCallbackParams[1], CUSTOM_ABILITY_4)
@@ -389,34 +420,59 @@ end
 
 
 function _StrongholdTeachWarcries(heroName)
-    local result = {}
-
-    for i, warcries in WARCRY_SPELLS do
-        if KnowHeroSpell(heroName, warcries[0]) and not KnowHeroSpell(heroName, warcries[1]) then
-            result[i] = warcries[1]
-        elseif not KnowHeroSpell(heroName, warcries[0]) and KnowHeroSpell(heroName, warcries[1]) then
-            result[i] = warcries[0]
-        elseif KnowHeroSpell(heroName, warcries[0]) and KnowHeroSpell(heroName, warcries[1]) then
-            result[i] = true
-        else
-            result[i] = SPELL_NONE
+    local options = {}
+    for i, spells in WARCRY_SPELLS do
+        local requirements = _getSpecialSpellsCost(i, TOWN_STRONGHOLD)
+        for j, spellId in spells do
+            options[length(options) + 1] = {RAB_TXT.."StrongholdWarcryTalkBoxOption.txt"; spell = WARCRY2TEXT[spellId], tier = i,
+                                            woodoreAmount = requirements[WOOD], rareAmount = requirements[CRYSTAL],
+                                            goldAmount = requirements[GOLD], gold = RESOURCE2TEXT[GOLD], }
         end
     end
+    _PagedTalkBox(
+        PORT_STRONGHOLD,
+        RAB_TXT.."dummy2.txt",
+        RAB_TXT.."StrongholdWarcryTalkBoxDescription.txt",
+        RAB_TXT.."RABTalkBoxTitle.txt",
+        "_StrongholdTeachWarcriesCallback", options)
+end
 
-    BlockGame()
-    for i, warcy in result do
-        if warcy == SPELL_NONE then
-            ShowFlyMessage({RAB_TXT.."StrongholdWarcryMissing.txt"; tier = i}, heroName, GetCurrentPlayer(), 5)
-        elseif warcy == true then
-            ShowFlyMessage({RAB_TXT.."StrongholdWarcryAlreadyExists.txt"; tier = i}, heroName, GetCurrentPlayer(), 5)
-        else
-            ShowFlyMessage({RAB_TXT.."StrongholdWarcryLearnt.txt"; tier = i, spell = WARCRY2TEXT[warcy]}, heroName, GetCurrentPlayer(), 5)
-            TeachHeroSpell(heroName, warcy)
-        end
-        sleep(2)
+function _StrongholdCheckHeroCanLearnSpell(heroName, spellId)
+    local spellLevel= _getSpellTierById(spellId, WARCRY_SPELLS)
+    local heroLevel = GetHeroLevel(heroName)
+    local requiredLevel = (spellLevel - 1) * 5 + 1
+    if requiredLevel <= 1 then
+        requiredLevel = 2
     end
-    sleep(10)
-    UnblockGame()
+
+    if heroLevel >= requiredLevel then
+        return true
+    else
+        MessageBox({RAB_TXT.."StrongholdWarcryInsufficientLevel.txt"; tier = spellLevel, spell = WARCRY2TEXT[spellId], currLevel=heroLevel, minLevel = requiredLevel}, "")
+        return nil
+    end
+end
+
+function _StrongholdTeachWarcriesCallback(cNum)
+    if cNum > 0 then
+        local spellId = _cNumToSpellId(cNum, WARCRY_SPELLS)
+        local spellLevel = _getSpellTierById(spellId, WARCRY_SPELLS)
+        local heroName = g_tabCallbackParams[1]
+        local resourceCost = _getSpecialSpellsCost(spellLevel, TOWN_STRONGHOLD)
+        if not _checkSpellAlreadyLearnt(heroName, spellId, WARCRY2TEXT[spellId]) then
+            if _StrongholdCheckHeroCanLearnSpell(heroName, spellId) then
+                if _currentPlayerResourceCheck(heroName, resourceCost) then
+                    BlockGame()
+                    TeachHeroSpell(heroName, spellId)
+                    ShowFlyMessage({RAB_TXT.."StrongholdWarcryLearnt.txt"; tier = spellLevel, spell = WARCRY2TEXT[spellId]}, heroName, GetCurrentPlayer(), 5)
+                    sleep(2)
+                    UnblockGame()
+                end
+            end
+        end
+    else
+        RacialAbilityBoost(g_tabCallbackParams[1], CUSTOM_ABILITY_4)
+    end
 end
 
 function _rab_hireHero(heroName)
@@ -425,7 +481,6 @@ function _rab_hireHero(heroName)
     end
     ControlHeroCustomAbility(heroName, CUSTOM_ABILITY_4, CUSTOM_ABILITY_ENABLED)
 end
-
 
 function _rab_loseHero(heroName)
     if STACK_SPLIT_LOADED == true then
