@@ -5349,7 +5349,7 @@
                         <dependenciesIDs>
                             <Item>HERO_SKILL_FRENZY</Item>
                             <Item>HERO_SKILL_FAST_AND_FURIOUS</Item>
-                            <Item>HERO_SKILL_DARK_RITUAL</Item>
+                            <Item>HERO_SKILL_MAGIC_BOND</Item>
                         </dependenciesIDs>
                     </Item>
                     <Item>
@@ -12260,12 +12260,9 @@
                     <Item>
                         <Class>HERO_CLASS_WARLOCK</Class>
                         <dependenciesIDs>
-                            <Item>HERO_SKILL_LUCKY_SPELLS</Item>
-                            <Item>HERO_SKILL_CASTER_CERTIFICATE</Item>
-                            <Item>HERO_SKILL_MASTER_OF_ICE</Item>
-                            <Item>HERO_SKILL_MASTER_OF_LIGHTNINGS</Item>
-                            <Item>HERO_SKILL_MASTER_OF_FIRE</Item>
+                            <Item>HERO_SKILL_MAGIC_BOND</Item>
                             <Item>HERO_SKILL_ELEMENTAL_VISION</Item>
+                            <Item>HERO_SKILL_EMPOWERED_SPELLS</Item>
                         </dependenciesIDs>
                     </Item>
                 </SkillPrerequisites>
