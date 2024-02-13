@@ -286,20 +286,24 @@ function _FortressBorderGuardSummonCity(heroName)
     BlockGame()
     MakeTownMovable(MINI_TOWN[TOWN_FORTRESS])
     sleep(1)
-    local x, y, z = GetObjectPos(MINI_TOWN[TOWN_FORTRESS])
-    PlayVisualEffect("/Effects/_(Effect)/Spells/townportal_start.xdb#xpointer(/Effect)", MINI_TOWN[TOWN_FORTRESS], "", 0, 0, 0, 0, 0 )
-    if GetObjectOwner(MINI_TOWN[TOWN_FORTRESS]) == GetCurrentPlayer() then
-        Play3DSound("/Sounds/_(Sound)/Spells/TownTeleportStart.xdb#xpointer(/Sound)", x, y, z)
-    end
-    SetObjectOwner(MINI_TOWN[TOWN_FORTRESS], GetCurrentPlayer())
-    sleep(15)
-    SetObjectPos(MINI_TOWN[TOWN_FORTRESS], -2, -2, 0)
-    x, y, z = GetObjectPos(heroName)
+    local x, y, z = GetObjectPos(heroName)
     PlayVisualEffect( "/Effects/_(Effect)/Spells/townportal_end.xdb#xpointer(/Effect)", heroName, "", 0, 0, 0, 0, 0 )
     Play3DSound("/Sounds/_(Sound)/Spells/TownTeleportEnd.xdb#xpointer(/Sound)", x, y, z)
-    sleep(15)
-    SetObjectPos(MINI_TOWN[TOWN_FORTRESS], x, y, z)
+    sleep(5)
+    local x, y, z = GetObjectPos(MINI_TOWN[TOWN_FORTRESS])
+    PlayVisualEffect("/Effects/_(Effect)/Spells/townportal_start.xdb#xpointer(/Effect)", MINI_TOWN[TOWN_FORTRESS], "", 0, 0, 0, 0, 0 )
+    Play3DSound("/Sounds/_(Sound)/Spells/TownTeleportStart.xdb#xpointer(/Sound)", x, y, z)
+    sleep(10)
+    local x, y, z = GetObjectPos(heroName)
+    if GetObjectOwner(MINI_TOWN[TOWN_FORTRESS]) == PLAYER_NONE then
+        x = x + 1
+        SetObjectPos(MINI_TOWN[TOWN_FORTRESS], x, y, z)
+        x = x - 1
+    end
+    SetObjectOwner(MINI_TOWN[TOWN_FORTRESS], GetCurrentPlayer())
     sleep(1)
+    SetObjectPos(MINI_TOWN[TOWN_FORTRESS], x, y, z)
+    sleep(5)
     UnblockGame()
 end
 
