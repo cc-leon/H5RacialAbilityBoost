@@ -51,12 +51,12 @@
 	</duration>
 	<sSpellCost>
 		<Wood>0</Wood>
-		<Ore>1</Ore>
+		<Ore>0</Ore>
 		<Mercury>0</Mercury>
-		<Crystal>1</Crystal>
+		<Crystal>0</Crystal>
 		<Sulfur>0</Sulfur>
 		<Gem>0</Gem>
-		<Gold>0</Gold>
+		<Gold>50</Gold>
 	</sSpellCost>
 	<IsAreaAttack>false</IsAreaAttack>
 	<CanSelectDead>false</CanSelectDead>

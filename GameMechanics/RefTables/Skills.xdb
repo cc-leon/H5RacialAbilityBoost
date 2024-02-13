@@ -10566,7 +10566,7 @@
                         <Class>HERO_CLASS_RUNEMAGE</Class>
                         <dependenciesIDs>
                             <Item>HERO_SKILL_SET_AFIRE</Item>
-                            <Item>HERO_SKILL_REFRESH_RUNE</Item>
+                            <Item>HERO_SKILL_RUNIC_ARMOR</Item>
                         </dependenciesIDs>
                     </Item>
                 </SkillPrerequisites>
@@ -11144,12 +11144,6 @@
                         <Class>HERO_CLASS_WARLOCK</Class>
                         <dependenciesIDs>
                             <Item>HERO_SKILL_EMPOWERED_SPELLS</Item>
-                        </dependenciesIDs>
-                    </Item>
-                    <Item>
-                        <Class>HERO_CLASS_RUNEMAGE</Class>
-                        <dependenciesIDs>
-                            <Item>HERO_SKILL_REFRESH_RUNE</Item>
                         </dependenciesIDs>
                     </Item>
                 </SkillPrerequisites>
@@ -12187,7 +12181,7 @@
                     <Item>
                         <Class>HERO_CLASS_RUNEMAGE</Class>
                         <dependenciesIDs>
-                            <Item>HERO_SKILL_FINE_RUNE</Item>
+                            <Item>HERO_SKILL_TAP_RUNES</Item>
                         </dependenciesIDs>
                     </Item>
                 </SkillPrerequisites>
@@ -12402,16 +12396,11 @@
                     <Item href="/Text/Game/Skills/Unique/Runelore/RefreshRune/Description.txt"/>
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
-                <SkillType>SKILLTYPE_CLASS_PERK</SkillType>
-                <HeroClass>HERO_CLASS_RUNEMAGE</HeroClass>
+                <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
+                <HeroClass>HERO_CLASS_NONE</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_RUNELORE</BasicSkillID>
-                <SkillPrerequisites>
-                    <Item>
-                        <Class>HERO_CLASS_RUNEMAGE</Class>
-                        <dependenciesIDs/>
-                    </Item>
-                </SkillPrerequisites>
+                <BasicSkillID>HERO_SKILL_NONE</BasicSkillID>
+                <SkillPrerequisites/>
                 <AIRacesValues>
                     <Haven>
                         <CommanderValue>0</CommanderValue>
@@ -12544,16 +12533,11 @@
                     <Item href="/Text/Game/Skills/Unique/Runelore/FineRune/Description.txt"/>
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
-                <SkillType>SKILLTYPE_CLASS_PERK</SkillType>
-                <HeroClass>HERO_CLASS_RUNEMAGE</HeroClass>
+                <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
+                <HeroClass>HERO_CLASS_NONE</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_RUNELORE</BasicSkillID>
-                <SkillPrerequisites>
-                    <Item>
-                        <Class>HERO_CLASS_RUNEMAGE</Class>
-                        <dependenciesIDs/>
-                    </Item>
-                </SkillPrerequisites>
+                <BasicSkillID>HERO_SKILL_NONE</BasicSkillID>
+                <SkillPrerequisites/>
                 <AIRacesValues>
                     <Haven>
                         <CommanderValue>0</CommanderValue>
@@ -12742,7 +12726,7 @@
                     <Item>
                         <Class>HERO_CLASS_RUNEMAGE</Class>
                         <dependenciesIDs>
-                            <Item>HERO_SKILL_FINE_RUNE</Item>
+                            <Item>HERO_SKILL_TAP_RUNES</Item>
                         </dependenciesIDs>
                     </Item>
                 </SkillPrerequisites>
@@ -12807,18 +12791,11 @@
                     <Item href="/Text/Game/Skills/Common/Learning/TapRunes/Description.txt"/>
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
-                <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
-                <HeroClass>HERO_CLASS_NONE</HeroClass>
+                <SkillType>SKILLTYPE_CLASS_PERK</SkillType>
+                <HeroClass>HERO_CLASS_RUNEMAGE</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_LEARNING</BasicSkillID>
-                <SkillPrerequisites>
-                    <Item>
-                        <Class>HERO_CLASS_RUNEMAGE</Class>
-                        <dependenciesIDs>
-                            <Item>HERO_SKILL_EAGLE_EYE</Item>
-                        </dependenciesIDs>
-                    </Item>
-                </SkillPrerequisites>
+                <BasicSkillID>HERO_SKILL_RUNELORE</BasicSkillID>
+                <SkillPrerequisites/>
                 <AIRacesValues>
                     <Haven>
                         <CommanderValue>0</CommanderValue>
@@ -13614,19 +13591,11 @@
                     <Item href="/Text/Game/Skills/Common/SummoningMagic/RunicArmor/Description.txt"/>
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
-                <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
-                <HeroClass>HERO_CLASS_NONE</HeroClass>
+                <SkillType>SKILLTYPE_CLASS_PERK</SkillType>
+                <HeroClass>HERO_CLASS_RUNEMAGE</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_SUMMONING_MAGIC</BasicSkillID>
-                <SkillPrerequisites>
-                    <Item>
-                        <Class>HERO_CLASS_RUNEMAGE</Class>
-                        <dependenciesIDs>
-                            <Item>HERO_SKILL_MASTER_OF_QUAKES</Item>
-                            <Item>HERO_SKILL_ELEMENTAL_OVERKILL</Item>
-                        </dependenciesIDs>
-                    </Item>
-                </SkillPrerequisites>
+                <BasicSkillID>HERO_SKILL_RUNELORE</BasicSkillID>
+                <SkillPrerequisites/>
                 <AIRacesValues>
                     <Haven>
                         <CommanderValue>0</CommanderValue>
@@ -13699,7 +13668,7 @@
                         <Class>HERO_CLASS_RUNEMAGE</Class>
                         <dependenciesIDs>
                             <Item>HERO_SKILL_PREPARATION</Item>
-                            <Item>HERO_SKILL_RUNIC_ARMOR</Item>
+                            <Item>HERO_SKILL_FOG_VEIL</Item>
                             <Item>HERO_SKILL_MAGIC_CUSHION</Item>
                         </dependenciesIDs>
                     </Item>
