@@ -7,7 +7,8 @@ PARAM_RUNEMAGE_WAR_MACHINE_VISIT_COST = 100
 PARAM_WARLOCK_DARK_RITUAL_COST = 1000
 PARAM_WARLOCK_DARK_ACOLYTE_BASE_SAVING = 0.4
 PARAM_WARLOCK_DARK_ACOLYTE_PER_LEVEL_SAVING = 0.02
--- PARAM_ = 10
+PARAM_STRONGHOLD_WALKERS_HUT_COST = 200
+
 TOWN_NEUTRAL = 8
 
 DARK_ACOLYTE_HEORES = {"Almegir", "Shadwyn", "Thralsai", "Ferigl", "Segref", }
@@ -40,7 +41,8 @@ DESTRUCTIVE_SPELLS = {
 MINI_TOWN = {[TOWN_PRESERVE] = "RABMiniPreserve",
              [TOWN_ACADEMY] = "RABMiniAcademy",
              [TOWN_HEAVEN] = "RABMiniHaven",
-             [TOWN_FORTRESS] = "RABMiniFortress"};
+             [TOWN_FORTRESS] = "RABMiniFortress",
+             [TOWN_STRONGHOLD] = "RABMiniStronghold", };
 
 MINI_WAR_MACHINE_FACTORY = "RABMiniWarMachineFactory"
 
@@ -258,3 +260,23 @@ WALOCK_IRRESISTABLE_MAGIC_TEXT = {
 KNOWLEDGE_ATTRIBUTE_TEXT = "/GameMechanics/RefTables/HeroAttribute/Knowledge.txt"
 
 PRESERVE_SPECIAL_0_TEXT = "/Text/Game/TownBuildings/Preserve/Special_0/Name.txt"
+
+BARBARIAN_SKILL_TEXT = {
+    [HERO_SKILL_VOICE] = {[1] = "/Text/Game/Skills/BarbarianSpec/Voice/1/Name.txt", 
+                          [2] = "/Text/Game/Skills/BarbarianSpec/Voice/2/Name.txt",
+                          [3] = "/Text/Game/Skills/BarbarianSpec/Voice/3/Name.txt", },
+    [HERO_SKILL_BARBARIAN_LEARNING] = {[1] = "/Text/Game/Skills/Common/Learning/1/Name.txt",
+                                       [2] = "/Text/Game/Skills/Common/Learning/2/Name.txt",
+                                       [3] = "/Text/Game/Skills/Common/Learning/3/Name.txt", },
+    [HERO_SKILL_SHATTER_DESTRUCTIVE_MAGIC] = {[1] = "/Text/Game/Skills/BarbarianSpec/DestructiveMagic/1/Name.txt",
+                                              [2] = "/Text/Game/Skills/BarbarianSpec/DestructiveMagic/2/Name.txt",
+                                              [3] = "/Text/Game/Skills/BarbarianSpec/DestructiveMagic/3/Name.txt", },
+    [HERO_SKILL_SHATTER_DARK_MAGIC] = {[1] = "/Text/Game/Skills/BarbarianSpec/DarkMagic/1/Name.txt",
+                                       [2] = "/Text/Game/Skills/BarbarianSpec/DarkMagic/2/Name.txt",
+                                       [3] = "/Text/Game/Skills/BarbarianSpec/DarkMagic/3/Name.txt",},
+    [HERO_SKILL_SHATTER_LIGHT_MAGIC] = {[1] = "/Text/Game/Skills/BarbarianSpec/LightMagic/1/Name.txt",
+                                        [2] = "/Text/Game/Skills/BarbarianSpec/LightMagic/2/Name.txt",
+                                        [3] = "/Text/Game/Skills/BarbarianSpec/LightMagic/3/Name.txt", },
+    [HERO_SKILL_SHATTER_SUMMONING_MAGIC] = {[1] = "/Text/Game/Skills/BarbarianSpec/SummoningMagic/1/Name.txt",
+                                            [2] = "/Text/Game/Skills/BarbarianSpec/SummoningMagic/2/Name.txt",
+                                            [3] = "/Text/Game/Skills/BarbarianSpec/SummoningMagic/3/Name.txt",}, }

@@ -22,6 +22,9 @@ g_tabDunegonUsedDarkRitual = {}  -- trace if a hero has used dark ritual per day
 g_tabDungeonIrresistableKnowledge = {}  -- trace if knowledge has been awarded based on irresitable magic
 g_tabHavenUsedTraining = {}  -- trace if a faction has used its haven training quota
 g_tabPreserveUsedSettingEnemy = {}  -- trace if a hero has used setting enemy on a day
+g_tabStrongholdUsedWalksHut = {}  -- trace if a hero has used walk's hut on a day
+g_tabStrongholdShatterMagicLearnt = {}  -- trace if a hero has learnt shatter magic
+g_tabStrongholdEnlightenmentShoutLearnt = {}  -- trace if a hero has learnt enlightenment or shout
 
 function RacialAbilityBoost(heroName, customAbilityID)
     if customAbilityID == CUSTOM_ABILITY_3 then
@@ -79,7 +82,9 @@ function RacialAbilityBoost(heroName, customAbilityID)
                 RAB_TXT.."RABTalkBoxTitle.txt",
                 "_PreserveAbilityCallback", options)
         elseif heroRace == TOWN_STRONGHOLD then
-            local options = {[1] = RAB_TXT.."StrongholdOption1.txt"}
+            local options = {[1] = RAB_TXT.."StrongholdOption1.txt",
+                             [2] = {RAB_TXT.."StrongholdOption2.txt"; movement = PARAM_STRONGHOLD_WALKERS_HUT_COST}, 
+                             [3] = RAB_TXT.."StrongholdOption3.txt", }
             _PagedTalkBox(
                 PORT_STRONGHOLD,
                 RAB_TXT.."dummy2.txt",
@@ -419,9 +424,12 @@ end
 function _StrongholdAbilityCallback(cNum)
     if cNum == 1 then
         _StrongholdTeachWarcries(g_tabCallbackParams[1])
+    elseif cNum == 2 then
+        _StrongholdUseWalksHut(g_tabCallbackParams[1])
+    elseif cNum == 3 then
+        _StrongholdLearnSkill(g_tabCallbackParams[1])
     end
 end
-
 
 function _StrongholdTeachWarcries(heroName)
     local options = {}
@@ -479,6 +487,109 @@ function _StrongholdTeachWarcriesCallback(cNum)
     end
 end
 
+function _StrongholdUseWalksHut(heroName)
+    if not _checkMovementCondition(heroName, PARAM_STRONGHOLD_WALKERS_HUT_COST) then
+        return
+    end
+
+    local drKey = heroName..GetDate(ABSOLUTE_DAY)
+    if g_tabStrongholdUsedWalksHut[drKey] == nil then
+        _forceHeroInteractWithObject(heroName, MINI_TOWN[TOWN_STRONGHOLD], true)
+        g_tabStrongholdUsedWalksHut[drKey] = true
+    else
+        MessageBox({RAB_TXT.."DailyLimitCheckFailure.txt"; times = 1, days = 1, limit = 1}, "")
+    end
+end
+
+function _StrongholdLearnSkill(heroName)
+    local options = {}
+    local skillMatrix = {}
+    local skills = {[1] = HERO_SKILL_VOICE, [2] = HERO_SKILL_BARBARIAN_LEARNING, [3] = HERO_SKILL_SHATTER_DESTRUCTIVE_MAGIC,
+                    [4] = HERO_SKILL_SHATTER_DARK_MAGIC, [5] = HERO_SKILL_SHATTER_LIGHT_MAGIC, [6] = HERO_SKILL_SHATTER_SUMMONING_MAGIC, }
+
+    local talkBoxDescription = {RAB_TXT.."StrongholdLearnSkillsTalkBoxDescription.txt"; race = RACE2TEXT[TOWN_STRONGHOLD], class = CLASS2TEXT[TOWN_STRONGHOLD]}
+    if g_tabStrongholdEnlightenmentShoutLearnt[heroName] == true and g_tabStrongholdShatterMagicLearnt[heroName] == nil then
+        talkBoxDescription = {RAB_TXT.."StrongholdLearnSkillsTalkBoxDescriptionType1.txt"; race = RACE2TEXT[TOWN_STRONGHOLD], class = CLASS2TEXT[TOWN_STRONGHOLD]}
+    elseif g_tabStrongholdEnlightenmentShoutLearnt[heroName] == nil and g_tabStrongholdShatterMagicLearnt[heroName] == true then
+        talkBoxDescription = {RAB_TXT.."StrongholdLearnSkillsTalkBoxDescriptionType2.txt"; race = RACE2TEXT[TOWN_STRONGHOLD], class = CLASS2TEXT[TOWN_STRONGHOLD]}
+    elseif g_tabStrongholdEnlightenmentShoutLearnt[heroName] == true and g_tabStrongholdShatterMagicLearnt[heroName] == true then
+        MessageBox(RAB_TXT.."StrongholdLearnSkillsAlready3.txt", "")
+        return
+    end
+
+    for i, skillId in skills do
+        skillLevel = GetHeroSkillMastery(heroName, skillId)
+        if skillLevel >= 3 then
+            options[i] = {RAB_TXT.."StrongholdLearnSkillsInvalidOption.txt"; skill = BARBARIAN_SKILL_TEXT[skillId][3]}
+        else
+            options[i] = {RAB_TXT.."StrongholdLearnSkillsValidOption.txt"; skill = BARBARIAN_SKILL_TEXT[skillId][skillLevel + 1]}
+        end
+        skillMatrix[i] = {["id"] = skillId, ["level"] = skillLevel, }
+    end
+
+    g_tabCallbackParams[1] = heroName
+    g_tabCallbackParams[2] = skillMatrix
+
+    _PagedTalkBox(
+        PORT_STRONGHOLD,
+        RAB_TXT.."dummy2.txt",
+        talkBoxDescription,
+        RAB_TXT.."RABTalkBoxTitle.txt",
+        "_StrongholdLearnSkillCallback", options)
+end
+
+function _StrongholdLearnSkillCallback(cNum)
+    local heroName = g_tabCallbackParams[1]
+    if cNum >= 1 then
+        local skillMatrix = g_tabCallbackParams[2]
+        local skillId = skillMatrix[cNum]["id"]
+        local skillLevel = skillMatrix[cNum]["level"]
+        local numMainSkills = _getHeroNumMainSkillLearnt(heroName)
+
+        local enlightenmentOrShout = {HERO_SKILL_BARBARIAN_LEARNING, HERO_SKILL_VOICE}
+        local shatterMagic = {HERO_SKILL_SHATTER_DARK_MAGIC, HERO_SKILL_SHATTER_DESTRUCTIVE_MAGIC,
+                              HERO_SKILL_SHATTER_LIGHT_MAGIC, HERO_SKILL_SHATTER_SUMMONING_MAGIC}
+
+        if skillLevel >= 3 then
+            MessageBox({RAB_TXT.."StrongholdLearnSkillsInvalidOption.txt"; skill = BARBARIAN_SKILL_TEXT[skillId][3]}, "")
+            return
+        end
+
+        if skillLevel == 0 and numMainSkills >= 6 then
+            MessageBox(RAB_TXT.."StrongholdLearnSkillsNoSlots.txt", "")
+            return
+        end
+
+        if contains(enlightenmentOrShout, skillId) then
+            if g_tabStrongholdEnlightenmentShoutLearnt[heroName] == true then
+                MessageBox(RAB_TXT.."StrongholdLearnSkillsAlready1.txt", "")
+                return
+            else
+                g_tabStrongholdEnlightenmentShoutLearnt[heroName] = true
+            end
+        end
+
+        if contains(shatterMagic, skillId) then
+            if g_tabStrongholdShatterMagicLearnt[heroName] == true then
+                MessageBox(RAB_TXT.."StrongholdLearnSkillsAlready2.txt", "")
+                return
+            else
+                g_tabStrongholdShatterMagicLearnt[heroName] = true
+            end
+        end
+
+        BlockGame()
+        GiveHeroSkill(heroName, skillId)
+        ShowFlyMessage({RAB_TXT.."StrongholdLearnSkillsFlyMessage.txt"; skill = BARBARIAN_SKILL_TEXT[skillId][skillLevel + 1]},
+                       heroName, GetCurrentPlayer(), 5)
+        sleep(3)
+        UnblockGame()
+
+    else
+        RacialAbilityBoost(heroName, CUSTOM_ABILITY_4)
+    end
+end
+
 function _rab_hireHero(heroName)
     if STACK_SPLIT_LOADED == true then
         ControlHeroCustomAbility(heroName, CUSTOM_ABILITY_3, CUSTOM_ABILITY_ENABLED)
@@ -513,6 +624,5 @@ function RABInitialization()
     print("Racial Ability Boost module successfully loaded!")
     UnblockGame()
 end
-
 
 RABInitialization()

@@ -132,6 +132,11 @@ function _checkMovementCondition(heroName, cost)
 end
 
 function _forceHeroInteractWithObject(heroName, objectName, ownable)
+    if not IsObjectExists(objectName) then
+        MessageBox(RAB_TXT.."MissingObjectWarning.txt")
+        return nil
+    end
+
     local x, y, z = GetObjectPos(heroName)
     BlockGame()
     if ownable == true then
@@ -215,4 +220,27 @@ function _currentPlayerResourceCheck(heroName, resourceCosts)
     end
     UnblockGame()
     return true
+end
+
+function _getHeroNumMainSkillLearnt(heroName)
+    local skillsToCheck = {
+        SKILL_LOGISTICS,  SKILL_WAR_MACHINES, SKILL_LEARNING,
+        SKILL_LEADERSHIP, SKILL_LUCK,         SKILL_OFFENCE,
+        SKILL_DEFENCE,    SKILL_SORCERY,      SKILL_DESTRUCTIVE_MAGIC,
+        SKILL_DARK_MAGIC, SKILL_LIGHT_MAGIC,  SKILL_SUMMONING_MAGIC,
+        SKILL_TRAINING,   SKILL_GATING,       SKILL_NECROMANCY,
+        SKILL_AVENGER,    SKILL_ARTIFICIER,   SKILL_INVOCATION,
+        HERO_SKILL_RUNELORE,                  HERO_SKILL_DEMONIC_RAGE,
+        -- HERO_SKILL_BARBARIAN_LEARNING,
+        HERO_SKILL_VOICE,
+        HERO_SKILL_SHATTER_DESTRUCTIVE_MAGIC, HERO_SKILL_SHATTER_DARK_MAGIC,
+        HERO_SKILL_SHATTER_LIGHT_MAGIC,       HERO_SKILL_SHATTER_SUMMONING_MAGIC, }
+    local result = 0
+
+    for i, skillId in skillsToCheck do
+        if GetHeroSkillMastery(heroName, skillId) > 0 then
+            result = result + 1
+        end
+    end
+    return result
 end
