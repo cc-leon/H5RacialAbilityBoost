@@ -12,7 +12,7 @@ PARAM_STRONGHOLD_WALKERS_HUT_COST = 200
 TOWN_NEUTRAL = 8
 
 DARK_ACOLYTE_HEORES = {"Almegir", "Shadwyn", "Thralsai", "Ferigl", "Segref", }
-BORDERGUARD_HEROES = {"Wulfstan", }
+BORDERGUARD_HEROES = {"Wulfstan", "Brand"}
 
 -- Rune spell info
 

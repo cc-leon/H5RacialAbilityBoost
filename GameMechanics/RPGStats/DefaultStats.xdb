@@ -190,7 +190,7 @@
                         <Crystal>0</Crystal>
                         <Sulfur>0</Sulfur>
                         <Gem>0</Gem>
-                        <Gold>500</Gold>
+                        <Gold>200</Gold>
                     </CostOfUpgrade>
                     <HeroLevel>0</HeroLevel>
                 </Item>
@@ -203,7 +203,7 @@
                         <Crystal>0</Crystal>
                         <Sulfur>0</Sulfur>
                         <Gem>0</Gem>
-                        <Gold>500</Gold>
+                        <Gold>300</Gold>
                     </CostOfUpgrade>
                     <HeroLevel>10</HeroLevel>
                 </Item>
@@ -216,7 +216,7 @@
                         <Crystal>0</Crystal>
                         <Sulfur>0</Sulfur>
                         <Gem>0</Gem>
-                        <Gold>800</Gold>
+                        <Gold>400</Gold>
                     </CostOfUpgrade>
                     <HeroLevel>15</HeroLevel>
                 </Item>
@@ -229,7 +229,7 @@
                         <Crystal>0</Crystal>
                         <Sulfur>0</Sulfur>
                         <Gem>0</Gem>
-                        <Gold>1000</Gold>
+                        <Gold>500</Gold>
                     </CostOfUpgrade>
                     <HeroLevel>20</HeroLevel>
                 </Item>
@@ -413,25 +413,25 @@
             <Stronghold>
                 <DemonRage>
                     <RPForLevel1>200</RPForLevel1>
-                    <RPForLevel2>500</RPForLevel2>
-                    <RPForLevel3>1000</RPForLevel3>
+                    <RPForLevel2>400</RPForLevel2>
+                    <RPForLevel3>600</RPForLevel3>
                     <StartRP>0</StartRP>
-                    <EnemyStackKilledRP>20</EnemyStackKilledRP>
-                    <FriendlyStackKilledRP>30</FriendlyStackKilledRP>
+                    <EnemyStackKilledRP>80</EnemyStackKilledRP>
+                    <FriendlyStackKilledRP>50</FriendlyStackKilledRP>
                     <FriendlyStackKilledRPEnraged>60</FriendlyStackKilledRPEnraged>
                     <HeroAttackRP>0</HeroAttackRP>
                     <ReceiveHeroAttackRP>0</ReceiveHeroAttackRP>
                     <MeleeAtackRP>100</MeleeAtackRP>
                     <RecevieMeleeAttackRP>0</RecevieMeleeAttackRP>
-                    <RangedAttackRP>50</RangedAttackRP>
+                    <RangedAttackRP>80</RangedAttackRP>
                     <ReceiveRangedAttackRP>0</ReceiveRangedAttackRP>
                     <CastSpellRP>40</CastSpellRP>
                     <ReceiveDDSpellRP>0</ReceiveDDSpellRP>
                     <ReceiveCurseRP>10</ReceiveCurseRP>
                     <ReceiveMoatDamageRP>0</ReceiveMoatDamageRP>
                     <MoveRP>0</MoveRP>
-                    <DefendRP>-30</DefendRP>
-                    <WaitRP>-100</WaitRP>
+                    <DefendRP>-10</DefendRP>
+                    <WaitRP>-50</WaitRP>
                     <BadMoraleRP>-80</BadMoraleRP>
                     <UseGoblinRP>60</UseGoblinRP>
                     <UseCowardiceRP>-100</UseCowardiceRP>
@@ -445,13 +445,13 @@
                     <LifeDrainedRP>-90</LifeDrainedRP>
                     <WeakenedRP>-90</WeakenedRP>
                     <RPCoefPowerOfBlood>1.5</RPCoefPowerOfBlood>
-                    <AbsoluteRageRP>500</AbsoluteRageRP>
+                    <AbsoluteRageRP>1000</AbsoluteRageRP>
                     <UltimateBloodRage_RageForLevelDecrease>0.25</UltimateBloodRage_RageForLevelDecrease>
-                    <MemoryOfOurBlood_MinRP>50</MemoryOfOurBlood_MinRP>
-                    <MemoryOfOurBlood_MaxRP>100</MemoryOfOurBlood_MaxRP>
+                    <MemoryOfOurBlood_MinRP>100</MemoryOfOurBlood_MinRP>
+                    <MemoryOfOurBlood_MaxRP>150</MemoryOfOurBlood_MaxRP>
                     <MemoryOfOurBlood_RPStep>10</MemoryOfOurBlood_RPStep>
-                    <BattleElation_RPOnGoodMorale>50</BattleElation_RPOnGoodMorale>
-                    <PileOfOurFoes_StartRPBonus>50</PileOfOurFoes_StartRPBonus>
+                    <BattleElation_RPOnGoodMorale>80</BattleElation_RPOnGoodMorale>
+                    <PileOfOurFoes_StartRPBonus>100</PileOfOurFoes_StartRPBonus>
                     <DemonHunter_RPBonusPerHeroLevel>
                         <Base>10</Base>
                         <LevelDivisor>1</LevelDivisor>
@@ -1810,15 +1810,15 @@
                 <PowerfullBlow_ChanceToCritical>10</PowerfullBlow_ChanceToCritical>
                 <PathOfWar_MovePointsBonus>250</PathOfWar_MovePointsBonus>
                 <LuckOfTheBarbarian_MagicProofPerLuck>0.05</LuckOfTheBarbarian_MagicProofPerLuck>
-                <StunningBlow_ATBDrop>0.1</StunningBlow_ATBDrop>
+                <StunningBlow_ATBDrop>0.6</StunningBlow_ATBDrop>
                 <DefendUsAll_CreatureToCount>CREATURE_ORC_WARRIOR</DefendUsAll_CreatureToCount>
                 <DefendUsAll_CreatureCountMultiplier>2</DefendUsAll_CreatureCountMultiplier>
                 <GoblinSupport_GoblinsIncomePerDay>1</GoblinSupport_GoblinsIncomePerDay>
                 <Bodybuilding_HPBonusPercent>10</Bodybuilding_HPBonusPercent>
-                <VoiceTraining_WarcryCostDiscount>0.2</VoiceTraining_WarcryCostDiscount>
+                <VoiceTraining_WarcryCostDiscount>0.4</VoiceTraining_WarcryCostDiscount>
                 <DeathToNonexistent_DamageToSummonsMult>3</DeathToNonexistent_DamageToSummonsMult>
-                <MightyVoice_HeroLevelBonus>5</MightyVoice_HeroLevelBonus>
-                <VoiceOfRage_RageMultCallOfBlood>1.5</VoiceOfRage_RageMultCallOfBlood>
+                <MightyVoice_HeroLevelBonus>8</MightyVoice_HeroLevelBonus>
+                <VoiceOfRage_RageMultCallOfBlood>2</VoiceOfRage_RageMultCallOfBlood>
                 <VoiceOfRage_RageMultOther>2</VoiceOfRage_RageMultOther>
                 <BasicShatterMagic>
                     <SpellTrainedDecrease>
@@ -2142,16 +2142,16 @@
                 </DamageMultiplier>
             </DeepFreeze>
             <Warcries>
-                <RPToArmyOnWarcryLevel1>20</RPToArmyOnWarcryLevel1>
-                <RPToArmyOnWarcryLevel2>30</RPToArmyOnWarcryLevel2>
-                <RPToArmyOnWarcryLevel3>40</RPToArmyOnWarcryLevel3>
+                <RPToArmyOnWarcryLevel1>50</RPToArmyOnWarcryLevel1>
+                <RPToArmyOnWarcryLevel2>70</RPToArmyOnWarcryLevel2>
+                <RPToArmyOnWarcryLevel3>100</RPToArmyOnWarcryLevel3>
                 <RallingCry_MoraleBonus>
                     <Base>1</Base>
                     <LevelDivisor>8</LevelDivisor>
                     <PerDividedLevel>1</PerDividedLevel>
                 </RallingCry_MoraleBonus>
                 <RallingCry_Duration>3</RallingCry_Duration>
-                <CallOfBlood_RPPerCasterLevel>10</CallOfBlood_RPPerCasterLevel>
+                <CallOfBlood_RPPerCasterLevel>20</CallOfBlood_RPPerCasterLevel>
                 <WordOfTheChief_ATBBonusBase>0.1</WordOfTheChief_ATBBonusBase>
                 <WordOfTheChief_ATBBonusPerCasterLevel>0.02</WordOfTheChief_ATBBonusPerCasterLevel>
                 <WordOfTheChief_RPBonus>30</WordOfTheChief_RPBonus>

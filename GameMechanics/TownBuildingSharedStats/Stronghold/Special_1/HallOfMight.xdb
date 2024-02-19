@@ -7,11 +7,11 @@
 	<Cost>
 		<Wood>5</Wood>
 		<Ore>5</Ore>
-		<Mercury>4</Mercury>
-		<Crystal>4</Crystal>
-		<Sulfur>4</Sulfur>
-		<Gem>4</Gem>
-		<Gold>4000</Gold>
+		<Mercury>2</Mercury>
+		<Crystal>2</Crystal>
+		<Sulfur>2</Sulfur>
+		<Gem>2</Gem>
+		<Gold>1000</Gold>
 	</Cost>
 	<ModObjectName>Special_1</ModObjectName>
 	<dependencies>

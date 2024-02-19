@@ -5250,8 +5250,8 @@
                     <Item>
                         <Class>HERO_CLASS_BARBARIAN</Class>
                         <dependenciesIDs>
-                            <Item>HERO_SKILL_BATTLE_ELATION</Item>
-                            <Item>HERO_SKILL_STUNNING_BLOW</Item>
+                            <Item>HERO_SKILL_FAST_AND_FURIOUS</Item>
+                            <Item>HERO_SKILL_CRITICAL_STRIKE</Item>
                         </dependenciesIDs>
                     </Item>
                 </SkillPrerequisites>
@@ -5363,7 +5363,7 @@
                         <Class>HERO_CLASS_BARBARIAN</Class>
                         <dependenciesIDs>
                             <Item>HERO_SKILL_FRENZY</Item>
-                            <Item>HERO_SKILL_BATTLE_ELATION</Item>
+                            <Item>HERO_SKILL_FAST_AND_FURIOUS</Item>
                         </dependenciesIDs>
                     </Item>
                 </SkillPrerequisites>
@@ -6546,7 +6546,7 @@
                         <Class>HERO_CLASS_BARBARIAN</Class>
                         <dependenciesIDs>
                             <Item>HERO_SKILL_GOBLIN_SUPPORT</Item>
-                            <Item>HERO_SKILL_MIGHT_OVER_MAGIC</Item>
+                            <Item>HERO_SKILL_BARBARIAN_ELITE_CASTERS</Item>
                         </dependenciesIDs>
                     </Item>
                 </SkillPrerequisites>
@@ -14289,11 +14289,18 @@
                     <Item href="/Text/Game/Skills/Unique/DemonicRage/MightOverMagic/Description.txt"/>
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
-                <SkillType>SKILLTYPE_CLASS_PERK</SkillType>
+                <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
                 <HeroClass>HERO_CLASS_BARBARIAN</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_DEMONIC_RAGE</BasicSkillID>
-                <SkillPrerequisites/>
+                <BasicSkillID>HERO_SKILL_VOICE</BasicSkillID>
+                <SkillPrerequisites>
+                    <Item>
+                        <Class>HERO_CLASS_BARBARIAN</Class>
+                        <dependenciesIDs>
+                            <Item>HERO_SKILL_VOICE_TRAINING</Item>
+                        </dependenciesIDs>
+                    </Item>
+                </SkillPrerequisites>
                 <AIRacesValues>
                     <Haven>
                         <CommanderValue>0</CommanderValue>
@@ -14355,10 +14362,10 @@
                     <Item href="/Text/Game/Skills/Unique/DemonicRage/MemoryOfOurBlood/Description.txt"/>
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
-                <SkillType>SKILLTYPE_CLASS_PERK</SkillType>
+                <SkillType>SKILLTYPE_STANDART_PERK</SkillType>
                 <HeroClass>HERO_CLASS_BARBARIAN</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_DEMONIC_RAGE</BasicSkillID>
+                <BasicSkillID>HERO_SKILL_BARBARIAN_LEARNING</BasicSkillID>
                 <SkillPrerequisites/>
                 <AIRacesValues>
                     <Haven>
@@ -14421,10 +14428,10 @@
                     <Item href="/Text/Game/Skills/Unique/DemonicRage/PowerfullBlow/Description.txt"/>
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
-                <SkillType>SKILLTYPE_CLASS_PERK</SkillType>
-                <HeroClass>HERO_CLASS_BARBARIAN</HeroClass>
+                <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
+                <HeroClass>HERO_CLASS_NONE</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_DEMONIC_RAGE</BasicSkillID>
+                <BasicSkillID>HERO_SKILL_NONE</BasicSkillID>
                 <SkillPrerequisites/>
                 <AIRacesValues>
                     <Haven>
@@ -14678,14 +14685,13 @@
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
                 <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
-                <HeroClass>HERO_CLASS_NONE</HeroClass>
+                <HeroClass>HERO_CLASS_BARBARIAN</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_LEADERSHIP</BasicSkillID>
+                <BasicSkillID>HERO_SKILL_BARBARIAN_LEARNING</BasicSkillID>
                 <SkillPrerequisites>
                     <Item>
                         <Class>HERO_CLASS_BARBARIAN</Class>
                         <dependenciesIDs>
-                            <Item>HERO_SKILL_RECRUITMENT</Item>
                             <Item>HERO_SKILL_MEMORY_OF_OUR_BLOOD</Item>
                         </dependenciesIDs>
                     </Item>
@@ -14826,19 +14832,11 @@
                     <Item href="/Text/Game/Skills/Common/Offence/StunningBlow/Description.txt"/>
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
-                <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
-                <HeroClass>HERO_CLASS_NONE</HeroClass>
+                <SkillType>SKILLTYPE_CLASS_PERK</SkillType>
+                <HeroClass>HERO_CLASS_BARBARIAN</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_OFFENCE</BasicSkillID>
-                <SkillPrerequisites>
-                    <Item>
-                        <Class>HERO_CLASS_BARBARIAN</Class>
-                        <dependenciesIDs>
-                            <Item>HERO_SKILL_FRENZY</Item>
-                            <Item>HERO_SKILL_POWERFULL_BLOW</Item>
-                        </dependenciesIDs>
-                    </Item>
-                </SkillPrerequisites>
+                <BasicSkillID>HERO_SKILL_DEMONIC_RAGE</BasicSkillID>
+                <SkillPrerequisites/>
                 <AIRacesValues>
                     <Haven>
                         <CommanderValue>0</CommanderValue>
@@ -15184,11 +15182,18 @@
                     <Item href="/Text/Game/Skills/BarbarianSpec/Learning/WarcryLearning/Description.txt"/>
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
-                <SkillType>SKILLTYPE_STANDART_PERK</SkillType>
-                <HeroClass>HERO_CLASS_NONE</HeroClass>
+                <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
+                <HeroClass>HERO_CLASS_BARBARIAN</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_BARBARIAN_LEARNING</BasicSkillID>
-                <SkillPrerequisites/>
+                <BasicSkillID>HERO_SKILL_VOICE</BasicSkillID>
+                <SkillPrerequisites>
+                    <Item>
+                        <Class>HERO_CLASS_BARBARIAN</Class>
+                        <dependenciesIDs>
+                            <Item>HERO_SKILL_BARBARIAN_INTELLIGENCE</Item>
+                        </dependenciesIDs>
+                    </Item>
+                </SkillPrerequisites>
                 <AIRacesValues>
                     <Haven>
                         <CommanderValue>0</CommanderValue>
@@ -15250,11 +15255,18 @@
                     <Item href="/Text/Game/Skills/BarbarianSpec/Learning/Bodybuilding/Description.txt"/>
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
-                <SkillType>SKILLTYPE_STANDART_PERK</SkillType>
-                <HeroClass>HERO_CLASS_NONE</HeroClass>
+                <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
+                <HeroClass>HERO_CLASS_BARBARIAN</HeroClass>
                 <spellBuffs/>
                 <BasicSkillID>HERO_SKILL_BARBARIAN_LEARNING</BasicSkillID>
-                <SkillPrerequisites/>
+                <SkillPrerequisites>
+                    <Item>
+                        <Class>HERO_CLASS_BARBARIAN</Class>
+                        <dependenciesIDs>
+                            <Item>HERO_SKILL_POWER_OF_BLOOD</Item>
+                        </dependenciesIDs>
+                    </Item>
+                </SkillPrerequisites>
                 <AIRacesValues>
                     <Haven>
                         <CommanderValue>0</CommanderValue>
@@ -15454,18 +15466,11 @@
                     <Item href="/Text/Game/Skills/BarbarianSpec/Voice/MightyVoice/Description.txt"/>
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
-                <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
-                <HeroClass>HERO_CLASS_NONE</HeroClass>
+                <SkillType>SKILLTYPE_CLASS_PERK</SkillType>
+                <HeroClass>HERO_CLASS_BARBARIAN</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_VOICE</BasicSkillID>
-                <SkillPrerequisites>
-                    <Item>
-                        <Class>HERO_CLASS_BARBARIAN</Class>
-                        <dependenciesIDs>
-                            <Item>HERO_SKILL_VOICE_TRAINING</Item>
-                        </dependenciesIDs>
-                    </Item>
-                </SkillPrerequisites>
+                <BasicSkillID>HERO_SKILL_DEMONIC_RAGE</BasicSkillID>
+                <SkillPrerequisites/>
                 <AIRacesValues>
                     <Haven>
                         <CommanderValue>0</CommanderValue>
@@ -15528,15 +15533,10 @@
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
                 <SkillType>SKILLTYPE_STANDART_PERK</SkillType>
-                <HeroClass>HERO_CLASS_NONE</HeroClass>
+                <HeroClass>HERO_CLASS_BARBARIAN</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_VOICE</BasicSkillID>
-                <SkillPrerequisites>
-                    <Item>
-                        <Class>HERO_CLASS_BARBARIAN</Class>
-                        <dependenciesIDs/>
-                    </Item>
-                </SkillPrerequisites>
+                <BasicSkillID>HERO_SKILL_BARBARIAN_LEARNING</BasicSkillID>
+                <SkillPrerequisites/>
                 <AIRacesValues>
                     <Haven>
                         <CommanderValue>0</CommanderValue>
@@ -16688,7 +16688,7 @@
                     <Item>
                         <Class>HERO_CLASS_BARBARIAN</Class>
                         <dependenciesIDs>
-                            <Item>HERO_SKILL_MIGHT_OVER_MAGIC</Item>
+                            <Item>HERO_SKILL_BARBARIAN_ELITE_CASTERS</Item>
                         </dependenciesIDs>
                     </Item>
                 </SkillPrerequisites>
@@ -16762,8 +16762,8 @@
                         <Class>HERO_CLASS_BARBARIAN</Class>
                         <dependenciesIDs>
                             <Item>HERO_SKILL_CORRUPT_DESTRUCTIVE</Item>
-                            <Item>HERO_SKILL_MIGHT_OVER_MAGIC</Item>
-                            <Item>HERO_SKILL_POWERFULL_BLOW</Item>
+                            <Item>HERO_SKILL_BARBARIAN_ELITE_CASTERS</Item>
+                            <Item>HERO_SKILL_STUNNING_BLOW</Item>
                         </dependenciesIDs>
                     </Item>
                 </SkillPrerequisites>
@@ -16837,7 +16837,7 @@
                         <Class>HERO_CLASS_BARBARIAN</Class>
                         <dependenciesIDs>
                             <Item>HERO_SKILL_CORRUPT_DARK</Item>
-                            <Item>HERO_SKILL_POWERFULL_BLOW</Item>
+                            <Item>HERO_SKILL_STUNNING_BLOW</Item>
                         </dependenciesIDs>
                     </Item>
                 </SkillPrerequisites>
@@ -17048,22 +17048,15 @@
                     <Item href="/Text/Game/Skills/Common/Learning/Intelligence/Description.txt"/>
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
-                <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
-                <HeroClass>HERO_CLASS_NONE</HeroClass>
+                <SkillType>SKILLTYPE_STANDART_PERK</SkillType>
+                <HeroClass>HERO_CLASS_BARBARIAN</HeroClass>
                 <spellBuffs>
                     <Item>SPELL_NONE</Item>
                     <Item>SPELL_NONE</Item>
                     <Item>SPELL_NONE</Item>
                 </spellBuffs>
-                <BasicSkillID>HERO_SKILL_BARBARIAN_LEARNING</BasicSkillID>
-                <SkillPrerequisites>
-                    <Item>
-                        <Class>HERO_CLASS_BARBARIAN</Class>
-                        <dependenciesIDs>
-                            <Item>HERO_SKILL_WARCRY_LEARNING</Item>
-                        </dependenciesIDs>
-                    </Item>
-                </SkillPrerequisites>
+                <BasicSkillID>HERO_SKILL_VOICE</BasicSkillID>
+                <SkillPrerequisites/>
                 <AIRacesValues>
                     <Haven>
                         <CommanderValue>0</CommanderValue>
@@ -17191,18 +17184,11 @@
                     <Item href="/Text/Game/Skills/Common/LightMagic/EliteCasters/Description.txt"/>
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
-                <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
-                <HeroClass>HERO_CLASS_NONE</HeroClass>
+                <SkillType>SKILLTYPE_CLASS_PERK</SkillType>
+                <HeroClass>HERO_CLASS_BARBARIAN</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_SHATTER_LIGHT_MAGIC</BasicSkillID>
-                <SkillPrerequisites>
-                    <Item>
-                        <Class>HERO_CLASS_BARBARIAN</Class>
-                        <dependenciesIDs>
-                            <Item>HERO_SKILL_CORRUPT_LIGHT</Item>
-                        </dependenciesIDs>
-                    </Item>
-                </SkillPrerequisites>
+                <BasicSkillID>HERO_SKILL_DEMONIC_RAGE</BasicSkillID>
+                <SkillPrerequisites/>
                 <AIRacesValues>
                     <Haven>
                         <CommanderValue>1000</CommanderValue>
@@ -17265,14 +17251,14 @@
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
                 <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
-                <HeroClass>HERO_CLASS_NONE</HeroClass>
+                <HeroClass>HERO_CLASS_BARBARIAN</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_SHATTER_LIGHT_MAGIC</BasicSkillID>
+                <BasicSkillID>HERO_SKILL_BARBARIAN_LEARNING</BasicSkillID>
                 <SkillPrerequisites>
                     <Item>
                         <Class>HERO_CLASS_BARBARIAN</Class>
                         <dependenciesIDs>
-                            <Item>HERO_SKILL_DETAIN_LIGHT</Item>
+                            <Item>HERO_SKILL_VOICE_OF_RAGE</Item>
                         </dependenciesIDs>
                     </Item>
                 </SkillPrerequisites>
@@ -17347,7 +17333,7 @@
                     <Item>
                         <Class>HERO_CLASS_BARBARIAN</Class>
                         <dependenciesIDs>
-                            <Item>HERO_SKILL_MIGHT_OVER_MAGIC</Item>
+                            <Item>HERO_SKILL_BARBARIAN_ELITE_CASTERS</Item>
                         </dependenciesIDs>
                     </Item>
                 </SkillPrerequisites>
@@ -17493,7 +17479,7 @@
                     <Item>
                         <Class>HERO_CLASS_BARBARIAN</Class>
                         <dependenciesIDs>
-                            <Item>HERO_SKILL_MIGHTY_VOICE</Item>
+                            <Item>HERO_SKILL_MIGHT_OVER_MAGIC</Item>
                         </dependenciesIDs>
                     </Item>
                 </SkillPrerequisites>
@@ -17632,14 +17618,14 @@
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
                 <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
-                <HeroClass>HERO_CLASS_NONE</HeroClass>
+                <HeroClass>HERO_CLASS_BARBARIAN</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_BARBARIAN_LEARNING</BasicSkillID>
+                <BasicSkillID>HERO_SKILL_VOICE</BasicSkillID>
                 <SkillPrerequisites>
                     <Item>
                         <Class>HERO_CLASS_BARBARIAN</Class>
                         <dependenciesIDs>
-                            <Item>HERO_SKILL_BARBARIAN_INTELLIGENCE</Item>
+                            <Item>HERO_SKILL_WARCRY_LEARNING</Item>
                         </dependenciesIDs>
                     </Item>
                 </SkillPrerequisites>
