@@ -1,3 +1,6 @@
+doFile("/scripts/RacialAbilityBoost/RacialAbilityBoostBorderGuards.lua")
+doFile("/scripts/RacialAbilityBoost/RacialAbilityBoostDarkAcolytes.lua")
+
 -- Adjustable params
 
 PARAM_RANGER_SET_FAVORED_ENEMY_COST = 200
@@ -10,9 +13,6 @@ PARAM_WARLOCK_DARK_ACOLYTE_PER_LEVEL_SAVING = 0.02
 PARAM_STRONGHOLD_WALKERS_HUT_COST = 200
 
 TOWN_NEUTRAL = 8
-
-DARK_ACOLYTE_HEORES = {"Almegir", "Shadwyn", "Thralsai", "Ferigl", "Segref", }
-BORDERGUARD_HEROES = {"Wulfstan", "Brand"}
 
 -- Rune spell info
 

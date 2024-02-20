@@ -124,7 +124,7 @@ function _DungeonImprovedDarkRitual(heroName)
     local drKey = heroName..GetDate(ABSOLUTE_DAY)
     if g_tabDunegonUsedDarkRitual[drKey] == nil then
         local movCost = PARAM_WARLOCK_DARK_RITUAL_COST
-        if contains(DARK_ACOLYTE_HEORES, heroName) then
+        if contains(DARK_ACOLYTE_HEROES, heroName) then
             movCost = movCost * (1 - PARAM_WARLOCK_DARK_ACOLYTE_BASE_SAVING - PARAM_WARLOCK_DARK_ACOLYTE_PER_LEVEL_SAVING * GetHeroLevel(heroName))
         end
         local oldMov = GetHeroStat(heroName, 7)
