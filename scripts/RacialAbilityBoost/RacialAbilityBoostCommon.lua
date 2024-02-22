@@ -119,6 +119,18 @@ function _buildingConditionCheck(objectName, townType, buildingType, buildingLev
     return nil
 end
 
+function _GetBuildingLevelInAllTowns(townType, buildingId)
+    local result = 0
+    for i, townName in GetObjectNamesByType(RACE2TYPES[townType]) do
+        if GetObjectOwner(townName) == GetCurrentPlayer() then
+            if GetTownBuildingLevel(townName, buildingId) > result then
+                result = GetTownBuildingLevel(townName, buildingId)
+            end
+        end
+    end
+    return result
+end
+
 function _checkMovementCondition(heroName, cost)
     remainingMovement = GetHeroStat(heroName, 7)
     if remainingMovement > cost then
@@ -184,7 +196,7 @@ function _getSpecialSpellsCost(spellLevel, faction)
         elseif spellLevel == 3 then
             result[GOLD] = 5000
         elseif spellLevel == 4 then
-            result[GOLD] = 10000
+            result[GOLD] = 20000
         else
             result[GOLD] = 0
         end

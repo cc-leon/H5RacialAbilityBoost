@@ -4004,10 +4004,10 @@
                     <Item href="/Text/Game/Skills/Unique/Gating/ConsumeCorpse/Description.txt"/>
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
-                <SkillType>SKILLTYPE_CLASS_PERK</SkillType>
-                <HeroClass>HERO_CLASS_WIZARD</HeroClass>
+                <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
+                <HeroClass>HERO_CLASS_NONE</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_ARTIFICIER</BasicSkillID>
+                <BasicSkillID>HERO_SKILL_NONE</BasicSkillID>
                 <SkillPrerequisites/>
                 <AIRacesValues>
                     <Haven>
@@ -5341,7 +5341,7 @@
                         <dependenciesIDs>
                             <Item>HERO_SKILL_FRENZY</Item>
                             <Item>HERO_SKILL_FAST_AND_FURIOUS</Item>
-                            <Item>HERO_SKILL_CONSUME_CORPSE</Item>
+                            <Item>HERO_SKILL_RUNIC_MACHINES</Item>
                         </dependenciesIDs>
                     </Item>
                     <Item>
@@ -5875,7 +5875,7 @@
                         <Class>HERO_CLASS_WIZARD</Class>
                         <dependenciesIDs>
                             <Item>HERO_SKILL_COUNTERSPELL</Item>
-                            <Item>HERO_SKILL_CONSUME_CORPSE</Item>
+                            <Item>HERO_SKILL_RUNIC_MACHINES</Item>
                         </dependenciesIDs>
                     </Item>
                     <Item>
@@ -8642,6 +8642,13 @@
                         <dependenciesIDs>
                             <Item>HERO_SKILL_BALLISTA</Item>
                             <Item>HERO_SKILL_IMBUE_ARROW</Item>
+                        </dependenciesIDs>
+                    </Item>
+                    <Item>
+                        <Class>HERO_CLASS_WIZARD</Class>
+                        <dependenciesIDs>
+                            <Item>HERO_SKILL_BALLISTA</Item>
+                            <Item>HERO_SKILL_RUNIC_MACHINES</Item>
                         </dependenciesIDs>
                     </Item>
                 </SkillPrerequisites>
@@ -12718,18 +12725,10 @@
                     <Item href="/Text/Game/Skills/Common/WarMachines/RunicMachines/Description.txt"/>
                 </DescriptionFileRef>
                 <CommonDescriptionFileRef href=""/>
-                <SkillType>SKILLTYPE_SPECIAL_PERK</SkillType>
-                <HeroClass>HERO_CLASS_NONE</HeroClass>
+                <SkillType>SKILLTYPE_CLASS_PERK</SkillType>
+                <HeroClass>HERO_CLASS_WIZARD</HeroClass>
                 <spellBuffs/>
-                <BasicSkillID>HERO_SKILL_WAR_MACHINES</BasicSkillID>
-                <SkillPrerequisites>
-                    <Item>
-                        <Class>HERO_CLASS_RUNEMAGE</Class>
-                        <dependenciesIDs>
-                            <Item>HERO_SKILL_TAP_RUNES</Item>
-                        </dependenciesIDs>
-                    </Item>
-                </SkillPrerequisites>
+                <BasicSkillID>HERO_SKILL_ARTIFICIER</BasicSkillID>
                 <AIRacesValues>
                     <Haven>
                         <CommanderValue>0</CommanderValue>

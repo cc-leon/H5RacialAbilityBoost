@@ -104,13 +104,37 @@ function RacialAbilityBoost(heroName, customAbilityID)
     end
 end
 
+function _AcademyUpdateMagicGuilds()
+    local maxLevel = _GetBuildingLevelInAllTowns(TOWN_ACADEMY, TOWN_BUILDING_ACADEMY_LIBRARY)
+    local miniLevel = GetTownBuildingLevel(MINI_TOWN[TOWN_ACADEMY], TOWN_BUILDING_ACADEMY_LIBRARY)
+    if maxLevel > miniLevel then
+        UpgradeTownBuilding(MINI_TOWN[TOWN_ACADEMY], TOWN_BUILDING_ACADEMY_LIBRARY)
+    elseif maxLevel < miniLevel then
+        DestroyTownBuildingToLevel(MINI_TOWN[TOWN_ACADEMY], TOWN_BUILDING_ACADEMY_LIBRARY, 0)
+    end
+
+    maxLevel = _GetBuildingLevelInAllTowns(TOWN_ACADEMY, TOWN_BUILDING_MAGIC_GUILD)
+    miniLevel = GetTownBuildingLevel(MINI_TOWN[TOWN_ACADEMY], TOWN_BUILDING_MAGIC_GUILD)
+    if maxLevel > miniLevel then
+        SetTownBuildingLimitLevel(MINI_TOWN[TOWN_ACADEMY], TOWN_BUILDING_MAGIC_GUILD, maxLevel)
+        for i = 1, (maxLevel - miniLevel) do
+            UpgradeTownBuilding(MINI_TOWN[TOWN_ACADEMY], TOWN_BUILDING_MAGIC_GUILD)
+            print("*** Upgrading Magic Guild!")
+        end
+    elseif maxLevel < miniLevel then
+        DestroyTownBuildingToLevel(MINI_TOWN[TOWN_ACADEMY], TOWN_BUILDING_MAGIC_GUILD, maxLevel, 0)
+    end
+end
+
 function _AcademyAbilityCallback(cNum)
     if cNum == 1 then
         if not _checkMovementCondition(g_tabCallbackParams[1], PARAM_WIZARD_ARTIFICER_COST) then
             return
         end
+        _AcademyUpdateMagicGuilds()
         local drKey = g_tabCallbackParams[1]..GetDate(ABSOLUTE_DAY)
         if g_tabAcademyUsedFactory[drKey] == nil then
+            _AcademyUpdateMagicGuilds()
             if _forceHeroInteractWithObject(g_tabCallbackParams[1], MINI_TOWN[TOWN_ACADEMY], true) == true then
                 g_tabAcademyUsedFactory[drKey] = true
             end
