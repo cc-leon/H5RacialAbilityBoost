@@ -17,7 +17,10 @@ PORT_STRONGHOLD = "/GameMechanics/RefTables/GhostMode/face_Spook.(Texture).xdb#x
 g_tabCallbackParams = {}
 
 -- Flags
+g_bOtherInitialization = nil  -- trace if _rab_other_initialization has been run
 g_tabAcademyUsedFactory = {}  -- trace if a hero has used arcane forge on a day
+g_tabAcademySpellsRemaining = {} -- trace how many spells remains for each spellId each hand
+g_tabAcademySpellsHeroBoughtSpell = {} -- trace if a hero has bought a spell
 g_tabDunegonUsedDarkRitual = {}  -- trace if a hero has used dark ritual per day
 g_tabDungeonIrresistableKnowledge = {}  -- trace if knowledge has been awarded based on irresitable magic
 g_tabHavenUsedTraining = {}  -- trace if a faction has used its haven training quota
@@ -27,6 +30,11 @@ g_tabStrongholdShatterMagicLearnt = {}  -- trace if a hero has learnt shatter ma
 g_tabStrongholdEnlightenmentShoutLearnt = {}  -- trace if a hero has learnt enlightenment or shout
 
 function RacialAbilityBoost(heroName, customAbilityID)
+    if g_bOtherInitialization == nil then
+        _rab_other_initialization()
+        g_bOtherInitialization = true
+    end
+
     if customAbilityID == CUSTOM_ABILITY_3 then
         stackSplit(heroName, customAbilityID)
 
@@ -35,7 +43,8 @@ function RacialAbilityBoost(heroName, customAbilityID)
         g_tabCallbackParams[1] = heroName
 
         if heroRace == TOWN_ACADEMY then
-            local options = {[1] = {RAB_TXT.."AcademyOption1.txt"; movement = PARAM_WIZARD_ARTIFICER_COST}, }
+            local options = {[1] = {RAB_TXT.."AcademyOption1.txt"; movement = PARAM_WIZARD_ARTIFICER_COST}, 
+                             [2] = {RAB_TXT.."AcademyOption2.txt"; gold = RESOURCE2TEXT[GOLD], movement = PARAM_WIZARD_ARTIFICER_ARTIFACT_COST}}
             _PagedTalkBox(
                 PORT_ACADEMY,
                 RAB_TXT.."dummy2.txt",
@@ -102,12 +111,109 @@ function _AcademyAbilityCallback(cNum)
         end
         local drKey = g_tabCallbackParams[1]..GetDate(ABSOLUTE_DAY)
         if g_tabAcademyUsedFactory[drKey] == nil then
-            _forceHeroInteractWithObject(g_tabCallbackParams[1], MINI_TOWN[TOWN_ACADEMY], true)
-            g_tabAcademyUsedFactory[drKey] = true
+            if _forceHeroInteractWithObject(g_tabCallbackParams[1], MINI_TOWN[TOWN_ACADEMY], true) == true then
+                g_tabAcademyUsedFactory[drKey] = true
+            end
         else
             MessageBox({RAB_TXT.."DailyLimitCheckFailure.txt"; times = 1, days = 1, limit = 1}, "")
         end
+    elseif cNum == 2 then
+        local options = {}
+        local artiInfo = {}
+        for spellLevel, spellIds in ARTIFICER_ABILITIES do
+            local spellCosts = _getSpecialSpellsCost(spellLevel, TOWN_ACADEMY)
+            for i, spellId in spellIds do
+                if g_tabAcademySpellsHeroBoughtSpell[spellId][g_tabCallbackParams[1]] == true then
+                    options[length(options) + 1] = {RAB_TXT.."AcademyArtificerArtefactInvalidOption.txt";
+                                                    tier = spellLevel, spell = ABILITY2TEXT[spellId]}
+                    artiInfo[length(options)] = {["spell"] = spellId, ["level"] = spellLevel, ["cost"] = nil}
+                else
+                    options[length(options) + 1] = {RAB_TXT.."AcademyArtificerArtefactValidOption.txt";
+                                                    tier = spellLevel, spell = ABILITY2TEXT[spellId], cost = spellCosts[GOLD],
+                                                    gold = RESOURCE2TEXT[GOLD], skill = WIZARD_SKILL_ARTIFICER_TEXT[spellLevel]}
+                    artiInfo[length(options)] = {["spell"] = spellId, ["level"] = spellLevel, ["cost"] = spellCosts}
+                end
+            end
+        end
+        g_tabCallbackParams[2] = artiInfo
+        _PagedTalkBox(
+            PORT_ACADEMY,
+            RAB_TXT.."dummy2.txt",
+            {RAB_TXT.."AcademyArtificerArtefactDescription.txt"; race = RACE2TEXT[TOWN_ACADEMY], class = CLASS2TEXT[TOWN_ACADEMY]},
+            RAB_TXT.."RABTalkBoxTitle.txt",
+            "_AcademyArtificerArtefactCallback", options)
     end
+end
+
+function _AcademyArtificerArtefactCallback(cNum)
+    local heroName = g_tabCallbackParams[1]
+    local artiInfo = g_tabCallbackParams[2]
+    if cNum < 1 then
+        RacialAbilityBoost(heroName, CUSTOM_ABILITY_4)
+        return
+    end
+    if artiInfo[cNum]["cost"] == nil then
+        MessageBox({RAB_TXT.."AcademyArtificerArtefactInvalidOption.txt"; tier = artiInfo["level"], spell = ABILITY2TEXT[artiInfo[cNum]["spell"]]}, "")
+        return
+    end
+    if artiInfo[cNum]["level"] > GetHeroSkillMastery(heroName, SKILL_ARTIFICIER) then
+        MessageBox({RAB_TXT.."AcademyArtificerArtefactInsufficient.txt"; tier = artiInfo[cNum]["level"],
+                    skill1 = WIZARD_SKILL_ARTIFICER_TEXT[artiInfo[cNum]["level"]], skill2 = WIZARD_SKILL_ARTIFICER_TEXT[GetHeroSkillMastery(heroName, SKILL_ARTIFICIER)]}, "")
+        return
+    end
+
+    g_tabCallbackParams[2] = artiInfo[cNum]
+    local options = {[1] = RAB_TXT.."AcademyArtificerArtefactHandOption1.txt",
+                     [2] = RAB_TXT.."AcademyArtificerArtefactHandOption2.txt"}
+    _PagedTalkBox(
+        PORT_ACADEMY,
+        RAB_TXT.."dummy2.txt",
+        {RAB_TXT.."AcademyArtificerArtefactHandDescription.txt"; tier = artiInfo[cNum]["level"], spell = ABILITY2TEXT[artiInfo[cNum]["spell"]]},
+        RAB_TXT.."RABTalkBoxTitle.txt",
+        "_AcademyArtificerArtefactHandCallback", options)
+end
+
+function _AcademyArtificerArtefactHandCallback(cNum)
+    local artiType = ""
+    local artiInfo = g_tabCallbackParams[2]
+    local heroName = g_tabCallbackParams[1]
+
+    if cNum == 1 then
+        artiType = "Wand"
+    elseif cNum == 2 then
+        artiType = "Scroll"
+    else
+        _AcademyAbilityCallback(2)
+        return
+    end
+
+    local spellId = artiInfo["spell"]
+    local objectName = artiType.."_"..ABILITY2STRING[spellId].."_"..(MAX_WIZARD_SPELLS_PER_HAND + 1 - g_tabAcademySpellsRemaining[spellId][artiType])
+    if not IsObjectExists(objectName) then
+        MessageBox(RAB_TXT.."MissingObjectWarning.txt")
+        return nil
+    end
+    if g_tabAcademySpellsRemaining[spellId][artiType] <= 0 then
+        MessageBox(RAB_TXT.."ObjectLimitReachedWarning.txt")
+        return nil
+    end
+
+    if not _checkMovementCondition(heroName, PARAM_WIZARD_ARTIFICER_ARTIFACT_COST) then
+        return
+    end
+    if not _currentPlayerResourceCheck(heroName, artiInfo["cost"]) then
+        return
+    end
+
+    BlockGame()
+    local x, y, z = GetObjectPos(heroName)
+    MakeHeroInteractWithObject(heroName, objectName)
+    sleep(2)
+    SetObjectPos(heroName, x, y, z)
+    sleep(2)
+    g_tabAcademySpellsRemaining[spellId][artiType] = g_tabAcademySpellsRemaining[spellId][artiType] - 1
+    g_tabAcademySpellsHeroBoughtSpell[spellId][heroName] = true
+    UnblockGame()
 end
 
 function _DungeonAbilityCallback(cNum)
@@ -183,8 +289,6 @@ function _DungeonCheckDestructiveSpells(heroName, spellLevel)
                 spellToLearn[length(spellToLearn)] = spell
             end
         end
-        print("spellLevel "..spellLevel)
-        print(spellToLearn)
         if length(spellToLearn) == 0 then
             ShowFlyMessage({RAB_TXT.."DungeonIrresistableSpellAlready.txt"; level = spellLevel}, heroName, GetCurrentPlayer(), 5)
             sleep(3)
@@ -355,8 +459,9 @@ function _PreserveAbilityCallback(cNum)
         end
         local drKey = g_tabCallbackParams[1]..GetDate(ABSOLUTE_DAY)
         if g_tabPreserveUsedSettingEnemy[drKey] == nil then
-            _forceHeroInteractWithObject(g_tabCallbackParams[1], MINI_TOWN[TOWN_PRESERVE], true)
-            g_tabPreserveUsedSettingEnemy[drKey] = true
+            if _forceHeroInteractWithObject(g_tabCallbackParams[1], MINI_TOWN[TOWN_PRESERVE], true) == true then
+                g_tabPreserveUsedSettingEnemy[drKey] = true
+            end
         else
             MessageBox({RAB_TXT.."DailyLimitCheckFailure.txt"; times = 1, days = 1, limit = 1}, "")
         end
@@ -494,8 +599,9 @@ function _StrongholdUseWalksHut(heroName)
 
     local drKey = heroName..GetDate(ABSOLUTE_DAY)
     if g_tabStrongholdUsedWalksHut[drKey] == nil then
-        _forceHeroInteractWithObject(heroName, MINI_TOWN[TOWN_STRONGHOLD], true)
-        g_tabStrongholdUsedWalksHut[drKey] = true
+        if _forceHeroInteractWithObject(heroName, MINI_TOWN[TOWN_STRONGHOLD], true) == true then
+            g_tabStrongholdUsedWalksHut[drKey] = true
+        end
     else
         MessageBox({RAB_TXT.."DailyLimitCheckFailure.txt"; times = 1, days = 1, limit = 1}, "")
     end
@@ -587,6 +693,15 @@ function _StrongholdLearnSkillCallback(cNum)
 
     else
         RacialAbilityBoost(heroName, CUSTOM_ABILITY_4)
+    end
+end
+
+function _rab_other_initialization()
+    for spellId, spellString in ABILITY2STRING do
+        g_tabAcademySpellsRemaining[spellId] = {}
+        g_tabAcademySpellsRemaining[spellId]["Wand"] = MAX_WIZARD_SPELLS_PER_HAND
+        g_tabAcademySpellsRemaining[spellId]["Scroll"] = MAX_WIZARD_SPELLS_PER_HAND
+        g_tabAcademySpellsHeroBoughtSpell[spellId] = {}
     end
 end
 

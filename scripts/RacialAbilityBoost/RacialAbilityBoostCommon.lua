@@ -82,7 +82,6 @@ function _PagedTalkBox(port, info, desc, capt, callback, options)
         args[1], args[2], args[3], args[4], args[5])
 end
 
-
 function _GetHeroRace(heroName)
     -- Return the race id of a hero
     if GetHeroSkillMastery(heroName, SKILL_TRAINING) >= 1 then
@@ -131,9 +130,30 @@ function _checkMovementCondition(heroName, cost)
     end
 end
 
+function _isHeroInTown(heroName)
+    for i, townType in RACE2TYPES do
+        for i, townName in GetObjectNamesByType(townType) do
+            if IsHeroInTown(heroName, townName) then
+                return true
+            end
+        end
+    end
+    return nil
+end
+
 function _forceHeroInteractWithObject(heroName, objectName, ownable)
     if not IsObjectExists(objectName) then
         MessageBox(RAB_TXT.."MissingObjectWarning.txt")
+        return nil
+    end
+
+    if _isHeroInTown(heroName) == true then
+        MessageBox(RAB_TXT.."CannotUseInTownWarning.txt", "")
+        return nil
+    end
+
+    if IsHeroInBoat(heroName) == true then
+        MessageBox(RAB_TXT.."CannotUseInBoatWarning.txt", "")
         return nil
     end
 
@@ -149,13 +169,26 @@ function _forceHeroInteractWithObject(heroName, objectName, ownable)
     if ownable == true then
         SetObjectOwner(objectName, PLAYER_NONE)
     end
-    sleep(10)
+    sleep(5)
     UnblockGame()
+    return true
 end
 
 function _getSpecialSpellsCost(spellLevel, faction)
     local result = {}
-    if faction == TOWN_FORTRESS then
+    if faction == TOWN_ACADEMY then
+        if spellLevel == 1 then
+            result[GOLD] = 3500
+        elseif spellLevel == 2 then
+            result[GOLD] = 4000
+        elseif spellLevel == 3 then
+            result[GOLD] = 5000
+        elseif spellLevel == 4 then
+            result[GOLD] = 10000
+        else
+            result[GOLD] = 0
+        end
+    elseif faction == TOWN_FORTRESS then
         result[GOLD] = 1500 + (spellLevel - 1) * 300
         result[WOOD] = floor(spellLevel / 2)
         result[ORE] = floor(spellLevel / 2)

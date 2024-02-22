@@ -1,96 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <AdvMapTownShared ObjectRecordID="4">
-	<Model href="/_(Model)/SnowTerrainObjects/Fortress_Arena_Bomb.(Model).xdb#xpointer(/Model)"/>
-	<AnimSet/>
-	<blockedTiles/>
-	<holeTiles/>
-	<activeTiles/>
-	<passableTiles>
-		<Item>
-			<x>0</x>
-			<y>0</y>
-		</Item>
-	</passableTiles>
-	<PossessionMarkerTile>
-		<x>0</x>
-		<y>0</y>
-	</PossessionMarkerTile>
-	<Effect/>
-	<EffectWhenOwned/>
-	<messagesFileRef>
-		<Item href="/Text/Interface/RacialAbilityBoost/MiniFortress.txt"/>
-	</messagesFileRef>
-	<WaterBased>false</WaterBased>
-	<ApplyHeroTrace>false</ApplyHeroTrace>
-	<SoundEffect/>
-	<flybyMessageFileRef href=""/>
-	<ObjectTypeFileRef href="/Text/Visibility_Types/Buildings.txt"/>
-	<TerrainAligned>false</TerrainAligned>
-	<FlyPassable>true</FlyPassable>
-	<AdventureSoundEffect/>
-	<RazedStatic/>
-	<Icon128/>
-	<Interior href="/Arenas/Town/Fortress/New Object.xdb#xpointer(/ArenaDesc)"/>
-	<Exterior href="#n:inline(AdvMapTownExterior)" id="item_a72bde87-6e7d-4e3d-af41-02044488d031">
-		<AdvMapTownExterior ObjectRecordID="1000010">
-			<ExpScene href="/models/TownsGlobalMap/Academy/Academy.mb"/>
-			<AnimSet/>
-			<upgrades/>
-			<Gates/>
-		</AdvMapTownExterior>
-	</Exterior>
-	<Type>TOWN_FORTRESS</Type>
-	<Razed/>
-	<Combat/>
-	<buildings>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/TownHall/VillageHall.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/TownHall/TownHall.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/TownHall/CityHall.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/TownHall/Capitol.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Fort/Fort.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Fort/Citadel.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Fort/Castle.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Blacksmith/Blacksmith.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Marketplace/Marketplace.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Marketplace/Resource_Silo.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Shipyard/Shipyard.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Tavern/Tavern.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Magic_Guild/Magic_Guild_1.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Magic_Guild/Magic_Guild_2.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Magic_Guild/Magic_Guild_3.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Magic_Guild/Magic_Guild_4.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Magic_Guild/Magic_Guild_5.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_1/MilitiaStation.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_1/MilitiaGarrison.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_2/Woodworks.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_2/ThrowingRange.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_3/BearPens.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_3/BlackbearPens.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_4/FightingRing.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_4/FightningSquare.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_5/RunicSeminary.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_5/RunicUniversity.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_6/ClansHalls.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_6/ClansPalace.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_7/LavaBelch.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_7/MagmaBelch.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Grail/BlazingAnvil.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Special_1/Runic_Shrine_1.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Special_1/Runic_Shrine_2.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Special_1/Runic_Shrine_3.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Special_2/Arena.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Special_3/GuardPost.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Special_4/Stoneworks.xdb#xpointer(/TownBuildingSharedStats)"/>
-		<Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Special_5/Runic_Academy.xdb#xpointer(/TownBuildingSharedStats)"/>
-	</buildings>
-	<FitRandomTownMaskPositionShift>
-		<x>0</x>
-		<y>0</y>
-	</FitRandomTownMaskPositionShift>
-	<MagicSchool_0>MAGIC_SCHOOL_LIGHT</MagicSchool_0>
-	<MagicSchool_1>MAGIC_SCHOOL_DESTRUCTIVE</MagicSchool_1>
-	<icons>
-		<Icon55x55 href="/UI/H5A1/Icons/Buildings/Towns/Fortress/Adventure_Mode_Icon/128x128/Fortress_lvl1.(Texture).xdb#xpointer(/Texture)"/>
-		<IconWithFort55x55 href="/UI/H5A1/Icons/Buildings/Towns/Fortress/Adventure_Mode_Icon/128x128/Fortress_lvl2.(Texture).xdb#xpointer(/Texture)"/>
-	</icons>
+    <Model href="/_(Model)/SnowTerrainObjects/Fortress_Arena_Bomb.(Model).xdb#xpointer(/Model)"/>
+    <AnimSet/>
+    <blockedTiles/>
+    <holeTiles/>
+    <activeTiles/>
+    <passableTiles>
+        <Item>
+            <x>0</x>
+            <y>0</y>
+        </Item>
+    </passableTiles>
+    <PossessionMarkerTile>
+        <x>0</x>
+        <y>0</y>
+    </PossessionMarkerTile>
+    <Effect/>
+    <EffectWhenOwned/>
+    <messagesFileRef>
+        <Item href="/Text/Interface/RacialAbilityBoost/MiniFortress.txt"/>
+    </messagesFileRef>
+    <WaterBased>false</WaterBased>
+    <ApplyHeroTrace>false</ApplyHeroTrace>
+    <SoundEffect/>
+    <flybyMessageFileRef href=""/>
+    <ObjectTypeFileRef href="/Text/Visibility_Types/Buildings.txt"/>
+    <TerrainAligned>false</TerrainAligned>
+    <FlyPassable>true</FlyPassable>
+    <AdventureSoundEffect/>
+    <RazedStatic/>
+    <Icon128/>
+    <Interior href="/Arenas/Town/Fortress/New Object.xdb#xpointer(/ArenaDesc)"/>
+    <Exterior href="#n:inline(AdvMapTownExterior)" id="item_a72bde87-6e7d-4e3d-af41-02044488d031">
+        <AdvMapTownExterior ObjectRecordID="1000010">
+            <ExpScene href="/models/TownsGlobalMap/Academy/Academy.mb"/>
+            <AnimSet/>
+            <upgrades/>
+            <Gates/>
+        </AdvMapTownExterior>
+    </Exterior>
+    <Type>TOWN_FORTRESS</Type>
+    <Razed/>
+    <Combat/>
+    <buildings>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/TownHall/VillageHall.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/TownHall/TownHall.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/TownHall/CityHall.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/TownHall/Capitol.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Fort/Fort.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Fort/Citadel.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Fort/Castle.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Blacksmith/Blacksmith.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Marketplace/Marketplace.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Marketplace/Resource_Silo.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Shipyard/Shipyard.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Tavern/Tavern.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Magic_Guild/Magic_Guild_1.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Magic_Guild/Magic_Guild_2.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Magic_Guild/Magic_Guild_3.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Magic_Guild/Magic_Guild_4.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Magic_Guild/Magic_Guild_5.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_1/MilitiaStation.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_1/MilitiaGarrison.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_2/Woodworks.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_2/ThrowingRange.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_3/BearPens.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_3/BlackbearPens.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_4/FightingRing.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_4/FightningSquare.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_5/RunicSeminary.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_5/RunicUniversity.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_6/ClansHalls.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_6/ClansPalace.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_7/LavaBelch.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Dwelling_7/MagmaBelch.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Grail/BlazingAnvil.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Special_1/Runic_Shrine_1.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Special_1/Runic_Shrine_2.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Special_1/Runic_Shrine_3.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Special_2/Arena.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Special_3/GuardPost.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Special_4/Stoneworks.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Dwarves/Special_5/Runic_Academy.xdb#xpointer(/TownBuildingSharedStats)"/>
+    </buildings>
+    <FitRandomTownMaskPositionShift>
+        <x>0</x>
+        <y>0</y>
+    </FitRandomTownMaskPositionShift>
+    <MagicSchool_0>MAGIC_SCHOOL_LIGHT</MagicSchool_0>
+    <MagicSchool_1>MAGIC_SCHOOL_DESTRUCTIVE</MagicSchool_1>
+    <icons>
+        <Icon55x55 href="/UI/H5A1/Icons/Buildings/Towns/Fortress/Adventure_Mode_Icon/128x128/Fortress_lvl1.(Texture).xdb#xpointer(/Texture)"/>
+        <IconWithFort55x55 href="/UI/H5A1/Icons/Buildings/Towns/Fortress/Adventure_Mode_Icon/128x128/Fortress_lvl2.(Texture).xdb#xpointer(/Texture)"/>
+    </icons>
 </AdvMapTownShared>

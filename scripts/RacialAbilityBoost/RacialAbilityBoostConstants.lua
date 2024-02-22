@@ -6,12 +6,14 @@ doFile("/scripts/RacialAbilityBoost/RacialAbilityBoostDarkAcolytes.lua")
 PARAM_RANGER_SET_FAVORED_ENEMY_COST = 200
 PARAM_RANGER_GET_FAVORED_ENEMY_COST = 200
 PARAM_WIZARD_ARTIFICER_COST = 200
+PARAM_WIZARD_ARTIFICER_ARTIFACT_COST = 500
 PARAM_RUNEMAGE_WAR_MACHINE_VISIT_COST = 100
 PARAM_WARLOCK_DARK_RITUAL_COST = 1000
 PARAM_WARLOCK_DARK_ACOLYTE_BASE_SAVING = 0.4
 PARAM_WARLOCK_DARK_ACOLYTE_PER_LEVEL_SAVING = 0.02
 PARAM_STRONGHOLD_WALKERS_HUT_COST = 200
 
+MAX_WIZARD_SPELLS_PER_HAND = 30
 TOWN_NEUTRAL = 8
 
 -- Rune spell info
@@ -107,7 +109,43 @@ RACE2COMBATARENA = {
     [TOWN_STRONGHOLD] = "/Scenes/CombatArenas/Subterra_Dwarven_02.xdb#xpointer(/AdventureFlybyScene)",
     [TOWN_NEUTRAL] = "/Scenes/CombatArenas/Boat_Arena.xdb#xpointer(/AdventureFlybyScene)",}
 
+-- Get Artificer abilities
+ARTIFICER_ABILITIES = {
+    [1] = {SPELL_ENCOURAGE, SPELL_ABILITY_UNSUMMON, SPELL_ABILITY_DARK_RITUAL, SPELL_ABILITY_COUNTERSPELL, SPELL_PRAYER},
+    [2] = {SPELL_HOLY_CHARGE, SPELL_DEMONIC_STRIKE, SPELL_DEATH_SCREAM, SPELL_UBER_CHAIN_LIGHTNING, },
+    [3] = {SPELL_CONSUME_CORPSE, SPELL_EFFECT_POWERFULL_BLOW, SPELL_BOSS_FIREWALL, SPELL_IMBUE_ARROW, SPELL_UBER_METEOR_SHOWER},
+    [4] = {SPELL_ABILITY_AVATAR_OF_DEATH, SPELL_SPIRIT_LINK, }, }
+
+ABILITY2STRING = {
+    [SPELL_ENCOURAGE] = "SPELL_ENCOURAGE",
+    [SPELL_ABILITY_UNSUMMON] = "SPELL_ABILITY_UNSUMMON",
+    [SPELL_ABILITY_DARK_RITUAL] = "SPELL_ABILITY_DARK_RITUAL",
+    [SPELL_ABILITY_COUNTERSPELL] = "SPELL_ABILITY_COUNTERSPELL",
+    [SPELL_PRAYER] = "SPELL_PRAYER",
+    [SPELL_HOLY_CHARGE] = "SPELL_HOLY_CHARGE",
+    [SPELL_DEMONIC_STRIKE] = "SPELL_DEMONIC_STRIKE",
+    [SPELL_DEATH_SCREAM] = "SPELL_DEATH_SCREAM",
+    [SPELL_UBER_CHAIN_LIGHTNING] = "SPELL_UBER_CHAIN_LIGHTNING",
+    [SPELL_CONSUME_CORPSE] = "SPELL_CONSUME_CORPSE",
+    [SPELL_EFFECT_POWERFULL_BLOW] = "SPELL_EFFECT_POWERFULL_BLOW",
+    [SPELL_BOSS_FIREWALL] = "SPELL_BOSS_FIREWALL",
+    [SPELL_IMBUE_ARROW] = "SPELL_IMBUE_ARROW",
+    [SPELL_UBER_METEOR_SHOWER] = "SPELL_UBER_METEOR_SHOWER",
+    [SPELL_ABILITY_AVATAR_OF_DEATH] = "SPELL_ABILITY_AVATAR_OF_DEATH",
+    [SPELL_SPIRIT_LINK] = "SPELL_SPIRIT_LINK", }
+
 -- Texts
+
+RACE2TYPES = {
+    [TOWN_HEAVEN] = "TOWN_HEAVEN",
+    [TOWN_PRESERVE] = "TOWN_PRESERVE",
+    [TOWN_ACADEMY] = "TOWN_ACADEMY",
+    [TOWN_DUNGEON] = "TOWN_DUNGEON",
+    [TOWN_NECROMANCY] = "TOWN_NECROMANCY",
+    [TOWN_INFERNO] = "TOWN_INFERNO",
+    [TOWN_FORTRESS] = "TOWN_FORTRESS",
+    [TOWN_STRONGHOLD] = "TOWN_STRONGHOLD", }
+
 RACE2TEXT = {
     [TOWN_HEAVEN] = "/GameMechanics/RefTables/Haven.txt",
     [TOWN_PRESERVE] = "/GameMechanics/RefTables/Preserve.txt",
@@ -234,7 +272,31 @@ RESOURCE2TEXT = {
     [GEM] = "/UI/Common/Resources/Gems.txt",
     [GOLD] = "/UI/Common/Resources/Gold.txt", }
 
+ABILITY2TEXT = {
+    [SPELL_ENCOURAGE] = "/Text/Game/Spells/Hero_Special_Abilities/Encourage/Name.txt", 
+    [SPELL_ABILITY_UNSUMMON] = "/Text/Game/Spells/Hero_Special_Abilities/Unsummon/Name.txt", 
+    [SPELL_ABILITY_DARK_RITUAL] = "/Text/Game/Spells/Hero_Special_Abilities/DarkRitual/Name.txt", 
+    [SPELL_ABILITY_COUNTERSPELL]  = "/Text/Game/Skills/Common/Sorcery/CounterSpell/Name.txt", 
+    [SPELL_HOLY_CHARGE] = "/Text/Game/Spells/Hero_Special_Abilities/HolyCharge/Name.txt",
+    [SPELL_PRAYER] = "/Text/Game/Spells/Hero_Special_Abilities/Prayer/Name.txt", 
+    [SPELL_DEMONIC_STRIKE] = "/Text/Game/Skills/Unique/Gating/DemonicStrike/Name.txt", 
+    [SPELL_DEATH_SCREAM] = "/Text/Game/Spells/Hero_Special_Abilities/DeathScream/Name.txt", 
+    [SPELL_UBER_CHAIN_LIGHTNING] = "/Text/Game/Spells/Combat/Uber_Chain_Lightning/Name.txt", 
+    [SPELL_CONSUME_CORPSE] = "/Text/Game/Skills/Unique/Gating/ConsumeCorpse/Name.txt", 
+    [SPELL_EFFECT_POWERFULL_BLOW] = "/Text/Game/Skills/Unique/DemonicRage/PowerfullBlow/Name.txt", 
+    [SPELL_BOSS_FIREWALL] = "/Text/Game/Spells/Combat/BigBossFirewall/Name.txt", 
+    [SPELL_IMBUE_ARROW] = "/Text/Game/Skills/Unique/Avenger/ImbueArrow/Name.txt",
+    [SPELL_UBER_METEOR_SHOWER] = "/Text/Game/Spells/Hero_Special_Abilities/UmbueArrow/Name.txt",
+    [SPELL_ABILITY_AVATAR_OF_DEATH] = "/Text/Game/Heroes/Specializations/Necropolis/AvatarOfDeath/Name.txt", 
+    [SPELL_SPIRIT_LINK] = "/Text/Game/Spells/Hero_Special_Abilities/SpiritLink/Name.txt", }
+
+
 ACADEMY_SPECIAL_2_TEXT = "/Text/Game/TownBuildings/Academy/Special_2/Name.txt"
+WIZARD_SKILL_ARTIFICER_TEXT = {
+    [1] = "/Text/Game/Skills/Unique/Artificer/1/Name.txt",
+    [2] = "/Text/Game/Skills/Unique/Artificer/2/Name.txt",
+    [3] = "/Text/Game/Skills/Unique/Artificer/3/Name.txt", 
+    [4] = "/Text/Game/Skills/Unique/Artificer/4/Name.txt", }
 
 KNIGHT_SKILL_TRAINING_TEXT = {
     [1] = "/Text/Game/Skills/Unique/Training/1/Name.txt",
