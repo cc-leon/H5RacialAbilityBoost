@@ -18,6 +18,8 @@ PORT_STRONGHOLD = "/GameMechanics/RefTables/GhostMode/face_Spook.(Texture).xdb#x
 g_tabCallbackParams = {}
 
 -- Flags
+g_iToday = 0 -- tracking date change
+
 g_bOtherInitialization = 0  -- trace if _rab_other_initialization has been run
 g_tabAcademyUsedFactory = {}  -- trace if a hero has used arcane forge on a day
 g_tabAcademySpellsRemaining = {} -- trace how many spells remains for each spellId each hand
@@ -25,6 +27,7 @@ g_tabAcademySpellsHeroBoughtSpell = {} -- trace if a hero has bought a spell
 g_tabDunegonUsedDarkRitual = {}  -- trace if a hero has used dark ritual per day
 g_tabDungeonIrresistableKnowledge = {}  -- trace if knowledge has been awarded based on irresitable magic
 g_tabHavenUsedTraining = {}  -- trace if a faction has used its haven training quota
+g_tabInfernoCreatureInfos = {}  -- inferno creature tracking, [playerId][dayNo][creatureId] = amount
 g_tabPreserveUsedSettingEnemy = {}  -- trace if a hero has used setting enemy on a day
 g_tabStrongholdUsedWalksHut = {}  -- trace if a hero has used walk's hut on a day
 g_tabStrongholdShatterMagicLearnt = {}  -- trace if a hero has learnt shatter magic
@@ -79,7 +82,19 @@ function RacialAbilityBoost(heroName, customAbilityID)
                 RAB_TXT.."RABTalkBoxTitle.txt",
                 "_HavenAbilityCallback", options)
         elseif heroRace == TOWN_INFERNO then
-            MessageBox({RAB_TXT.."InfernoTalkBoxDescription.txt"; class = CLASS2TEXT[TOWN_INFERNO]})
+            local switchString = RAB_TXT.."On.txt"
+            if GetGameVar(RAB_COMBAT_GATING_SUFFIX.."SupressFlyMessage") == "" then
+                switchString = RAB_TXT.."Off.txt"
+            end
+            local options = {[1] = RAB_TXT.."InfernoOption1.txt", [2] = RAB_TXT.."InfernoOption2.txt",
+                             [3] = {RAB_TXT.."InfernoOption3.txt"; movement = PARAM_DEMONLOAD_RECRUITMENT_COST},
+                             [4] = {RAB_TXT.."InfernoOption4.txt"; switch = switchString}}
+            _PagedTalkBox(
+                PORT_INFERNO,
+                RAB_TXT.."dummy2.txt",
+                {RAB_TXT.."InfernoTalkBoxDescription.txt"; race = RACE2TEXT[TOWN_INFERNO], class = CLASS2TEXT[TOWN_INFERNO]},
+                RAB_TXT.."RABTalkBoxTitle.txt",
+                "_InfernoAbilityCallback", options)
         elseif heroRace == TOWN_NECROMANCY then
             MessageBox({RAB_TXT.."NecropolisTalkBoxDescription.txt"; class = CLASS2TEXT[TOWN_NECROMANCY]})
         elseif heroRace == TOWN_PRESERVE  then
@@ -478,6 +493,136 @@ function _HavenAbilityCallback(cNum)
     end
 end
 
+function _InfernoGetMaxRecallSummonDay()
+    local result = _getMaxValue(PARAM_DEMONLORD_SUMMON_GATED_BASE_DAYS + PARAM_DEMONLORD_SUMMON_GATED_DAYS_PER_TIER * 7,
+                                PARAM_DEMONLORD_RECALL_DEAD_BASE_DAYS + PARAM_DEMONLORD_RECALL_DEAD_DAYS_PER_TIER * 7)
+    return result
+end
+
+function _InfernoAbilityCallback(cNum)
+    if cNum == 1 then
+        MessageBox({RAB_TXT.."InfernoRecallSummonMechanismDescription.txt";
+            race = RACE2TEXT[TOWN_INFERNO], class = CLASS2TEXT[TOWN_INFERNO], miniRace = RAB_TXT.."MiniInferno.txt",
+            skill1 = DEMONLORD_SKILL_GATING_TEXT[1], skill2 = DEMONLORD_SKILL_GATING_TEXT[2],
+            skill3 = DEMONLORD_SKILL_GATING_TEXT[3], skill4 = DEMONLORD_SKILL_GATING_TEXT[4],
+            skill1_value1 = round(PARAM_DEMONLORD_RECALL_DEAD_RACIAL_RATIO[1] * 100),
+            skill1_value2 = PARAM_DEMONLORD_RECALL_DEAD_BASE_DAYS, skill1_value3 = PARAM_DEMONLORD_RECALL_DEAD_DAYS_PER_TIER,
+            skill1_value4 = round(PARAM_DEMONLORD_SUMMON_GATED_RACIAL_RATIO[1] * 100),
+            skill1_value5 = PARAM_DEMONLORD_SUMMON_GATED_BASE_DAYS, skill1_value6 = PARAM_DEMONLORD_SUMMON_GATED_DAYS_PER_TIER,
+            skill1_value7 = PARAM_DEMONLORD_CREATURE_EXPIRE_DAYS,
+            skill2_value1 = round(PARAM_DEMONLORD_RECALL_DEAD_RACIAL_RATIO[2] * 100),
+            skill2_value2 = round(PARAM_DEMONLORD_RECALL_DEAD_RACIAL_DISCOUNT[2] * 100), 
+            skill2_value3 = round(PARAM_DEMONLORD_SUMMON_GATED_RACIAL_RATIO[2] * 100),
+            skill2_value4 = round(PARAM_DEMONLORD_RECALL_DEAD_RACIAL_DISCOUNT[2] * 100),
+            skill3_value1 = round(PARAM_DEMONLORD_RECALL_DEAD_RACIAL_RATIO[3] * 100),
+            skill3_value2 = round(PARAM_DEMONLORD_RECALL_DEAD_RACIAL_DISCOUNT[3] * 100), 
+            skill3_value3 = round(PARAM_DEMONLORD_SUMMON_GATED_RACIAL_RATIO[3] * 100),
+            skill3_value4 = round(PARAM_DEMONLORD_RECALL_DEAD_RACIAL_DISCOUNT[3] * 100),
+            skill4_value1 = round(PARAM_DEMONLORD_RECALL_DEAD_RACIAL_RATIO[4] * 100),
+            skill4_value2 = round(PARAM_DEMONLORD_RECALL_DEAD_RACIAL_DISCOUNT[4] * 100), 
+            skill4_value3 = round(PARAM_DEMONLORD_SUMMON_GATED_RACIAL_RATIO[4] * 100),
+            skill4_value4 = round(PARAM_DEMONLORD_RECALL_DEAD_RACIAL_DISCOUNT[4] * 100), })
+
+    elseif cNum == 2 then
+        local maxDayNo = _InfernoGetMaxRecallSummonDay()
+        local cmd = "MessageBox({RAB_TXT..\"InfernoRecallSummonMainSummary.txt\"; "
+        local playerId = GetCurrentPlayer()
+        for dayNo = -PARAM_DEMONLORD_CREATURE_EXPIRE_DAYS, maxDayNo do
+            local dayString = "text"..(dayNo + PARAM_DEMONLORD_CREATURE_EXPIRE_DAYS).." = {RAB_TXT..\"InfernoRecallSummonSummaryEntry.txt\"; elementDay = "
+            if dayNo > 0 then
+                dayString = dayString.."{RAB_TXT..\"InfernoRecallSummonSummaryEntryDay1.txt\"; dayNo = "..abs(dayNo).."}, "
+            elseif dayNo < 0 then
+                dayString = dayString.."{RAB_TXT..\"InfernoRecallSummonSummaryEntryDay2.txt\"; dayNo = "..abs(PARAM_DEMONLORD_CREATURE_EXPIRE_DAYS + dayNo + 1).."}, "
+            else
+                dayString = dayString.."RAB_TXT..\"InfernoRecallSummonSummaryEntryDay3.txt\", "
+            end
+            local shouldAdd = 0
+            for creatureId, creatureAmount in g_tabInfernoCreatureInfos[playerId][dayNo] do
+                if abs(creatureAmount) > abs(RAB_ZERO)  then
+                    shouldAdd = 1
+                    local creatureTier = round((creatureId - CREATURE_FAMILIAR) / 2 + 1)
+                    dayString = dayString.."creature"..creatureTier.." = {RAB_TXT..\"InfernoRecallSummonSummaryEntryCreature.txt\"; "
+                    dayString = dayString.."creatureAmount = "..creatureAmount..", creatureName=CREATURE2TEXT["..creatureId.."], }, "
+                end
+            end
+            if shouldAdd > 0 then
+                dayString = dayString.."},"
+                cmd = cmd..dayString
+            end
+        end
+        cmd = cmd.."})"
+        parse(cmd)()
+    elseif cNum == 3 then
+        -- collate all purchasable creatures
+        BlockGame()
+        local dwellingCreaturesBefore = {}
+        local playerId = GetCurrentPlayer()
+        for dayNo = -PARAM_DEMONLORD_CREATURE_EXPIRE_DAYS, 0 do
+            for creatureId, creatureAmount in g_tabInfernoCreatureInfos[playerId][dayNo] do
+                if dwellingCreaturesBefore[creatureId] == nil then
+                    dwellingCreaturesBefore[creatureId] = 0.0
+                end
+                dwellingCreaturesBefore[creatureId] = dwellingCreaturesBefore[creatureId] + creatureAmount
+            end
+        end
+        for creatureId, creatureAmount in dwellingCreaturesBefore do
+            SetObjectDwellingCreatures(MINI_TOWN[TOWN_INFERNO], creatureId, creatureAmount)
+        end
+        sleep(1)
+        for creatureId, creatureAmount in dwellingCreaturesBefore do
+            dwellingCreaturesBefore[creatureId] = GetObjectDwellingCreatures(MINI_TOWN[TOWN_INFERNO], creatureId)
+        end
+        UnblockGame()
+        if _checkMovementCondition(g_tabCallbackParams[1], PARAM_DEMONLOAD_RECRUITMENT_COST) then
+            _forceHeroInteractWithObject(g_tabCallbackParams[1], MINI_TOWN[TOWN_INFERNO], true)
+        end
+        BlockGame()
+        local dwellingCreaturesDiff = {}
+        for creatureId, creatureAmount in dwellingCreaturesBefore do
+            dwellingCreaturesDiff[creatureId] = dwellingCreaturesBefore[creatureId] - GetObjectDwellingCreatures(MINI_TOWN[TOWN_INFERNO], creatureId)
+        end
+        print(dwellingCreaturesDiff)
+
+        for dayNo = -PARAM_DEMONLORD_CREATURE_EXPIRE_DAYS, 0 do
+            for creatureId = CREATURE_FAMILIAR, CREATURE_DEVIL, 2 do
+                if abs(dwellingCreaturesDiff[creatureId]) >= abs(RAB_ZERO) then
+                    if dwellingCreaturesDiff[creatureId] >= g_tabInfernoCreatureInfos[playerId][dayNo][creatureId] then
+                        dwellingCreaturesDiff[creatureId] = dwellingCreaturesDiff[creatureId] - g_tabInfernoCreatureInfos[playerId][dayNo][creatureId]
+                        g_tabInfernoCreatureInfos[playerId][dayNo][creatureId] = 0
+                    else
+                        g_tabInfernoCreatureInfos[playerId][dayNo][creatureId] = g_tabInfernoCreatureInfos[playerId][dayNo][creatureId] - dwellingCreaturesDiff[creatureId]
+                        dwellingCreaturesDiff[creatureId] = 0
+                    end
+                end
+            end
+        end
+        print(dwellingCreaturesDiff)
+
+        for creatureId, creatureAmount in dwellingCreaturesBefore do
+            SetObjectDwellingCreatures(MINI_TOWN[TOWN_INFERNO], creatureId, 0)
+        end
+        sleep(1)
+        UnblockGame()
+    elseif cNum == 4 then
+        local QuestionBoxString = "InfernoRecallSummonShowFlyMessageQuestionOff.txt"
+        local switchString = "Off.txt"
+        if GetGameVar(RAB_COMBAT_GATING_SUFFIX.."SupressFlyMessage") == "" then
+            QuestionBoxString = "InfernoRecallSummonShowFlyMessageQuestionOn.txt"
+            switchString = "On.txt"
+        end
+        QuestionBox({RAB_TXT..QuestionBoxString; class=CLASS2TEXT[TOWN_INFERNO], switch = RAB_TXT..switchString}, 
+                    "_InfernoShowFlyMessageConfigYes", "_InfernoShowFlyMessageConfigNo")
+    end
+end
+
+function _InfernoShowFlyMessageConfigYes()
+    SetGameVar(RAB_COMBAT_GATING_SUFFIX.."SupressFlyMessage", "")
+end
+
+function _InfernoShowFlyMessageConfigNo()
+    SetGameVar(RAB_COMBAT_GATING_SUFFIX.."SupressFlyMessage", "Yes")
+end
+
 function _PreserveAbilityCallback(cNum)
     if cNum == 1 then  -- Set favored enemies
         if not _checkMovementCondition(g_tabCallbackParams[1], PARAM_RANGER_SET_FAVORED_ENEMY_COST) then
@@ -722,6 +867,129 @@ function _StrongholdLearnSkillCallback(cNum)
     end
 end
 
+function _test2()
+    SetGameVar(RAB_COMBAT_GATING_SUFFIX.."Attacker".."Hero", "Efion")
+    SetGameVar(RAB_COMBAT_GATING_SUFFIX.."Attacker".."Real"..CREATURE_FAMILIAR, 10)
+    SetGameVar(RAB_COMBAT_GATING_SUFFIX.."Attacker".."Real"..CREATURE_HELL_HOUND, 1)
+    SetGameVar(RAB_COMBAT_GATING_SUFFIX.."Attacker".."Fake"..CREATURE_HELL_HOUND, 10)
+    SetGameVar(RAB_COMBAT_GATING_SUFFIX.."Attacker".."Fake"..CREATURE_DEVIL, 1)
+end
+
+function _test()
+    g_tabInfernoCreatureInfos[1][-7][CREATURE_FAMILIAR] = 31
+    g_tabInfernoCreatureInfos[1][-7][CREATURE_HELL_HOUND] = 21
+    g_tabInfernoCreatureInfos[1][-7][CREATURE_DEVIL] = 1
+    g_tabInfernoCreatureInfos[1][-6][CREATURE_FAMILIAR] = 22
+    g_tabInfernoCreatureInfos[1][-6][CREATURE_DEMON] = 11
+    g_tabInfernoCreatureInfos[1][-6][CREATURE_DEVIL] = 1
+    g_tabInfernoCreatureInfos[1][-5][CREATURE_DEVIL] = 2
+    g_tabInfernoCreatureInfos[1][0][CREATURE_FAMILIAR] = 1.4
+    g_tabInfernoCreatureInfos[1][0][CREATURE_HELL_HOUND] = 0.4
+    g_tabInfernoCreatureInfos[1][0][CREATURE_DEVIL] = 0.5
+    g_tabInfernoCreatureInfos[1][1][CREATURE_FAMILIAR] = 1.9
+    g_tabInfernoCreatureInfos[1][1][CREATURE_HELL_HOUND] = 0.1
+    g_tabInfernoCreatureInfos[1][1][CREATURE_DEVIL] = 0.3
+    g_tabInfernoCreatureInfos[1][1][CREATURE_FAMILIAR] = 1.9
+    g_tabInfernoCreatureInfos[1][1][CREATURE_HELL_HOUND] = 0.5
+    g_tabInfernoCreatureInfos[1][1][CREATURE_DEVIL] = 0.3
+end
+
+function _rab_monitoring_thread()
+    sleep(1)
+    --initialize Inferno creature tracking matrix
+    local maxDayNo = _InfernoGetMaxRecallSummonDay()
+    for playerId = PLAYER_1, PLAYER_8 do
+        if GetPlayerState(playerId) == PLAYER_ACTIVE and IsAIPlayer(playerId) == 0 then
+            g_tabInfernoCreatureInfos[playerId] = {}
+            for dayNo = -PARAM_DEMONLORD_CREATURE_EXPIRE_DAYS, maxDayNo do
+                g_tabInfernoCreatureInfos[playerId][dayNo] = {}
+                for creatureId = CREATURE_FAMILIAR, CREATURE_DEVIL, 2 do
+                    g_tabInfernoCreatureInfos[playerId][dayNo][creatureId] = 0
+                end
+            end
+        end
+    end
+
+
+    while true do
+        -- Accumulate Inferno creature counts
+        for sideId, sideString in RAB_COMBAT_GATING_SIDE2STRING do
+            local varName = RAB_COMBAT_GATING_SUFFIX..sideString.."Hero"
+            local heroName = GetGameVar(varName)
+            if heroName ~= "" and IsHeroAlive(heroName) then
+                BlockGame()
+                print("Now checking creature info "..varName.." "..heroName)
+                local playerId = GetObjectOwner(heroName)
+                if IsAIPlayer(playerId) == 0 and _GetHeroRace(heroName) == TOWN_INFERNO then
+                    local gatingLevel = GetHeroSkillMastery(heroName, SKILL_GATING)
+                    local countDownDays = 0
+                    for realFakeId, realFakeString in RAB_COMBAT_GATING_REAL_FAKE do
+                        for creatureId = CREATURE_FAMILIAR, CREATURE_DEVIL, 2 do
+                            local creatureTier = (creatureId - CREATURE_FAMILIAR) / 2 + 1
+                            if realFakeString == "Real" then
+                                countDownDays = PARAM_DEMONLORD_RECALL_DEAD_BASE_DAYS + creatureTier * PARAM_DEMONLORD_RECALL_DEAD_DAYS_PER_TIER
+                                countDownDays = countDownDays * PARAM_DEMONLORD_RECALL_DEAD_RACIAL_DISCOUNT[gatingLevel]
+                            else
+                                countDownDays = PARAM_DEMONLORD_SUMMON_GATED_BASE_DAYS + creatureTier * PARAM_DEMONLORD_SUMMON_GATED_DAYS_PER_TIER
+                                countDownDays = countDownDays * PARAM_DEMONLORD_SUMMON_GATED_RACIAL_DISCOUNT[gatingLevel]
+                            end
+                            countDownDays = round(countDownDays)
+
+                            local combatAmount = GetGameVar(RAB_COMBAT_GATING_SUFFIX..sideString..realFakeString..creatureId)
+                            if combatAmount == "" then
+                                combatAmount = 0
+                            else
+                                combatAmount = combatAmount + 0
+                            end
+
+                            if realFakeString == "Real" then
+                                combatAmount = combatAmount * (1 + PARAM_DEMONLORD_RECALL_DEAD_RACIAL_RATIO[gatingLevel])
+                                if combatAmount > 0 and GetGameVar(RAB_COMBAT_GATING_SUFFIX.."SupressFlyMessage") == "" then
+                                    ShowFlyMessage({RAB_TXT.."InfernoRecallSummonRealFlyMessage.txt"; amount = combatAmount, creatureName = CREATURE2TEXT[creatureId], days=countDownDays}, heroName, GetCurrentPlayer(), 2)
+                                    sleep(1)
+                                end
+                            else
+                                combatAmount = combatAmount * (1 + PARAM_DEMONLORD_SUMMON_GATED_RACIAL_RATIO[gatingLevel])
+                                if combatAmount > 0 and GetGameVar(RAB_COMBAT_GATING_SUFFIX.."SupressFlyMessage") == "" then
+                                    ShowFlyMessage({RAB_TXT.."InfernoRecallSummonFakeFlyMessage.txt"; amount = combatAmount, creatureName = CREATURE2TEXT[creatureId], days=countDownDays}, heroName, GetCurrentPlayer(), 2)
+                                    sleep(1)
+                                end
+                            end
+                            g_tabInfernoCreatureInfos[playerId][countDownDays][creatureId] = g_tabInfernoCreatureInfos[playerId][countDownDays][creatureId] + combatAmount
+                        end
+                    end
+                end
+                SetGameVar(varName, "")
+                UnblockGame()
+            end
+        end
+
+        -- Shift creature in days
+        local today = GetDate(ABSOLUTE_DAY)
+        if today > g_iToday then
+            local playerId = GetCurrentPlayer()
+            for dayNo = -PARAM_DEMONLORD_CREATURE_EXPIRE_DAYS, maxDayNo - 1 do
+                g_tabInfernoCreatureInfos[playerId][dayNo] = g_tabInfernoCreatureInfos[playerId][dayNo + 1]
+            end
+            for creatureId = CREATURE_FAMILIAR, CREATURE_DEVIL, 2 do
+                g_tabInfernoCreatureInfos[playerId][maxDayNo][creatureId] = 0
+            end
+
+            -- Accumulate decimal point from the past day to today
+            for creatureId, creatureAmount in g_tabInfernoCreatureInfos[playerId][-1] do
+                if abs(creatureAmount) > abs(RAB_ZERO) then
+                    local decimalPart = frac(creatureAmount)
+                    g_tabInfernoCreatureInfos[playerId][0][creatureId] = g_tabInfernoCreatureInfos[playerId][0][creatureId] + decimalPart
+                    g_tabInfernoCreatureInfos[playerId][-1][creatureId] = intg(creatureAmount)
+                end
+            end
+
+            g_iToday = today
+        end
+        sleep(1)
+    end
+end
+
 function _rab_other_initialization()
     for spellId, spellString in ABILITY2STRING do
         g_tabAcademySpellsRemaining[spellId] = {}
@@ -761,7 +1029,7 @@ function RABInitialization()
     end
 
     Trigger(CUSTOM_ABILITY_TRIGGER, "RacialAbilityBoost")
-
+    startThread(_rab_monitoring_thread)
     print("Racial Ability Boost module successfully loaded!")
     UnblockGame()
 end

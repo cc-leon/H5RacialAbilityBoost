@@ -82,6 +82,14 @@ function _PagedTalkBox(port, info, desc, capt, callback, options)
         args[1], args[2], args[3], args[4], args[5])
 end
 
+function _getMaxValue(value1, value2)
+    if value1 > value2 then
+        return value1
+    else
+        return value2
+    end
+end
+
 function _GetHeroRace(heroName)
     -- Return the race id of a hero
     if GetHeroSkillMastery(heroName, SKILL_TRAINING) >= 1 then
