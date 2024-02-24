@@ -1,3 +1,4 @@
+doFile("/scripts/RacialAbilityBoost/RacialAbilityBoostCombatConstants.lua")
 doFile("/scripts/RacialAbilityBoost/RacialAbilityBoostConstants.lua")
 doFile("/scripts/RacialAbilityBoost/RacialAbilityBoostCommon.lua")
 
@@ -17,7 +18,7 @@ PORT_STRONGHOLD = "/GameMechanics/RefTables/GhostMode/face_Spook.(Texture).xdb#x
 g_tabCallbackParams = {}
 
 -- Flags
-g_bOtherInitialization = nil  -- trace if _rab_other_initialization has been run
+g_bOtherInitialization = 0  -- trace if _rab_other_initialization has been run
 g_tabAcademyUsedFactory = {}  -- trace if a hero has used arcane forge on a day
 g_tabAcademySpellsRemaining = {} -- trace how many spells remains for each spellId each hand
 g_tabAcademySpellsHeroBoughtSpell = {} -- trace if a hero has bought a spell
@@ -30,9 +31,9 @@ g_tabStrongholdShatterMagicLearnt = {}  -- trace if a hero has learnt shatter ma
 g_tabStrongholdEnlightenmentShoutLearnt = {}  -- trace if a hero has learnt enlightenment or shout
 
 function RacialAbilityBoost(heroName, customAbilityID)
-    if g_bOtherInitialization == nil then
+    if g_bOtherInitialization == 0 then
         _rab_other_initialization()
-        g_bOtherInitialization = true
+        g_bOtherInitialization = 1
     end
 
     if customAbilityID == CUSTOM_ABILITY_3 then
@@ -115,6 +116,8 @@ function _AcademyUpdateMagicGuilds()
 
     maxLevel = _GetBuildingLevelInAllTowns(TOWN_ACADEMY, TOWN_BUILDING_MAGIC_GUILD)
     miniLevel = GetTownBuildingLevel(MINI_TOWN[TOWN_ACADEMY], TOWN_BUILDING_MAGIC_GUILD)
+    print("*** maxLevel "..maxLevel)
+    print("*** miniLevel "..miniLevel)
     if maxLevel > miniLevel then
         SetTownBuildingLimitLevel(MINI_TOWN[TOWN_ACADEMY], TOWN_BUILDING_MAGIC_GUILD, maxLevel)
         for i = 1, (maxLevel - miniLevel) do
@@ -131,7 +134,6 @@ function _AcademyAbilityCallback(cNum)
         if not _checkMovementCondition(g_tabCallbackParams[1], PARAM_WIZARD_ARTIFICER_COST) then
             return
         end
-        _AcademyUpdateMagicGuilds()
         local drKey = g_tabCallbackParams[1]..GetDate(ABSOLUTE_DAY)
         if g_tabAcademyUsedFactory[drKey] == nil then
             _AcademyUpdateMagicGuilds()

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AdvMapTownShared ObjectRecordID="6">
+    <Model href="/_(Model)/Resourses/Sulfur.(Model).xdb#xpointer(/Model)"/>
+    <AnimSet/>
+    <blockedTiles/>
+    <holeTiles/>
+    <activeTiles/>
+    <passableTiles>
+        <Item>
+            <x>0</x>
+            <y>0</y>
+        </Item>
+    </passableTiles>
+    <PossessionMarkerTile>
+        <x>1</x>
+        <y>-1</y>
+    </PossessionMarkerTile>
+    <Effect/>
+    <EffectWhenOwned/>
+    <messagesFileRef>
+        <Item href="/Text/Interface/RacialAbilityBoost/MiniInferno.txt"/>
+    </messagesFileRef>
+    <WaterBased>false</WaterBased>
+    <ApplyHeroTrace>false</ApplyHeroTrace>
+    <SoundEffect/>
+    <flybyMessageFileRef href=""/>
+    <ObjectTypeFileRef href="/Text/Visibility_Types/Buildings.txt"/>
+    <TerrainAligned>false</TerrainAligned>
+    <FlyPassable>false</FlyPassable>
+    <AdventureSoundEffect/>
+    <RazedStatic/>
+    <Icon128/>
+    <Interior href="/Arenas/Town/NewInferno/NewInferno.(ArenaDesc).xdb#xpointer(/ArenaDesc)"/>
+    <Exterior/>
+    <Type>TOWN_INFERNO</Type>
+    <Razed href="RazedTowns/RazedInferno.xdb#xpointer(/AdvMapStaticShared)"/>
+    <Combat/>
+    <buildings>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/TownHall/Village_Hall.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/TownHall/Town_Hall.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/TownHall/City_Hall.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/TownHall/Capitol.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Fort/Fort.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Fort/Citadel.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Fort/Castle.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Blacksmith/Blacksmith.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Marketplace/Marketplace.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Marketplace/Resource_Silo.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Shipyard/Shipyard.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Magic_Guild/Magic_Guild_1.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Magic_Guild/Magic_Guild_2.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Magic_Guild/Magic_Guild_3.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Magic_Guild/Magic_Guild_4.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Magic_Guild/Magic_Guild_5.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Tavern/Tavern.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Dwelling_1/Familiar_Crucible.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Dwelling_1/Imp_Crucible.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Dwelling_2/Demon_Gate.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Dwelling_2/Demon_Portal.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Dwelling_3/Kennels.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Dwelling_3/Cerberi_Kennels.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Dwelling_4/Hall_of_Temptations.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Dwelling_4/Hall_of_Sins.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Dwelling_5/Hell_Hole.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Dwelling_5/Hell_Chasm.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Dwelling_6/Temple_of_the_Damned.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Dwelling_6/Desecrated_Temple.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Dwelling_7/Forsaken_Palace.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Special_1/Infernal_Loom.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Dwelling_7/Sinister_Palace.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Special_2/Brimstone_Clouds.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Special_4/Halls_of_Horror.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Special_5/Sacrificial_Pit.xdb#xpointer(/TownBuildingSharedStats)"/>
+        <Item href="/GameMechanics/TownBuildingSharedStats/Inferno/Grail/Diety_of_Fire.xdb#xpointer(/TownBuildingSharedStats)"/>
+    </buildings>
+    <FitRandomTownMaskPositionShift>
+        <x>0</x>
+        <y>1</y>
+    </FitRandomTownMaskPositionShift>
+    <MagicSchool_0>MAGIC_SCHOOL_DESTRUCTIVE</MagicSchool_0>
+    <MagicSchool_1>MAGIC_SCHOOL_DARK</MagicSchool_1>
+    <icons>
+        <Icon55x55 href="Inferno/Icon55x55.(Texture).xdb#xpointer(/Texture)"/>
+        <IconWithFort55x55 href="Inferno/IconWithFort55x55.(Texture).xdb#xpointer(/Texture)"/>
+    </icons>
+</AdvMapTownShared>
