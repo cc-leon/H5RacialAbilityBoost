@@ -941,20 +941,21 @@ function _rab_monitoring_thread()
                             else
                                 combatAmount = combatAmount + 0
                             end
-
+                            SetGameVar(RAB_COMBAT_GATING_SUFFIX..sideString..realFakeString..creatureId, "")
                             if realFakeString == "Real" then
-                                combatAmount = combatAmount * (1 + PARAM_DEMONLORD_RECALL_DEAD_RACIAL_RATIO[gatingLevel])
+                                combatAmount = combatAmount * PARAM_DEMONLORD_RECALL_DEAD_RACIAL_RATIO[gatingLevel]
                                 if combatAmount > 0 and GetGameVar(RAB_COMBAT_GATING_SUFFIX.."SupressFlyMessage") == "" then
-                                    ShowFlyMessage({RAB_TXT.."InfernoRecallSummonRealFlyMessage.txt"; amount = combatAmount, creatureName = CREATURE2TEXT[creatureId], days=countDownDays}, heroName, GetCurrentPlayer(), 2)
+                                    ShowFlyMessage({RAB_TXT.."InfernoRecallSummonRealFlyMessage.txt"; amount = combatAmount, creatureName = CREATURE2TEXT[creatureId], days=countDownDays}, heroName, GetCurrentPlayer(), 4)
                                     sleep(1)
                                 end
                             else
-                                combatAmount = combatAmount * (1 + PARAM_DEMONLORD_SUMMON_GATED_RACIAL_RATIO[gatingLevel])
+                                combatAmount = combatAmount * PARAM_DEMONLORD_SUMMON_GATED_RACIAL_RATIO[gatingLevel]
                                 if combatAmount > 0 and GetGameVar(RAB_COMBAT_GATING_SUFFIX.."SupressFlyMessage") == "" then
-                                    ShowFlyMessage({RAB_TXT.."InfernoRecallSummonFakeFlyMessage.txt"; amount = combatAmount, creatureName = CREATURE2TEXT[creatureId], days=countDownDays}, heroName, GetCurrentPlayer(), 2)
+                                    ShowFlyMessage({RAB_TXT.."InfernoRecallSummonFakeFlyMessage.txt"; amount = combatAmount, creatureName = CREATURE2TEXT[creatureId], days=countDownDays}, heroName, GetCurrentPlayer(), 4)
                                     sleep(1)
                                 end
                             end
+                            print(RAB_COMBAT_GATING_SUFFIX..sideString..realFakeString..creatureId.." "..combatAmount)
                             g_tabInfernoCreatureInfos[playerId][countDownDays][creatureId] = g_tabInfernoCreatureInfos[playerId][countDownDays][creatureId] + combatAmount
                         end
                     end
