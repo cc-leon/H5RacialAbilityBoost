@@ -131,13 +131,11 @@ function _AcademyUpdateMagicGuilds()
 
     maxLevel = _GetBuildingLevelInAllTowns(TOWN_ACADEMY, TOWN_BUILDING_MAGIC_GUILD)
     miniLevel = GetTownBuildingLevel(MINI_TOWN[TOWN_ACADEMY], TOWN_BUILDING_MAGIC_GUILD)
-    print("*** maxLevel "..maxLevel)
-    print("*** miniLevel "..miniLevel)
+
     if maxLevel > miniLevel then
         SetTownBuildingLimitLevel(MINI_TOWN[TOWN_ACADEMY], TOWN_BUILDING_MAGIC_GUILD, maxLevel)
         for i = 1, (maxLevel - miniLevel) do
             UpgradeTownBuilding(MINI_TOWN[TOWN_ACADEMY], TOWN_BUILDING_MAGIC_GUILD)
-            print("*** Upgrading Magic Guild!")
         end
     elseif maxLevel < miniLevel then
         DestroyTownBuildingToLevel(MINI_TOWN[TOWN_ACADEMY], TOWN_BUILDING_MAGIC_GUILD, maxLevel, 0)
@@ -581,7 +579,6 @@ function _InfernoAbilityCallback(cNum)
         for creatureId, creatureAmount in dwellingCreaturesBefore do
             dwellingCreaturesDiff[creatureId] = dwellingCreaturesBefore[creatureId] - GetObjectDwellingCreatures(MINI_TOWN[TOWN_INFERNO], creatureId)
         end
-        print(dwellingCreaturesDiff)
 
         for dayNo = -PARAM_DEMONLORD_CREATURE_EXPIRE_DAYS, 0 do
             for creatureId = CREATURE_FAMILIAR, CREATURE_DEVIL, 2 do
@@ -596,7 +593,6 @@ function _InfernoAbilityCallback(cNum)
                 end
             end
         end
-        print(dwellingCreaturesDiff)
 
         for creatureId, creatureAmount in dwellingCreaturesBefore do
             SetObjectDwellingCreatures(MINI_TOWN[TOWN_INFERNO], creatureId, 0)
@@ -918,7 +914,6 @@ function _rab_monitoring_thread()
             local heroName = GetGameVar(varName)
             if heroName ~= "" and IsHeroAlive(heroName) then
                 BlockGame()
-                print("Now checking creature info "..varName.." "..heroName)
                 local playerId = GetObjectOwner(heroName)
                 if IsAIPlayer(playerId) == 0 and _GetHeroRace(heroName) == TOWN_INFERNO then
                     local gatingLevel = GetHeroSkillMastery(heroName, SKILL_GATING)
@@ -945,17 +940,16 @@ function _rab_monitoring_thread()
                             if realFakeString == "Real" then
                                 combatAmount = combatAmount * PARAM_DEMONLORD_RECALL_DEAD_RACIAL_RATIO[gatingLevel]
                                 if combatAmount > 0 and GetGameVar(RAB_COMBAT_GATING_SUFFIX.."SupressFlyMessage") == "" then
-                                    ShowFlyMessage({RAB_TXT.."InfernoRecallSummonRealFlyMessage.txt"; amount = combatAmount, creatureName = CREATURE2TEXT[creatureId], days=countDownDays}, heroName, GetCurrentPlayer(), 4)
-                                    sleep(1)
+                                    ShowFlyMessage({RAB_TXT.."InfernoRecallSummonRealFlyMessage.txt"; amount = combatAmount, creatureName = CREATURE2TEXT[creatureId], days=countDownDays}, heroName, GetCurrentPlayer(), 5)
+                                    sleep(2)
                                 end
                             else
                                 combatAmount = combatAmount * PARAM_DEMONLORD_SUMMON_GATED_RACIAL_RATIO[gatingLevel]
                                 if combatAmount > 0 and GetGameVar(RAB_COMBAT_GATING_SUFFIX.."SupressFlyMessage") == "" then
-                                    ShowFlyMessage({RAB_TXT.."InfernoRecallSummonFakeFlyMessage.txt"; amount = combatAmount, creatureName = CREATURE2TEXT[creatureId], days=countDownDays}, heroName, GetCurrentPlayer(), 4)
-                                    sleep(1)
+                                    ShowFlyMessage({RAB_TXT.."InfernoRecallSummonFakeFlyMessage.txt"; amount = combatAmount, creatureName = CREATURE2TEXT[creatureId], days=countDownDays}, heroName, GetCurrentPlayer(), 5)
+                                    sleep(2)
                                 end
                             end
-                            print(RAB_COMBAT_GATING_SUFFIX..sideString..realFakeString..creatureId.." "..combatAmount)
                             g_tabInfernoCreatureInfos[playerId][countDownDays][creatureId] = g_tabInfernoCreatureInfos[playerId][countDownDays][creatureId] + combatAmount
                         end
                     end

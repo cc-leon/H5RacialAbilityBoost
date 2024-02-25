@@ -32,7 +32,6 @@ function _updateCreatureTracking()
                     local creatureId = _RABGetUngradedInfernoCreature(GetCreatureType(unitNo))
                     if creatureId ~= CREATURE_UNKNOWN then
                         g_tabCombatCreatureTracking[side]["Fake"]["Start"][unitNo] = GetCreatureNumber(unitNo)
-                        print("Fake "..unitNo.."  amount changed to "..g_tabCombatCreatureTracking[side]["Fake"]["Start"][unitNo])
                         g_tabCombatUnitInfos[unitNo] = creatureId
                     end
                 end
@@ -43,10 +42,8 @@ function _updateCreatureTracking()
                 if unitAmount ~= nil then
                     if IsCombatUnit(unitNo) == nil then
                         g_tabCombatCreatureTracking[side]["Real"]["End"][unitNo] = nil
-                        print("Real "..unitNo.." is destroyed!")
                     else
                         g_tabCombatCreatureTracking[side]["Real"]["End"][unitNo] = GetCreatureNumber(unitNo)
-                        print("Real "..unitNo.."  amount changed to "..g_tabCombatCreatureTracking[side]["Real"]["End"][unitNo])
                     end
                 end
             end
@@ -56,7 +53,6 @@ function _updateCreatureTracking()
                 if unitAmount ~= nil then
                     if IsCombatUnit(unitNo) == nil or GetCreatureNumber(unitNo) == 0 then
                         g_tabCombatCreatureTracking[side]["Fake"]["Start"][unitNo] = nil
-                        print("Fake "..unitNo.." is destroyed!")
                     end
                 end
             end
@@ -147,10 +143,7 @@ function UnitMove(unitName)
         temp = DefenderUnitMove(unitName)
     end
     if g_bCombatShouldTrack > 0 then
-        print("*** Unit "..unitName.." is moving!")
         _updateCreatureTracking()
-    else
-        print("*** Not interested in "..unitName..", since there are no inferno units")
     end
     return temp
 end
