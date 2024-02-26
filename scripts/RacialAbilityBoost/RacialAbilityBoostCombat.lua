@@ -9,12 +9,12 @@ g_bCombatShouldTrack = 0 -- Skip move if both sides have no inferno creatures
 
 function _initializeCreatureTracking()
 
-    for sideId, sideString in RAB_COMBAT_GATING_SIDE2STRING do
-        g_tabCombatCreatureTracking[sideId] = {}
+    for side, sideString in RAB_COMBAT_GATING_SIDE2STRING do
+        g_tabCombatCreatureTracking[side] = {}
         for realFakeId, realFakeString in RAB_COMBAT_GATING_REAL_FAKE do
-            g_tabCombatCreatureTracking[sideId][realFakeString] = {}
+            g_tabCombatCreatureTracking[side][realFakeString] = {}
             for startEndId, startEndString in RAB_COMBAT_GATING_START_END do
-                g_tabCombatCreatureTracking[sideId][realFakeString][startEndString] = {}
+                g_tabCombatCreatureTracking[side][realFakeString][startEndString] = {}
             end
         end
     end
@@ -60,50 +60,41 @@ function _updateCreatureTracking()
             -- Update Game Var
             --   Initialize creature counter
             local creatureCounts = {}
-            for sideId, sideString in RAB_COMBAT_GATING_SIDE2STRING do
-                creatureCounts[sideId] = {}
-                for realFakeId, realFakeString in RAB_COMBAT_GATING_REAL_FAKE do
-                    creatureCounts[sideId][realFakeString] = {}
-                    for creatureId = CREATURE_FAMILIAR, CREATURE_DEVIL, 2 do
-                        creatureCounts[sideId][realFakeString][creatureId] = 0
-                    end
+            for realFakeId, realFakeString in RAB_COMBAT_GATING_REAL_FAKE do
+                creatureCounts[realFakeString] = {}
+                for creatureId = CREATURE_FAMILIAR, CREATURE_DEVIL, 2 do
+                    creatureCounts[realFakeString][creatureId] = 0
                 end
             end
 
-            for sideId, heroName in g_tabCombatHeroNames do
-                if heroName ~= "" then
-                    -- Accumulate real amount
-                    for unitNo, startUnitAmount in g_tabCombatCreatureTracking[side]["Real"]["Start"] do
-                        local endUnitAmount = g_tabCombatCreatureTracking[side]["Real"]["End"][unitNo]
-                        local creatureId = g_tabCombatUnitInfos[unitNo]
-                        if endUnitAmount == nil then
-                            endUnitAmount = 0
-                        end
-                        local realAmount = startUnitAmount - endUnitAmount
-                        if realAmount < 0 then
-                            realAmount = 0
-                        end
-                        creatureCounts[sideId]["Real"][creatureId] = creatureCounts[sideId]["Real"][creatureId] + realAmount
-                    end
+            -- Accumulate real amount
+            for unitNo, startUnitAmount in g_tabCombatCreatureTracking[side]["Real"]["Start"] do
+                local endUnitAmount = g_tabCombatCreatureTracking[side]["Real"]["End"][unitNo]
+                local creatureId = g_tabCombatUnitInfos[unitNo]
+                if endUnitAmount == nil then
+                    endUnitAmount = 0
+                end
+                local realAmount = startUnitAmount - endUnitAmount
+                if realAmount < 0 then
+                    realAmount = 0
+                end
+                creatureCounts["Real"][creatureId] = creatureCounts["Real"][creatureId] + realAmount
+            end
 
-                    -- Accumulate fake amount
-                    for unitNo, unitAmount in g_tabCombatCreatureTracking[side]["Fake"]["Start"] do
-                        if unitAmount ~= nil then
-                            local creatureId = g_tabCombatUnitInfos[unitNo]
-                            creatureCounts[sideId]["Fake"][creatureId] = creatureCounts[sideId]["Fake"][creatureId] + unitAmount
-                        end
-                    end
+            -- Accumulate fake amount
+            for unitNo, unitAmount in g_tabCombatCreatureTracking[side]["Fake"]["Start"] do
+                if unitAmount ~= nil then
+                    local creatureId = g_tabCombatUnitInfos[unitNo]
+                    creatureCounts["Fake"][creatureId] = creatureCounts["Fake"][creatureId] + unitAmount
                 end
             end
 
             --    write into Game Var
-            for sideId, heroName in g_tabCombatHeroNames do
-                for realFakeId, realFakeString in RAB_COMBAT_GATING_REAL_FAKE do
-                    for creatureId, creatureAmount in creatureCounts[sideId][realFakeString] do
-                        if heroName ~= "" then
-                            local varName = RAB_COMBAT_GATING_SUFFIX..RAB_COMBAT_GATING_SIDE2STRING[sideId]..realFakeString..creatureId
-                            SetGameVar(varName, creatureAmount)
-                        end
+            for realFakeId, realFakeString in RAB_COMBAT_GATING_REAL_FAKE do
+                for creatureId, creatureAmount in creatureCounts[realFakeString] do
+                    if heroName ~= "" then
+                        local varName = RAB_COMBAT_GATING_SUFFIX..RAB_COMBAT_GATING_SIDE2STRING[side]..realFakeString..creatureId
+                        SetGameVar(varName, creatureAmount)
                     end
                 end
             end
