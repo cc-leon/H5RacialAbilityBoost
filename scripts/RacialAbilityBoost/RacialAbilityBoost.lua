@@ -149,6 +149,10 @@ function _AcademyAbilityCallback(cNum)
         end
         local drKey = g_tabCallbackParams[1]..GetDate(ABSOLUTE_DAY)
         if g_tabAcademyUsedFactory[drKey] == nil then
+            if not IsObjectExists(MINI_TOWN[TOWN_ACADEMY]) then
+                MessageBox(RAB_TXT.."MissingObjectWarning.txt")
+                return nil
+            end
             _AcademyUpdateMagicGuilds()
             if _forceHeroInteractWithObject(g_tabCallbackParams[1], MINI_TOWN[TOWN_ACADEMY], true) == true then
                 g_tabAcademyUsedFactory[drKey] = true
@@ -962,6 +966,7 @@ function _rab_monitoring_thread()
         -- Shift creature in days
         local today = GetDate(ABSOLUTE_DAY)
         if today > g_iToday then
+            -- Do inferno creature day shifts
             local playerId = GetCurrentPlayer()
             for dayNo = -PARAM_DEMONLORD_CREATURE_EXPIRE_DAYS, maxDayNo - 1 do
                 g_tabInfernoCreatureInfos[playerId][dayNo] = g_tabInfernoCreatureInfos[playerId][dayNo + 1]
@@ -970,12 +975,20 @@ function _rab_monitoring_thread()
                 g_tabInfernoCreatureInfos[playerId][maxDayNo][creatureId] = 0
             end
 
-            -- Accumulate decimal point from the past day to today
+            --   Accumulate decimal point from the past day to today
             for creatureId, creatureAmount in g_tabInfernoCreatureInfos[playerId][-1] do
                 if abs(creatureAmount) > abs(RAB_ZERO) then
                     local decimalPart = frac(creatureAmount)
                     g_tabInfernoCreatureInfos[playerId][0][creatureId] = g_tabInfernoCreatureInfos[playerId][0][creatureId] + decimalPart
                     g_tabInfernoCreatureInfos[playerId][-1][creatureId] = intg(creatureAmount)
+                end
+            end
+
+            -- Remove gold gained from owning mini towns
+            if IsObjectExists(MINI_TOWN[TOWN_FORTRESS]) then
+                local playerId = GetCurrentPlayer()
+                if GetObjectOwner(MINI_TOWN[TOWN_FORTRESS]) == playerId then
+                    SetPlayerResource(playerId, GOLD, GetPlayerResource(playerId, GOLD) - 500)
                 end
             end
 
