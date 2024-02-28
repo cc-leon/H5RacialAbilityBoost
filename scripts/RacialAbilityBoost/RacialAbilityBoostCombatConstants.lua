@@ -14,7 +14,7 @@ function _RABGetUngradedInfernoCreature(creatureId)
             return creatureId
         end
     elseif creatureId >= CREATURE_QUASIT and creatureId <=CREATURE_ARCH_DEMON then
-        return creatureId - (CREATURE_QUASIT - CREATURE_FAMILIAR)
+        return CREATURE_FAMILIAR + (2 * (creatureId - CREATURE_QUASIT))
     else
         return CREATURE_UNKNOWN
     end
