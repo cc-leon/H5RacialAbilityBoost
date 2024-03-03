@@ -928,11 +928,17 @@ function _rab_monitoring_thread()
                             if realFakeString == "Real" then
                                 countDownDays = PARAM_DEMONLORD_RECALL_DEAD_BASE_DAYS + creatureTier * PARAM_DEMONLORD_RECALL_DEAD_DAYS_PER_TIER
                                 countDownDays = countDownDays * PARAM_DEMONLORD_RECALL_DEAD_RACIAL_DISCOUNT[gatingLevel]
+                                print("Real Coundown days")
+                                print(countDownDays)
                             else
                                 countDownDays = PARAM_DEMONLORD_SUMMON_GATED_BASE_DAYS + creatureTier * PARAM_DEMONLORD_SUMMON_GATED_DAYS_PER_TIER
                                 countDownDays = countDownDays * PARAM_DEMONLORD_SUMMON_GATED_RACIAL_DISCOUNT[gatingLevel]
+                                print("Fake Coundown days")
+                                print(countDownDays)
                             end
                             countDownDays = round(countDownDays)
+                            print("Final Coundown days")
+                            print(countDownDays)
 
                             local combatAmount = GetGameVar(RAB_COMBAT_GATING_SUFFIX..sideString..realFakeString..creatureId)
                             if combatAmount == "" then
@@ -940,6 +946,7 @@ function _rab_monitoring_thread()
                             else
                                 combatAmount = combatAmount + 0
                             end
+
                             SetGameVar(RAB_COMBAT_GATING_SUFFIX..sideString..realFakeString..creatureId, "")
                             if realFakeString == "Real" then
                                 combatAmount = combatAmount * PARAM_DEMONLORD_RECALL_DEAD_RACIAL_RATIO[gatingLevel]
@@ -966,10 +973,13 @@ function _rab_monitoring_thread()
         -- Shift creature in days
         local today = GetDate(ABSOLUTE_DAY)
         if today > g_iToday then
+            BlockGame()
             -- Do inferno creature day shifts
             local playerId = GetCurrentPlayer()
             for dayNo = -PARAM_DEMONLORD_CREATURE_EXPIRE_DAYS, maxDayNo - 1 do
-                g_tabInfernoCreatureInfos[playerId][dayNo] = g_tabInfernoCreatureInfos[playerId][dayNo + 1]
+                for creatureId = CREATURE_FAMILIAR, CREATURE_DEVIL, 2 do
+                    g_tabInfernoCreatureInfos[playerId][dayNo][creatureId] = g_tabInfernoCreatureInfos[playerId][dayNo + 1][creatureId]
+                end
             end
             for creatureId = CREATURE_FAMILIAR, CREATURE_DEVIL, 2 do
                 g_tabInfernoCreatureInfos[playerId][maxDayNo][creatureId] = 0
@@ -993,6 +1003,7 @@ function _rab_monitoring_thread()
             end
 
             g_iToday = today
+            UnblockGame()
         end
         sleep(1)
     end
