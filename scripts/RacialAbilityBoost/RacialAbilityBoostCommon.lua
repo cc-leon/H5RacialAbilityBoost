@@ -297,3 +297,19 @@ function _getHeroNumMainSkillLearnt(heroName)
     end
     return result
 end
+
+-- Get the hero's player owner ID
+-- This is needed as in contrary to GetObjectOwner, when a hero is inside town and disappeared from the hero list,
+-- GetObjectOwner will raise an error, despite the hero still IsHeroAlive() and IsObjectExists() returning true.
+-- This function is to circumvent this limitation of GetObjectOwner
+function _getHeroPlayer(heroName)
+    for playerId = PLAYER_1, PLAYER_8 do
+        if GetPlayerState(playerId) == PLAYER_ACTIVE then
+            local heroes = GetPlayerHeroes(playerId)
+            if contains(heroes, heroName) then
+                return playerId
+            end
+        end
+    end
+    return PLAYER_NONE
+end

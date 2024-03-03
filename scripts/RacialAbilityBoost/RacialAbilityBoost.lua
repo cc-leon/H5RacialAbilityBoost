@@ -918,7 +918,7 @@ function _rab_monitoring_thread()
             local heroName = GetGameVar(varName)
             if heroName ~= "" and IsHeroAlive(heroName) then
                 BlockGame()
-                local playerId = GetObjectOwner(heroName)
+                local playerId = _getHeroPlayer(heroName)
                 if IsAIPlayer(playerId) == 0 and _GetHeroRace(heroName) == TOWN_INFERNO then
                     local gatingLevel = GetHeroSkillMastery(heroName, SKILL_GATING)
                     local countDownDays = 0
@@ -928,17 +928,11 @@ function _rab_monitoring_thread()
                             if realFakeString == "Real" then
                                 countDownDays = PARAM_DEMONLORD_RECALL_DEAD_BASE_DAYS + creatureTier * PARAM_DEMONLORD_RECALL_DEAD_DAYS_PER_TIER
                                 countDownDays = countDownDays * PARAM_DEMONLORD_RECALL_DEAD_RACIAL_DISCOUNT[gatingLevel]
-                                print("Real Coundown days")
-                                print(countDownDays)
                             else
                                 countDownDays = PARAM_DEMONLORD_SUMMON_GATED_BASE_DAYS + creatureTier * PARAM_DEMONLORD_SUMMON_GATED_DAYS_PER_TIER
                                 countDownDays = countDownDays * PARAM_DEMONLORD_SUMMON_GATED_RACIAL_DISCOUNT[gatingLevel]
-                                print("Fake Coundown days")
-                                print(countDownDays)
                             end
                             countDownDays = round(countDownDays)
-                            print("Final Coundown days")
-                            print(countDownDays)
 
                             local combatAmount = GetGameVar(RAB_COMBAT_GATING_SUFFIX..sideString..realFakeString..creatureId)
                             if combatAmount == "" then
