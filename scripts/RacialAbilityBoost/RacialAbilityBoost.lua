@@ -556,6 +556,10 @@ function _InfernoAbilityCallback(cNum)
         parse(cmd)()
     elseif cNum == 3 then
         -- collate all purchasable creatures
+        if not IsObjectExists(MINI_TOWN[TOWN_INFERNO]) then
+            MessageBox(RAB_TXT.."MissingObjectWarning.txt")
+            return nil
+        end
         BlockGame()
         local dwellingCreaturesBefore = {}
         local playerId = GetCurrentPlayer()
