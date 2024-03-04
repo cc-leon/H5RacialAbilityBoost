@@ -867,33 +867,6 @@ function _StrongholdLearnSkillCallback(cNum)
     end
 end
 
-function _test2()
-    SetGameVar(RAB_COMBAT_GATING_SUFFIX.."Attacker".."Hero", "Efion")
-    SetGameVar(RAB_COMBAT_GATING_SUFFIX.."Attacker".."Real"..CREATURE_FAMILIAR, 10)
-    SetGameVar(RAB_COMBAT_GATING_SUFFIX.."Attacker".."Real"..CREATURE_HELL_HOUND, 1)
-    SetGameVar(RAB_COMBAT_GATING_SUFFIX.."Attacker".."Fake"..CREATURE_HELL_HOUND, 10)
-    SetGameVar(RAB_COMBAT_GATING_SUFFIX.."Attacker".."Fake"..CREATURE_DEVIL, 1)
-end
-
-function _test()
-    g_tabInfernoCreatureInfos[1][-7][CREATURE_FAMILIAR] = 31
-    g_tabInfernoCreatureInfos[1][-7][CREATURE_HELL_HOUND] = 21
-    g_tabInfernoCreatureInfos[1][-7][CREATURE_DEVIL] = 1
-    g_tabInfernoCreatureInfos[1][-6][CREATURE_FAMILIAR] = 22
-    g_tabInfernoCreatureInfos[1][-6][CREATURE_DEMON] = 11
-    g_tabInfernoCreatureInfos[1][-6][CREATURE_DEVIL] = 1
-    g_tabInfernoCreatureInfos[1][-5][CREATURE_DEVIL] = 2
-    g_tabInfernoCreatureInfos[1][0][CREATURE_FAMILIAR] = 1.4
-    g_tabInfernoCreatureInfos[1][0][CREATURE_HELL_HOUND] = 0.4
-    g_tabInfernoCreatureInfos[1][0][CREATURE_DEVIL] = 0.5
-    g_tabInfernoCreatureInfos[1][1][CREATURE_FAMILIAR] = 1.9
-    g_tabInfernoCreatureInfos[1][1][CREATURE_HELL_HOUND] = 0.1
-    g_tabInfernoCreatureInfos[1][1][CREATURE_DEVIL] = 0.3
-    g_tabInfernoCreatureInfos[1][1][CREATURE_FAMILIAR] = 1.9
-    g_tabInfernoCreatureInfos[1][1][CREATURE_HELL_HOUND] = 0.5
-    g_tabInfernoCreatureInfos[1][1][CREATURE_DEVIL] = 0.3
-end
-
 function _rab_monitoring_thread()
     sleep(1)
     --initialize Inferno creature tracking matrix

@@ -69,7 +69,7 @@ function _PagedTalkBox(port, info, desc, capt, callback, options)
     end
 
     TalkBoxForPlayers(
-        GetPlayerFilter(1),
+        GetPlayerFilter(GetCurrentPlayer()),
         port,
         info,
         {RAB_TXT.."TalkBoxMain.txt"; texts = desc},
