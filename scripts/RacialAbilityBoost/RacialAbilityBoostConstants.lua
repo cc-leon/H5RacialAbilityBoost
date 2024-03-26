@@ -1,7 +1,27 @@
+TOWN_NEUTRAL = 8
+
+
 doFile("/scripts/RacialAbilityBoost/RacialAbilityBoostBorderGuards.lua")
 doFile("/scripts/RacialAbilityBoost/RacialAbilityBoostDarkAcolytes.lua")
+doFile("/scripts/RacialAbilityBoost/RacialAbilityBoostDarkSuzerains.lua")
+doFile("/scripts/RacialAbilityBoost/RacialAbilityBoostCreatureInfos.lua")
 
 -- Adjustable params
+
+PARAM_HAVEN_BASE_QUOTA = 20
+PARAM_HAVEN_SPECIAL1_QUOTA = 10
+PARAM_HAVEN_TRAINING_CREATURE_LEVEL_LIMIT = {
+    [1] = 2, [2] = 4, [3] = 6, [4] = 7}
+PARAM_HAVEN_TRAINING_COST_RACIAL_REDUCTION = {
+    [1] = 0.0, [2] = 0.15, [3] = 0.30, [4] = 0.45}
+PARAM_HAVEN_TRAINING_COST_PER_SPECIAL2_REDUCTION = 0.05
+PARAM_HAVEN_TRAINING_COST_EXPERT_TRAINER_REDUCTION = 0.35
+PARAM_HAVEN_TRAINING_COST_SUZERAIN_REDUCTION = 0.01
+PARAM_HAVEN_TRAINING_COST_SUZERAIN_LEVEL = 3
+
+
+PARAM_HAVEN_TRAINING_COST_BASE_MUL = 3
+PARAM_HAVEN_TRAINING_COST_NO_BUILDING_MUL = 2
 
 PARAM_DEMONLORD_RECALL_DEAD_BASE_DAYS = 4
 PARAM_DEMONLORD_RECALL_DEAD_DAYS_PER_TIER = 2
@@ -33,9 +53,31 @@ PARAM_WARLOCK_DARK_ACOLYTE_PER_LEVEL_SAVING = 0.02
 PARAM_STRONGHOLD_WALKERS_HUT_COST = 200
 
 MAX_WIZARD_SPELLS_PER_HAND = 30
-TOWN_NEUTRAL = 8
 
 RAB_ZERO =  1e-6
+
+-- Training info
+
+HAVEN_SPECIAL1 = "/Text/Game/TownBuildings/Haven/Special_1/Name.txt"
+HAVEN_SPECIAL2 = "/Text/Game/TownBuildings/Haven/Special_2/Name.txt"
+HAVEN_EXPERT_TRAINER_TEXT = "/Text/Game/Skills/Unique/Training/ExpertTrainer/Name.txt"
+
+TRAINING_MAPPING = {
+    -- Haven
+    [CREATURE_PEASANT] = CREATURE_ARCHER, [CREATURE_ARCHER] = CREATURE_FOOTMAN, [CREATURE_FOOTMAN] = CREATURE_PRIEST,
+    [CREATURE_PRIEST] = CREATURE_CAVALIER,
+    -- Sylvan
+    [CREATURE_BLADE_JUGGLER] = CREATURE_WOOD_ELF, [CREATURE_WOOD_ELF] = CREATURE_DRUID, 
+    -- Dungeon
+    [CREATURE_SCOUT] = CREATURE_WITCH, [CREATURE_WITCH] = CREATURE_RIDER, [CREATURE_RIDER] = CREATURE_MATRON,
+    -- Academy
+    [-1] = CREATURE_MAGI,
+    -- Fortress
+    [CREATURE_DEFENDER] = CREATURE_AXE_FIGHTER, [CREATURE_AXE_FIGHTER] = CREATURE_BEAR_RIDER, [CREATURE_BEAR_RIDER] = CREATURE_BROWLER,
+    [CREATURE_BROWLER] = CREATURE_RUNE_MAGE, [CREATURE_RUNE_MAGE] = CREATURE_THANE,
+    -- Stronghold
+    [CREATURE_ORC_WARRIOR] = CREATURE_SHAMAN, [CREATURE_SHAMAN] = CREATURE_ORCCHIEF_BUTCHER,
+}
 
 -- Rune spell info
 
@@ -217,73 +259,6 @@ DESTRUCTIVE2TEXT = {
     [SPELL_FIREBALL] = "/Text/Game/Spells/Combat/Fireball/Name.txt", 
     [SPELL_FROST_RING] = "/Text/Game/Spells/Combat/Frost_Ring/Name.txt",
     [SPELL_FIREWALL] = "/Text/Game/Spells/Combat/Firewall/Name.txt", }
-
-CREATURE2TEXT = {
-    [CREATURE_PEASANT] = "/Text/Game/Creatures/Haven/Peasant.txt",
-    [CREATURE_ARCHER] = "/Text/Game/Creatures/Haven/Archer.txt",
-    [CREATURE_FOOTMAN] = "/Text/Game/Creatures/Haven/Footman.txt",
-    [CREATURE_GRIFFIN] = "/Text/Game/Creatures/Haven/Griffin.txt",
-    [CREATURE_PRIEST] = "/Text/Game/Creatures/Haven/Priest.txt",
-    [CREATURE_CAVALIER] = "/Text/Game/Creatures/Haven/Cavalier.txt",
-    [CREATURE_ANGEL] = "/Text/Game/Creatures/Haven/Angel.txt",
-    [CREATURE_PIXIE] = "/Text/Game/Creatures/Preserve/Pixie.txt",
-    [CREATURE_BLADE_JUGGLER] = "/Text/Game/Creatures/Preserve/Blade_Juggler.txt",
-    [CREATURE_WOOD_ELF] = "/Text/Game/Creatures/Preserve/Wood_Elf.txt",
-    [CREATURE_DRUID] = "/Text/Game/Creatures/Preserve/Druid.txt",
-    [CREATURE_UNICORN] = "/Text/Game/Creatures/Preserve/Unicorn.txt",
-    [CREATURE_TREANT] = "/Text/Game/Creatures/Preserve/Treant.txt",
-    [CREATURE_GREEN_DRAGON] = "/Text/Game/Creatures/Preserve/Green_Dragon.txt",
-    [CREATURE_GREMLIN] = "/Text/Game/Creatures/Academy/Gremlin.txt",
-    [CREATURE_STONE_GARGOYLE] = "/Text/Game/Creatures/Academy/Stone_Gargoyle.txt",
-    [CREATURE_IRON_GOLEM] = "/Text/Game/Creatures/Academy/Iron_Golem.txt",
-    [CREATURE_MAGI] = "/Text/Game/Creatures/Academy/Magi.txt",
-    [CREATURE_GENIE] = "/Text/Game/Creatures/Academy/Genie.txt",
-    [CREATURE_RAKSHASA] = "/Text/Game/Creatures/Academy/Rakshasa.txt",
-    [CREATURE_GIANT] = "/Text/Game/Creatures/Academy/Giant.txt",
-    [CREATURE_SCOUT] = "/Text/Game/Creatures/Dungeon/Scout.txt",
-    [CREATURE_WITCH] = "/Text/Game/Creatures/Dungeon/Witch.txt",
-    [CREATURE_MINOTAUR] = "/Text/Game/Creatures/Dungeon/Minotaur.txt",
-    [CREATURE_RIDER] = "/Text/Game/Creatures/Dungeon/Rider.txt",
-    [CREATURE_HYDRA] = "/Text/Game/Creatures/Dungeon/Hydra.txt",
-    [CREATURE_MATRON] = "/Text/Game/Creatures/Dungeon/Matron.txt",
-    [CREATURE_DEEP_DRAGON] = "/Text/Game/Creatures/Dungeon/Deep_Dragon.txt",
-    [CREATURE_SKELETON] = "/Text/Game/Creatures/Necropolis/Skeleton.txt",
-    [CREATURE_WALKING_DEAD] = "/Text/Game/Creatures/Necropolis/Walking_Dead.txt",
-    [CREATURE_MANES] = "/Text/Game/Creatures/Necropolis/Manes.txt",
-    [CREATURE_VAMPIRE] = "/Text/Game/Creatures/Necropolis/Vampire.txt",
-    [CREATURE_LICH] = "/Text/Game/Creatures/Necropolis/Lich.txt",
-    [CREATURE_WIGHT] = "/Text/Game/Creatures/Necropolis/Wight.txt",
-    [CREATURE_BONE_DRAGON] = "/Text/Game/Creatures/Necropolis/Bone_Dragon.txt",
-    [CREATURE_FAMILIAR] = "/Text/Game/Creatures/Inferno/Familiar.txt",
-    [CREATURE_DEMON] = "/Text/Game/Creatures/Inferno/Demon.txt",
-    [CREATURE_HELL_HOUND] = "/Text/Game/Creatures/Inferno/HellHound.txt",
-    [CREATURE_SUCCUBUS] = "/Text/Game/Creatures/Inferno/Succubus.txt",
-    [CREATURE_NIGHTMARE] = "/Text/Game/Creatures/Inferno/Nightmare.txt",
-    [CREATURE_PIT_FIEND] = "/Text/Game/Creatures/Inferno/PitFiend.txt",
-    [CREATURE_DEVIL] = "/Text/Game/Creatures/Inferno/Devil.txt",
-    [CREATURE_DEFENDER] = "/Text/Game/Creatures/Dwarf/Defender.txt",
-    [CREATURE_AXE_FIGHTER] = "/Text/Game/Creatures/Dwarf/Axe_Fighter.txt",
-    [CREATURE_BEAR_RIDER] = "/Text/Game/Creatures/Dwarf/Bear_Raider.txt",
-    [CREATURE_BROWLER] = "/Text/Game/Creatures/Dwarf/Brawler.txt",
-    [CREATURE_RUNE_MAGE] = "/Text/Game/Creatures/Dwarf/Rune_Mage.txt",
-    [CREATURE_THANE] = "/Text/Game/Creatures/Dwarf/Thane.txt",
-    [CREATURE_FIRE_DRAGON] = "/Text/Game/Creatures/Dwarf/Fire_Dragon.txt",
-    [CREATURE_GOBLIN] = "/Text/Game/Creatures/Orcs/Goblin1.txt",
-    [CREATURE_CENTAUR] = "/Text/Game/Creatures/Orcs/Centaur1.txt",
-    [CREATURE_ORC_WARRIOR] = "/Text/Game/Creatures/Orcs/Orc1.txt",
-    [CREATURE_SHAMAN] = "/Text/Game/Creatures/Orcs/Shaman1.txt",
-    [CREATURE_ORCCHIEF_BUTCHER] = "/Text/Game/Creatures/Orcs/OrcChief1.txt",
-    [CREATURE_WYVERN] = "/Text/Game/Creatures/Orcs/Wyvern1.txt",
-    [CREATURE_CYCLOP] = "/Text/Game/Creatures/Orcs/Cyclop1.txt",
-    [CREATURE_FIRE_ELEMENTAL] = "/Text/Game/Creatures/Neutrals/Fire_Elemental.txt",
-    [CREATURE_WATER_ELEMENTAL] = "/Text/Game/Creatures/Neutrals/Water_Elemental.txt",
-    [CREATURE_EARTH_ELEMENTAL] = "/Text/Game/Creatures/Neutrals/Earth_Elemental.txt",
-    [CREATURE_AIR_ELEMENTAL] = "/Text/Game/Creatures/Neutrals/Air_Elemental.txt",
-    [CREATURE_WOLF] = "/Text/Game/Creatures/Neutrals/Wolf/name.txt",
-    [CREATURE_MUMMY] = "/Text/Game/Creatures/Neutrals/Mummy/name.txt",
-    [CREATURE_DEATH_KNIGHT] = "/Text/Game/Creatures/Neutrals/Death_Knight.txt",
-    [CREATURE_MANTICORE] = "/Text/Game/Creatures/Neutrals/Manticore/name.txt",
-    [CREATURE_PHOENIX] = "/Text/Game/Creatures/Neutrals/Phoenix.txt", }
 
 RESOURCE2TEXT = {
     [WOOD] = "/UI/Common/Resources/Wood.txt",

@@ -1155,10 +1155,10 @@
                 <HoldGround_DefendBonusMultiplier>2</HoldGround_DefendBonusMultiplier>
                 <HoldGround_TakeRootsBonusMultiplier>2</HoldGround_TakeRootsBonusMultiplier>
                 <Training>
-                    <BasicDamageBonus>0.05</BasicDamageBonus>
-                    <AdvancedDamageBonus>0.1</AdvancedDamageBonus>
-                    <ExpertDamageBonus>0.2</ExpertDamageBonus>
-                    <ExtraExpertDamageBonus>0.25</ExtraExpertDamageBonus>
+                    <BasicDamageBonus>0.30</BasicDamageBonus>
+                    <AdvancedDamageBonus>0.40</AdvancedDamageBonus>
+                    <ExpertDamageBonus>0.50</ExpertDamageBonus>
+                    <ExtraExpertDamageBonus>1.00</ExtraExpertDamageBonus>
                     <TrainingPointsPerWeek>7</TrainingPointsPerWeek>
                     <TrainingPointsPerWeek_Upgraded>20</TrainingPointsPerWeek_Upgraded>
                     <BaseCostMultiplier>3</BaseCostMultiplier>
@@ -1987,7 +1987,7 @@
                 <Evasive_DamageReducePerLevel>0.02</Evasive_DamageReducePerLevel>
             </Warlock>
             <Runemage>
-                <BorderGuard_DistanceFromCityInDays>1</BorderGuard_DistanceFromCityInDays>
+                <BorderGuard_DistanceFromCityInDays>99</BorderGuard_DistanceFromCityInDays>
                 <BorderGuard_LevelDivisor>2</BorderGuard_LevelDivisor>
                 <BorderGuard_DefenceBonusPerLevel>1</BorderGuard_DefenceBonusPerLevel>
                 <Courtier_DiplomacyBonusPerLevel>0.1</Courtier_DiplomacyBonusPerLevel>

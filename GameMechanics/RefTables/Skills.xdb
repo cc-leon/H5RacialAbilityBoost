@@ -3926,8 +3926,8 @@
             <ID>HERO_SKILL_EXPERT_TRAINER</ID>
             <obj>
                 <Texture>
-                    <Item href="/Textures/HeroScreen/Perks/Training_ExpertTrainer_grey.xdb#xpointer(/Texture)"/>
-                    <Item href="/Textures/HeroScreen/Perks/Training_ExpertTrainer.xdb#xpointer(/Texture)"/>
+                    <Item href="/UI/H5A1/Icons/Abilites/Skills/128x128/Quickness_of_Mind_Gray.(Texture).xdb#xpointer(/Texture)"/>
+                    <Item href="/UI/H5A1/Icons/Abilites/Skills/128x128/Quickness_of_Mind.(Texture).xdb#xpointer(/Texture)"/>
                 </Texture>
                 <CommonTexture/>
                 <NameFileRef>

@@ -26,7 +26,7 @@ g_tabAcademySpellsRemaining = {} -- trace how many spells remains for each spell
 g_tabAcademySpellsHeroBoughtSpell = {} -- trace if a hero has bought a spell
 g_tabDunegonUsedDarkRitual = {}  -- trace if a hero has used dark ritual per day
 g_tabDungeonIrresistableKnowledge = {}  -- trace if knowledge has been awarded based on irresitable magic
-g_tabHavenUsedTraining = {}  -- trace if a faction has used its haven training quota
+g_iHavenTrainingQuota = 0  -- total haven training quota
 g_tabInfernoCreatureInfos = {}  -- inferno creature tracking, [playerId][dayNo][creatureId] = amount
 g_tabPreserveUsedSettingEnemy = {}  -- trace if a hero has used setting enemy on a day
 g_tabStrongholdUsedWalksHut = {}  -- trace if a hero has used walk's hut on a day
@@ -66,7 +66,7 @@ function RacialAbilityBoost(heroName, customAbilityID)
                 RAB_TXT.."RABTalkBoxTitle.txt",
                 "_DungeonAbilityCallback", options)
         elseif heroRace == TOWN_FORTRESS then
-            local options = {[1] = RAB_TXT.."FortressOption1.txt", [2] = RAB_TXT.."FortressOption2.txt", [3] = RAB_TXT.."FortressOption3.txt", }
+            local options = {[1] = RAB_TXT.."FortressOption1.txt", [2] = RAB_TXT.."FortressOption2.txt", }
             _PagedTalkBox(
                 PORT_FORTRESS,
                 RAB_TXT.."dummy2.txt",
@@ -74,7 +74,8 @@ function RacialAbilityBoost(heroName, customAbilityID)
                 RAB_TXT.."RABTalkBoxTitle.txt",
                 "_FortressAbilityCallback", options)
         elseif heroRace == TOWN_HEAVEN then
-            local options = {[1] = {RAB_TXT.."HavenOption1.txt"; skill = KNIGHT_SKILL_TRAINING_TEXT[3], perk = KNIGHT_TRAINING_EXPERT_TEXT}, [2] = RAB_TXT.."HavenOption2.txt", }
+            local options = {[1] = {RAB_TXT.."HavenOption1.txt"; skill = KNIGHT_SKILL_TRAINING_TEXT[3], perk = KNIGHT_TRAINING_EXPERT_TEXT}, 
+                             [2] = RAB_TXT.."HavenOption2.txt", [3] = RAB_TXT.."HavenOption3.txt"}
             _PagedTalkBox(
                 PORT_HAVEN,
                 RAB_TXT.."dummy2.txt",
@@ -369,12 +370,6 @@ function _FortressAbilityCallback(cNum)
         if _buildingConditionCheck(MINI_TOWN[TOWN_FORTRESS], "TOWN_FORTRESS", TOWN_BUILDING_BLACKSMITH, 1, FORTRESS_BLACKSMITH_TEXT, RACE2TEXT[TOWN_FORTRESS]) == true then
             _forceHeroInteractWithObject(g_tabCallbackParams[1], MINI_WAR_MACHINE_FACTORY, nil)
         end
-    elseif cNum == 3 then
-        if contains(BORDERGUARD_HEROES, g_tabCallbackParams[1]) then
-            _FortressBorderGuardSummonCity(g_tabCallbackParams[1])
-        else
-            MessageBox(RAB_TXT.."FortressBorderGuardCheckFailure.txt", "")
-        end
     end
 end
 
@@ -430,68 +425,302 @@ function _FortressTeachRuneSpellsCallback(cNum)
     end
 end
 
-function _FortressBorderGuardSummonCity(heroName)
-    if not IsObjectExists(MINI_TOWN[TOWN_FORTRESS]) then
-        MessageBox(RAB_TXT.."MissingObjectWarning.txt")
-        return nil
+function _HavenCalculateTrainingReduction(heroName)
+    local result = 1
+    result  = result - PARAM_HAVEN_TRAINING_COST_RACIAL_REDUCTION[GetHeroSkillMastery(heroName, SKILL_TRAINING)]
+    result = result - PARAM_HAVEN_TRAINING_COST_EXPERT_TRAINER_REDUCTION * GetHeroSkillMastery(heroName, PERK_EXPERT_TRAINER)
+    result = result - _GetNumBuildingsInAllTowns(TOWN_HEAVEN, TOWN_BUILDING_SPECIAL_2, 1) * PARAM_HAVEN_TRAINING_COST_PER_SPECIAL2_REDUCTION
+    if contains(SUZERAIN_HEROES, heroName) then
+        result = result - ceil(GetHeroLevel(heroName) / PARAM_HAVEN_TRAINING_COST_SUZERAIN_LEVEL) * PARAM_HAVEN_TRAINING_COST_SUZERAIN_REDUCTION 
     end
-    BlockGame()
-    MakeTownMovable(MINI_TOWN[TOWN_FORTRESS])
-    sleep(1)
-    local x, y, z = GetObjectPos(heroName)
-    PlayVisualEffect( "/Effects/_(Effect)/Spells/townportal_end.xdb#xpointer(/Effect)", heroName, "", 0, 0, 0, 0, 0 )
-    Play3DSound("/Sounds/_(Sound)/Spells/TownTeleportEnd.xdb#xpointer(/Sound)", x, y, z)
-    sleep(5)
-    local x, y, z = GetObjectPos(MINI_TOWN[TOWN_FORTRESS])
-    PlayVisualEffect("/Effects/_(Effect)/Spells/townportal_start.xdb#xpointer(/Effect)", MINI_TOWN[TOWN_FORTRESS], "", 0, 0, 0, 0, 0 )
-    Play3DSound("/Sounds/_(Sound)/Spells/TownTeleportStart.xdb#xpointer(/Sound)", x, y, z)
-    sleep(10)
-    local x, y, z = GetObjectPos(heroName)
-    if GetObjectOwner(MINI_TOWN[TOWN_FORTRESS]) == PLAYER_NONE then
-        x = x + 1
-        SetObjectPos(MINI_TOWN[TOWN_FORTRESS], x, y, z)
-        x = x - 1
+
+    if result < 0 then
+        result = 0
     end
-    SetObjectOwner(MINI_TOWN[TOWN_FORTRESS], GetCurrentPlayer())
-    sleep(1)
-    SetObjectPos(MINI_TOWN[TOWN_FORTRESS], x, y, z)
-    sleep(5)
-    UnblockGame()
+    return result
+end
+
+function _HavenCalculateTrainingMul(creatureId)
+    local result = PARAM_HAVEN_TRAINING_COST_BASE_MUL
+    local buildingId = TOWN_BUILDING_DWELLING_1 + CREATURE2TIER[creatureId] - 1
+    local buildingLevel = 1
+    if CREATURE2GRADE[creatureId] > 0 then
+        buildingLevel = 2
+    end
+    local buildingRace = CREATURE2TOWN[creatureId]
+    if _GetBuildingLevelInAllTowns(buildingRace, buildingId) < buildingLevel then
+        result = result * PARAM_HAVEN_TRAINING_COST_NO_BUILDING_MUL
+    end
+    return result
+end
+
+function _HavenCalculateTrainingMaxQuota()
+    local result = PARAM_HAVEN_BASE_QUOTA
+    result = result + _GetNumBuildingsInAllTowns(TOWN_HEAVEN, TOWN_BUILDING_SPECIAL_1, 1) * PARAM_HAVEN_SPECIAL1_QUOTA
+    return result
+end
+
+function _HavenGenerateTrainingOption(heroName, slotId, slotInfo, trainedId, options, optionsData)
+    local heroDiscount = _HavenCalculateTrainingReduction(heroName)
+    local maxQuota = _HavenCalculateTrainingMaxQuota()
+
+    if g_iHavenTrainingQuota < slotInfo[2] then
+        options[length(options) + 1] = {RAB_TXT.."HavenSameRaceTrainingOptionInsufficientQuota.txt";
+            slot_id = slotId + 1, creature_name = CREATURE2TEXT[slotInfo[1]],
+            creature_count = slotInfo[2], remaining_quota = g_iHavenTrainingQuota}
+        optionsData[length(options)] = {"no", options[length(options)]}
+    else
+        if trainedId == nil then
+            trainedId = slotInfo[1]
+            local creatureGrade = CREATURE2GRADE[slotInfo[1]]
+            if creatureGrade > 0 then
+                trainedId = CREATURE_UPGRADE2UNGRADED[slotInfo[1]]
+                trainedId = TRAINING_MAPPING[trainedId]
+                trainedId = CREATURE_UNGRADE2UPGRADED[creatureGrade][trainedId]
+            else
+                trainedId = TRAINING_MAPPING[trainedId]
+            end
+        end
+
+        local creatureTier = CREATURE2TIER[trainedId]
+        local maxTier = PARAM_HAVEN_TRAINING_CREATURE_LEVEL_LIMIT[GetHeroSkillMastery(heroName, SKILL_TRAINING)]
+
+        if creatureTier > maxTier then
+            options[length(options) + 1] = {RAB_TXT.."HavenSameRaceTrainingOptionInsufficientLevel.txt";
+                                            slot_id = slotId + 1, creature_name1 = CREATURE2TEXT[slotInfo[1]],
+                                            creature_name2 = CREATURE2TEXT[trainedId],
+                                            creature_tier1 = creatureTier, creature_tier2 = maxTier}
+            optionsData[length(options)] = {"no", options[length(options)]}
+        else
+            local creatureMul = _HavenCalculateTrainingMul(trainedId)
+            local totalCost = round(CREATURE2COST[trainedId] * slotInfo[2] * creatureMul * heroDiscount)
+            local totalGold = GetPlayerResource(GetCurrentPlayer(), GOLD)
+            if totalGold < totalCost then
+                options[length(options) + 1] = {RAB_TXT.."HavenSameRaceTrainingOptionInsufficientGold.txt";
+                                                slot_id = slotId + 1, creature_name = CREATURE2TEXT[slotInfo[1]], creature_count = slotInfo[2],
+                                                creature_name1 = CREATURE2TEXT[slotInfo[1]], creature_name2 = CREATURE2TEXT[trainedId], 
+                                                training_cost = totalCost, remaining_gold = totalGold, gold = RESOURCE2TEXT[GOLD]}
+                optionsData[length(options)] = {"no", options[length(options)]}
+            else
+                options[length(options) + 1] = {RAB_TXT.."HavenSameRaceTrainingOptionTrainable.txt";
+                                                slot_id = slotId + 1, creature_name1 = CREATURE2TEXT[slotInfo[1]], creature_count = slotInfo[2],
+                                                creature_name2 = CREATURE2TEXT[trainedId], training_cost = totalCost, gold = RESOURCE2TEXT[GOLD]}
+                optionsData[length(options)] = {"yes", slotId, trainedId, totalCost}
+            end
+        end
+    end
+end
+
+function _HavenGenerateTrainingTalkboxDescription(heroName)
+    local heroDiscount = _HavenCalculateTrainingReduction(heroName)
+    local maxQuota = _HavenCalculateTrainingMaxQuota()
+
+    return {RAB_TXT.."HavenSameRaceTrainingDescription.txt";
+            training_quota_remaining = g_iHavenTrainingQuota, training_quota_max = maxQuota,
+            training_cost_reduction = round((1 - heroDiscount) * 100)}
+end
+
+function _HavenTrainingGetAllStartingUnit(creatureId)
+    local result = {}
+    local allHumanoids = {}
+    local creatureTier = CREATURE2TIER[creatureId]
+    local creatureRace = CREATURE2TOWN[creatureId]
+    local creatureGrade = CREATURE2GRADE[creatureId]
+    local creatureUngraded = creatureId
+    if creatureGrade > 0 then
+        creatureUngraded = CREATURE_UPGRADE2UNGRADED[creatureId]
+    end
+
+    for untrained, trained in TRAINING_MAPPING do
+        local currRace = CREATURE2TOWN[untrained]
+        if allHumanoids[currRace] == nil then
+            allHumanoids[currRace] = {}
+        end
+        if currRace ~= creatureRace then
+            allHumanoids[currRace][length(allHumanoids[currRace]) + 1] = untrained
+            allHumanoids[currRace][length(allHumanoids[currRace]) + 1] = trained
+        end
+    end
+
+    for i = TOWN_HEAVEN, TOWN_STRONGHOLD do
+        if allHumanoids[i] ~= nil then
+            local tierDiff = 9999
+            local trainedId = CREATURE_UNKNOWN
+            for j, humanoidId in allHumanoids[i] do
+                local resultTier = CREATURE2TIER[humanoidId]
+                if abs(resultTier - creatureTier) < tierDiff then
+                    tierDiff = abs(resultTier - creatureTier)
+                    trainedId = humanoidId
+                end
+            end
+            if trainedId ~= CREATURE_UNKNOWN then
+                if creatureGrade > 0 then
+                    result[i] = CREATURE_UNGRADE2UPGRADED[creatureGrade][trainedId]
+                else
+                    result[i] = trainedId
+                end
+            end
+        end
+    end
+
+    return result
 end
 
 function _HavenAbilityCallback(cNum)
+    local heroName = g_tabCallbackParams[1]
     if cNum == 1 then
-        if g_tabHavenUsedTraining[GetCurrentPlayer()] == nil then
-            local heroName = g_tabCallbackParams[1]
-            if GetHeroLevel(g_tabCallbackParams[1]) == 1 then
-                BlockGame()
-                while true do
-                    local skillLevel = GetHeroSkillMastery(heroName, SKILL_TRAINING)
-                    if skillLevel <= 2 then
-                        GiveHeroSkill(heroName, SKILL_TRAINING)
-                        ShowFlyMessage({RAB_TXT.."SkillLearntFlyMessage.txt"; skill = KNIGHT_SKILL_TRAINING_TEXT[skillLevel + 1]}, heroName, GetCurrentPlayer(), 5)
-                        sleep(2)
-                    else
-                        break
-                    end
-                end
-                if GetHeroSkillMastery(heroName, PERK_EXPERT_TRAINER) == 0 then
-                        GiveHeroSkill(heroName, PERK_EXPERT_TRAINER)
-                        ShowFlyMessage({RAB_TXT.."SkillLearntFlyMessage.txt"; skill = KNIGHT_TRAINING_EXPERT_TEXT}, heroName, GetCurrentPlayer(), 5)
-                        sleep(2)
-                end
-                g_tabHavenUsedTraining[GetCurrentPlayer()] = true
-                UnblockGame()
-            else
-                MessageBox({RAB_TXT.."HavenTrainingLevelCheckFailure.txt"; race = RACE2TEXT[TOWN_HEAVEN], class = CLASS2TEXT[TOWN_HEAVEN]}, "")
-            end
-        else
-            MessageBox({RAB_TXT.."HavenAlreadyTrainedCheckFailure.txt"; player = GetCurrentPlayer()}, "")
-        end
+        MessageBox({RAB_TXT.."HavenTrainingMechanismDescription.txt";
+            race = RACE2TEXT[TOWN_HEAVEN], class = CLASS2TEXT[TOWN_HEAVEN],
+            training_basic_level = PARAM_HAVEN_TRAINING_CREATURE_LEVEL_LIMIT[1],
+            training_advanced_level = PARAM_HAVEN_TRAINING_CREATURE_LEVEL_LIMIT[2],
+            training_expert_level = PARAM_HAVEN_TRAINING_CREATURE_LEVEL_LIMIT[3],
+            training_ultimate_level = PARAM_HAVEN_TRAINING_CREATURE_LEVEL_LIMIT[4],
+            town_haven = RACE2TEXT[TOWN_HEAVEN], creature_peasant = CREATURE2TEXT[CREATURE_PEASANT],
+            creature_archer = CREATURE2TEXT[CREATURE_ARCHER], creature_footman = CREATURE2TEXT[CREATURE_FOOTMAN],
+            creature_priest = CREATURE2TEXT[CREATURE_PRIEST], creature_cavalier = CREATURE2TEXT[CREATURE_CAVALIER],
+            town_sylvan = RACE2TEXT[TOWN_PRESERVE], creature_blade_juggler = CREATURE2TEXT[CREATURE_BLADE_JUGGLER],
+            creature_wood_elf = CREATURE2TEXT[CREATURE_WOOD_ELF], creature_druid = CREATURE2TEXT[CREATURE_DRUID],
+            town_academy = RACE2TEXT[TOWN_ACADEMY], creature_magi = CREATURE2TEXT[CREATURE_MAGI],
+            town_dungeon = RACE2TEXT[TOWN_DUNGEON], creature_scout = CREATURE2TEXT[CREATURE_SCOUT],
+            creature_witch = CREATURE2TEXT[CREATURE_WITCH], creature_rider = CREATURE2TEXT[CREATURE_RIDER],
+            creature_matron = CREATURE2TEXT[CREATURE_MATRON],
+            town_fortress = RACE2TEXT[TOWN_FORTRESS], creature_defender = CREATURE2TEXT[CREATURE_DEFENDER],
+            creature_axe_fighter = CREATURE2TEXT[CREATURE_AXE_FIGHTER], creature_bear_rider = CREATURE2TEXT[CREATURE_BEAR_RIDER],
+            creature_browler = CREATURE2TEXT[CREATURE_BROWLER], creature_rune_mage = CREATURE2TEXT[CREATURE_RUNE_MAGE],
+            creature_thane = CREATURE2TEXT[CREATURE_THANE],
+            town_stronghold = RACE2TEXT[TOWN_STRONGHOLD], creature_goblin = CREATURE2TEXT[CREATURE_GOBLIN],
+            creature_orc_warrior = CREATURE2TEXT[CREATURE_ORC_WARRIOR], creature_shaman = CREATURE2TEXT[CREATURE_SHAMAN],
+            creature_orcchief_butcher = CREATURE2TEXT[CREATURE_ORCCHIEF_BUTCHER],
+            haven_special1 = HAVEN_SPECIAL1, haven_special2 = HAVEN_SPECIAL2,
+            training_quota_base = PARAM_HAVEN_BASE_QUOTA, training_quota_per_town = PARAM_HAVEN_SPECIAL1_QUOTA,
+            training_base_cost_coeff = PARAM_HAVEN_TRAINING_COST_BASE_MUL, training_missing_cost_coeff = PARAM_HAVEN_TRAINING_COST_NO_BUILDING_MUL,
+            training_cost_reduction1 = round(PARAM_HAVEN_TRAINING_COST_RACIAL_REDUCTION[1] * 100),
+            training_cost_reduction2 = round(PARAM_HAVEN_TRAINING_COST_RACIAL_REDUCTION[2] * 100),
+            training_cost_reduction3 = round(PARAM_HAVEN_TRAINING_COST_RACIAL_REDUCTION[3] * 100),
+            training_cost_reduction4 = round(PARAM_HAVEN_TRAINING_COST_RACIAL_REDUCTION[4] * 100),
+            expert_trainer = HAVEN_EXPERT_TRAINER_TEXT,
+            expert_trainer_reduction = round(PARAM_HAVEN_TRAINING_COST_EXPERT_TRAINER_REDUCTION * 100),
+            training_cost_reduction_special2 = round(PARAM_HAVEN_TRAINING_COST_PER_SPECIAL2_REDUCTION * 100), })
+
     elseif cNum == 2 then
-        if _buildingConditionCheck(MINI_TOWN[TOWN_HEAVEN], "TOWN_HEAVEN", TOWN_BUILDING_DWELLING_2, 2, HAVEN_DWELLING_2_TEXT, RACE2TEXT[TOWN_HEAVEN]) == true then
-            _forceHeroInteractWithObject(g_tabCallbackParams[1], MINI_TOWN[TOWN_HEAVEN], true)
+        local creatureSlots = _GetCreatureSlots(heroName)
+        local options = {}
+        local optionsData = {}
+        for slotId, slotInfo in creatureSlots do
+            if slotInfo[1] ~= 0 then
+                if _isCreatureHumanoid(slotInfo[1]) then
+                    if _isCreatureTrainable(slotInfo[1]) then
+                        _HavenGenerateTrainingOption(heroName, slotId, slotInfo, nil, options, optionsData)
+                    else
+                        options[length(options) + 1] = {RAB_TXT.."HavenSameRaceTrainingOptionMaxed.txt";
+                                                        slot_id = slotId + 1, creature_name = CREATURE2TEXT[slotInfo[1]]}
+                        optionsData[length(options)] = {"no", options[length(options)]}
+                    end
+                else
+                    options[length(options) + 1] = {RAB_TXT.."HavenSameRaceTrainingOptionUnTrainable.txt"; slot_id = slotId + 1, creature_name = CREATURE2TEXT[slotInfo[1]]}
+                    optionsData[length(options)] = {"no", options[length(options)]}
+                end
+            end
         end
+
+        g_tabCallbackParams[2] = optionsData
+        _PagedTalkBox(
+            PORT_HAVEN,
+            RAB_TXT.."dummy2.txt",
+            _HavenGenerateTrainingTalkboxDescription(heroName),
+            RAB_TXT.."HavenSameRaceTrainingName.txt",
+            "_HavenTrainingCallback", options)
+
+    elseif cNum == 3 then
+        local creatureSlots = _GetCreatureSlots(heroName)
+        local options = {}
+        local optionsData = {}
+        for slotId, slotInfo in creatureSlots do
+            if slotInfo[1] ~= 0 then
+                if _isCreatureHumanoid(slotInfo[1]) then
+                    if g_iHavenTrainingQuota < slotInfo[2] then
+                        options[length(options) + 1] = {RAB_TXT.."HavenSameRaceTrainingOptionInsufficientQuota.txt";
+                            slot_id = slotId + 1, creature_name = CREATURE2TEXT[slotInfo[1]],
+                            creature_count = slotInfo[2], remaining_quota = g_iHavenTrainingQuota}
+                        optionsData[length(options)] = {"no", options[length(options)]}
+                    else
+                        options[length(options) + 1] = {RAB_TXT.."HavenCrossRaceTrainingOption.txt";
+                            slot_id = slotId + 1, creature_name = CREATURE2TEXT[slotInfo[1]], creature_count = slotInfo[2]}
+                        optionsData[length(options)] = {"yes", slotId, slotInfo}
+                    end
+                else
+                    options[length(options) + 1] = {RAB_TXT.."HavenSameRaceTrainingOptionUnTrainable.txt"; slot_id = slotId + 1, creature_name = CREATURE2TEXT[slotInfo[1]]}
+                    optionsData[length(options)] = {"no", options[length(options)]}
+                end
+            end
+        end
+
+        g_tabCallbackParams[2] = optionsData
+        _PagedTalkBox(
+            PORT_HAVEN,
+            RAB_TXT.."dummy2.txt",
+            _HavenGenerateTrainingTalkboxDescription(heroName),
+            RAB_TXT.."HavenCrossRaceTrainingName.txt",
+            "_HavenCrossRaceTrainingCallback", options)
+    end
+end
+
+function _HavenCrossRaceTrainingCallback(cNum)
+    local heroName = g_tabCallbackParams[1]
+    if cNum > 0 then
+        local optionsData = g_tabCallbackParams[2]
+        if optionsData[cNum][1] == "no" then
+            MessageBox(optionsData[cNum][2])
+        else
+            local slotId = optionsData[cNum][2]
+            local slotInfo = optionsData[cNum][3]
+            local crossraceOptions = _HavenTrainingGetAllStartingUnit(slotInfo[1])
+            local options = {}
+            local optionsData = {}
+            for crossTown, crossCreature in crossraceOptions do
+                _HavenGenerateTrainingOption(heroName, slotId, slotInfo, crossCreature, options, optionsData)
+            end
+
+            g_tabCallbackParams[2] = optionsData
+            _PagedTalkBox(
+                PORT_HAVEN,
+                RAB_TXT.."dummy2.txt",
+                _HavenGenerateTrainingTalkboxDescription(heroName),
+                RAB_TXT.."HavenCrossRaceTrainingName.txt",
+                "_HavenTrainingCallback", options)
+        end
+    else
+        RacialAbilityBoost(heroName, CUSTOM_ABILITY_4)
+    end
+end
+
+function _HavenTrainingCallback(cNum)
+    local heroName = g_tabCallbackParams[1]
+    if cNum > 0 then
+        local optionsData = g_tabCallbackParams[2]
+        if optionsData[cNum][1] == "no" then
+            MessageBox(optionsData[cNum][2])
+        else
+            BlockGame()
+            local slotId = optionsData[cNum][2]
+            local trainedId = optionsData[cNum][3]
+            local totalCost = optionsData[cNum][4]
+            local heroSlots = _GetCreatureSlots(heroName)
+            ShowFlyMessage({RAB_TXT.."HavenTrainingFlyMessage.txt";
+                            creature_count = heroSlots[slotId][2], creature_name1 = CREATURE2TEXT[heroSlots[slotId][1]], 
+                            creature_name2 = CREATURE2TEXT[trainedId],},
+                           heroName, GetCurrentPlayer(), 5)
+            heroSlots[slotId][1] = trainedId
+            g_iHavenTrainingQuota = g_iHavenTrainingQuota - heroSlots[slotId][2]
+            _SetCreatureSlots(heroName, heroSlots)
+            SetPlayerResource(GetCurrentPlayer(), GOLD, GetPlayerResource(GetCurrentPlayer(), GOLD) - totalCost)
+            ShowFlyMessage({RAB_TXT.."LostResourceFlyMessage.txt";
+                            amount = totalCost, resource = RESOURCE2TEXT[GOLD]},
+                           heroName, GetCurrentPlayer(), 5)
+            UnblockGame()
+        end
+    else
+        RacialAbilityBoost(heroName, CUSTOM_ABILITY_4)
     end
 end
 
@@ -973,9 +1202,29 @@ function _rab_monitoring_thread()
                 end
             end
 
+            -- Accumulate Haven training quota each Monday
+            if GetDate(DAY_OF_WEEK) == 1 then
+                g_iHavenTrainingQuota = g_iHavenTrainingQuota + _HavenCalculateTrainingMaxQuota()
+            end
+
+            -- Move ahead
             g_iToday = today
             UnblockGame()
         end
+
+        -- Check Haven Hero Skills
+        local playerId = GetCurrentPlayer()
+        if IsAIPlayer(playerId) == 0 then
+            local heroes = GetPlayerHeroes(playerId)
+            for heroIndex, heroName in heroes do
+                if _GetHeroRace(heroName) == TOWN_HEAVEN then
+                    SetGameVar("RABHavenHero"..heroName.."TrainingLevel", GetHeroSkillMastery(heroName, SKILL_TRAINING))
+                    SetGameVar("RABHavenHero"..heroName.."ExpertTrainer", GetHeroSkillMastery(heroName, PERK_EXPERT_TRAINER))
+                    SetGameVar("RABHavenHero"..heroName.."Pariah", GetHeroSkillMastery(heroName, KNIGHT_FEAT_PARIAH))
+                end
+            end
+        end
+
         sleep(1)
     end
 end
@@ -987,6 +1236,7 @@ function _rab_other_initialization()
         g_tabAcademySpellsRemaining[spellId]["Scroll"] = MAX_WIZARD_SPELLS_PER_HAND
         g_tabAcademySpellsHeroBoughtSpell[spellId] = {}
     end
+    g_iHavenTrainingQuota = PARAM_HAVEN_BASE_QUOTA
 end
 
 function _rab_hireHero(heroName)
@@ -1001,6 +1251,11 @@ function _rab_loseHero(heroName)
         ControlHeroCustomAbility(heroName, CUSTOM_ABILITY_3, CUSTOM_ABILITY_NOT_PRESENT)
     end
     ControlHeroCustomAbility(heroName, CUSTOM_ABILITY_4, CUSTOM_ABILITY_NOT_PRESENT)
+    if _GetHeroRace(heroName) == TOWN_HEAVEN then
+        SetGameVar("RABHavenHero"..heroName.."TrainingLevel", "")
+        SetGameVar("RABHavenHero"..heroName.."ExpertTrainer", "")
+        SetGameVar("RABHavenHero"..heroName.."Pariah", "")
+    end
 end
 
 function RABInitialization()

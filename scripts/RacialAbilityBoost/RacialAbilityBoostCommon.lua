@@ -139,6 +139,18 @@ function _GetBuildingLevelInAllTowns(townType, buildingId)
     return result
 end
 
+function _GetNumBuildingsInAllTowns(townType, buildingId, minLevel)
+    local result = 0
+    for i, townName in GetObjectNamesByType(RACE2TYPES[townType]) do
+        if GetObjectOwner(townName) == GetCurrentPlayer() then
+            if GetTownBuildingLevel(townName, buildingId) >= minLevel then
+                result = result + 1
+            end
+        end
+    end
+    return result
+end
+
 function _checkMovementCondition(heroName, cost)
     remainingMovement = GetHeroStat(heroName, 7)
     if remainingMovement > cost then
@@ -295,6 +307,83 @@ function _getHeroNumMainSkillLearnt(heroName)
             result = result + 1
         end
     end
+    return result
+end
+
+function _isCreatureHumanoid(creatureId)
+    if CREATURE_UPGRADE2UNGRADED[creatureId] ~= nil then
+        creatureId = CREATURE_UPGRADE2UNGRADED[creatureId]
+    end
+    if TRAINING_MAPPING[creatureId] == nil then
+        if contains(TRAINING_MAPPING, creatureId) then
+            return true
+        else
+            return nil
+        end
+    else
+        return true
+    end
+end
+
+function _isCreatureTrainable(creatureId)
+    if CREATURE_UPGRADE2UNGRADED[creatureId] ~= nil then
+        creatureId = CREATURE_UPGRADE2UNGRADED[creatureId]
+    end
+    return TRAINING_MAPPING[creatureId] ~= nil
+end
+
+-- Given slots information newCreatures (a dict with slot number to a list which has creature id and amount)
+-- Set the object's stacks to be the same as newCreatures
+-- Must be blocked
+function _SetCreatureSlots(objName, newCreatures)
+    local creatureId, creatureCount = 0, 0
+    local finSlot, finId = 7, 0
+    for i = 0, 6 do
+        creatureId, creatureCount = GetObjectArmySlotCreature(objName, i)
+        if creatureId ~= 0 then RemoveObjectCreatures(objName, creatureId, creatureCount, i) end
+    end
+    sleep(1)
+    for i = 0, 6 do
+        creatureId, creatureCount = GetObjectArmySlotCreature(objName, i)
+        if creatureId ~= 0 then
+            finSlot = i
+            finId = creatureId
+        end
+    end
+    for i = 0, 6 do
+        if newCreatures[i][1] ~= 0 and newCreatures[i][2] ~= 0 and i ~= finSlot then 
+            AddObjectCreatures(objName, newCreatures[i][1], newCreatures[i][2], i)
+        end
+    end
+    if finSlot < 7 then
+        sleep(1)
+        RemoveObjectCreatures(objName, finId, 1, finSlot)
+        sleep(1)
+        creatureId, creatureCount = GetObjectArmySlotCreature(objName, finSlot)
+        if newCreatures[finSlot][1] ~= 0 then
+            AddObjectCreatures(objName, newCreatures[finSlot][1], newCreatures[finSlot][2])
+            sleep(1)
+        end
+        if creatureId ~= 0 then
+            RemoveObjectCreatures(objName, finId, 1, finSlot)
+            sleep(1)
+        end
+    else
+        sleep(1)
+    end
+end
+
+-- Return slots information newCreatures (a dict with slot number to a list which has creature id and amount)
+-- of the object
+function _GetCreatureSlots(objName)
+
+    result = {}
+
+    for i = 0, 6 do
+        local creatureId, creatureCount = GetObjectArmySlotCreature(objName, i)
+        result[i] = {creatureId, creatureCount}
+    end
+
     return result
 end
 

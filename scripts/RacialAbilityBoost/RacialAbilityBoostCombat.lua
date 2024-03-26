@@ -2,6 +2,10 @@ doFile("/scripts/RacialAbilityBoost/RacialAbilityBoostCombatConstants.lua")
 
 
 g_tabCombatHeroNames = {[ATTACKER] = "", [DEFENDER] = "", }  -- heroName of both side
+
+-- side/(mass/single):spellId
+g_tabCombatHavenToCast = {[ATTACKER] = {}, [DEFENDER] = {}}
+
 g_tabCombatUnitInfos = {}  -- tracking unit creature id
 -- side/Real/(Start|End)/unitNo, side/Fake/(Start|End)/unitNo, tracking unit amount changes
 g_tabCombatCreatureTracking = {}
@@ -102,14 +106,37 @@ function _updateCreatureTracking()
     end
 end
 
+function _getCasterUnit(sideId)
+    if sideId == ATTACKER then
+        return "attacker-creature-0-CREATURE_SNOW_APE"
+    else
+        return "defender-creature-0-CREATURE_SNOW_APE"
+    end
+end
 
 -- Hook functions
+
+function Prepare()
+    for side, i in g_tabCombatHeroNames do
+        local heroUnit = GetHero(side)
+        if heroUnit ~= nil then
+            local heroName = GetHeroName(heroUnit)
+            -- Haven hero ATB Boost work
+            local heroExpertTrainer = GetGameVar("RABHavenHero"..heroName.."ExpertTrainer")
+            if heroExpertTrainer == "1" then
+                setATB(heroUnit, PARAM_EXPERT_TRAINER_HERO_ATB_BOOST)
+                print("Set "..PARAM_EXPERT_TRAINER_HERO_ATB_BOOST.." ATB for "..heroName.."!")
+            end
+        end
+    end
+end
 
 function Start()
     _initializeCreatureTracking()
     for side, i in g_tabCombatHeroNames do
         local heroUnit = GetHero(side)
         if heroUnit ~= nil then
+            -- Setup inferno combat creature accumulation checks
             g_tabCombatHeroNames[side] = GetHeroName(heroUnit)
             for j, unitNo in GetCreatures(side) do
                 local creatureId = _RABGetUngradedInfernoCreature(GetCreatureType(unitNo))
