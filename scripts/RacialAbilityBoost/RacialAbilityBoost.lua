@@ -75,7 +75,7 @@ function RacialAbilityBoost(heroName, customAbilityID)
                 "_FortressAbilityCallback", options)
         elseif heroRace == TOWN_HEAVEN then
             local options = {[1] = {RAB_TXT.."HavenOption1.txt"; skill = KNIGHT_SKILL_TRAINING_TEXT[3], perk = KNIGHT_TRAINING_EXPERT_TEXT}, 
-                             [2] = RAB_TXT.."HavenOption2.txt", [3] = RAB_TXT.."HavenOption3.txt"}
+                             [2] = RAB_TXT.."HavenOption2.txt", [3] = RAB_TXT.."HavenOption3.txt", [4] = RAB_TXT.."HavenOption4.txt"}
             _PagedTalkBox(
                 PORT_HAVEN,
                 RAB_TXT.."dummy2.txt",
@@ -367,9 +367,7 @@ function _FortressAbilityCallback(cNum)
         if not _checkMovementCondition(g_tabCallbackParams[1], PARAM_RUNEMAGE_WAR_MACHINE_VISIT_COST) then
             return
         end
-        if _buildingConditionCheck(MINI_TOWN[TOWN_FORTRESS], "TOWN_FORTRESS", TOWN_BUILDING_BLACKSMITH, 1, FORTRESS_BLACKSMITH_TEXT, RACE2TEXT[TOWN_FORTRESS]) == true then
-            _forceHeroInteractWithObject(g_tabCallbackParams[1], MINI_WAR_MACHINE_FACTORY, nil)
-        end
+        _forceHeroInteractWithObject(g_tabCallbackParams[1], MINI_WAR_MACHINE_FACTORY, nil)
     end
 end
 
@@ -662,6 +660,10 @@ function _HavenAbilityCallback(cNum)
             _HavenGenerateTrainingTalkboxDescription(heroName),
             RAB_TXT.."HavenCrossRaceTrainingName.txt",
             "_HavenCrossRaceTrainingCallback", options)
+    elseif cNum == 4 then
+        if _buildingConditionCheck(MINI_TOWN[TOWN_HEAVEN], "TOWN_HEAVEN", TOWN_BUILDING_DWELLING_2, 2, HAVEN_DWELLING_2_TEXT, RACE2TEXT[TOWN_HEAVEN]) == true then
+            _forceHeroInteractWithObject(g_tabCallbackParams[1], MINI_TOWN[TOWN_HEAVEN], true)
+        end
     end
 end
 
@@ -1191,14 +1193,6 @@ function _rab_monitoring_thread()
                     local decimalPart = frac(creatureAmount)
                     g_tabInfernoCreatureInfos[playerId][0][creatureId] = g_tabInfernoCreatureInfos[playerId][0][creatureId] + decimalPart
                     g_tabInfernoCreatureInfos[playerId][-1][creatureId] = intg(creatureAmount)
-                end
-            end
-
-            -- Remove gold gained from owning mini towns
-            if IsObjectExists(MINI_TOWN[TOWN_FORTRESS]) then
-                local playerId = GetCurrentPlayer()
-                if GetObjectOwner(MINI_TOWN[TOWN_FORTRESS]) == playerId then
-                    SetPlayerResource(playerId, GOLD, GetPlayerResource(playerId, GOLD) - 500)
                 end
             end
 
