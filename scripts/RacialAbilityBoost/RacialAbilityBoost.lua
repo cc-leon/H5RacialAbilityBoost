@@ -531,11 +531,16 @@ function _HavenTrainingGetAllStartingUnit(creatureId)
 
     for untrained, trained in TRAINING_MAPPING do
         local currRace = CREATURE2TOWN[untrained]
+        if currRace == nil then
+            currRace = CREATURE2TOWN[trained]
+        end
         if allHumanoids[currRace] == nil then
             allHumanoids[currRace] = {}
         end
         if currRace ~= creatureRace then
-            allHumanoids[currRace][length(allHumanoids[currRace]) + 1] = untrained
+            if allHumanoids[currRace][length(allHumanoids[currRace]) + 1] ~= nil then
+                allHumanoids[currRace][length(allHumanoids[currRace]) + 1] = untrained
+            end
             allHumanoids[currRace][length(allHumanoids[currRace]) + 1] = trained
         end
     end
@@ -586,7 +591,7 @@ function _HavenAbilityCallback(cNum)
             creature_axe_fighter = CREATURE2TEXT[CREATURE_AXE_FIGHTER], creature_bear_rider = CREATURE2TEXT[CREATURE_BEAR_RIDER],
             creature_browler = CREATURE2TEXT[CREATURE_BROWLER], creature_rune_mage = CREATURE2TEXT[CREATURE_RUNE_MAGE],
             creature_thane = CREATURE2TEXT[CREATURE_THANE],
-            town_stronghold = RACE2TEXT[TOWN_STRONGHOLD], creature_goblin = CREATURE2TEXT[CREATURE_GOBLIN],
+            town_stronghold = RACE2TEXT[TOWN_STRONGHOLD], 
             creature_orc_warrior = CREATURE2TEXT[CREATURE_ORC_WARRIOR], creature_shaman = CREATURE2TEXT[CREATURE_SHAMAN],
             creature_orcchief_butcher = CREATURE2TEXT[CREATURE_ORCCHIEF_BUTCHER],
             haven_special1 = HAVEN_SPECIAL1, haven_special2 = HAVEN_SPECIAL2,
@@ -661,6 +666,7 @@ function _HavenAbilityCallback(cNum)
             RAB_TXT.."HavenCrossRaceTrainingName.txt",
             "_HavenCrossRaceTrainingCallback", options)
     elseif cNum == 4 then
+        SetObjectDwellingCreatures(MINI_TOWN[TOWN_HEAVEN], CREATURE_ARCHER, 0)
         if _buildingConditionCheck(MINI_TOWN[TOWN_HEAVEN], "TOWN_HEAVEN", TOWN_BUILDING_DWELLING_2, 2, HAVEN_DWELLING_2_TEXT, RACE2TEXT[TOWN_HEAVEN]) == true then
             _forceHeroInteractWithObject(g_tabCallbackParams[1], MINI_TOWN[TOWN_HEAVEN], true)
         end
